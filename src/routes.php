@@ -15,15 +15,22 @@ use Slim\Http\Response;
 
 $app->get('/login', function (Request $request, Response $response, array $args) {
 
-    $users = $this->db->query('SELECT * FROM users');
-    if ($users->execute()) {
-        // on success
-        $data = $users->fetch()["UserEmail"];
-        print_r($data);
-        $response = $this->renderer->render($response, "login.phtml", ["data" => $data]);
-        return $response;
-    } else {
-        $data = null;
-        return $response;
-    }
+    $response = $this->renderer->render($response, "login.phtml", []);
+//    if ($users->execute()) {
+//        // on success
+//        $data = $users->fetchAll();
+//        return $response;
+//    } else {
+//        $data = null;
+//        return $response;
+//    }
+});
+
+$app->post('/login', function (Request $req, Response $res) {
+    $dbo = $this->db->query('SELECT * FROM users');
+    $dbo->execute();
+    $users = $dbo->fetchAll();
+    $body = $req->getParsedBody();
+    echo $body[paswd];
+    $res = json_encode($body);
 });
