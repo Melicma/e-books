@@ -3,36 +3,32 @@
 <head>
     <meta charset="utf-8"/>
     <title>Slim 3</title>
-    <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-    <style>
-        body {
-            margin: 50px 0 0 0;
-            padding: 0;
-            width: 100%;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            text-align: center;
-            color: #aaa;
-            font-size: 18px;
-        }
-
-        h1 {
-            color: #719e40;
-            letter-spacing: -3px;
-            font-family: 'Lato', sans-serif;
-            font-size: 100px;
-            font-weight: 200;
-            margin-bottom: 0;
-        }
-    </style>
+    <!--Bootstrap 4-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<!--    <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>-->
 </head>
 <body>
-<div class="wrapper">
-<form class="form-login" method="post" >
-    <h2 class="form-signin-heading">Please login</h2>
-    <input type="text" class="form-control" name="username" placeholder="E-mail"/>
-    <input type="paswd" class="form-control" name="paswd" placeholder="Heslo"/>
-    <button type="submit">Login</button>
-</form>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <form method="post">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Vložte email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Heslo</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Heslo">
+            </div>
+    <!--        <div class="form-check">-->
+    <!--            <label class="form-check-label">-->
+    <!--                <input type="checkbox" class="form-check-input">-->
+    <!--                Check me out-->
+    <!--            </label>-->
+    <!--        </div>-->
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

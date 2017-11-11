@@ -5,13 +5,9 @@ use Slim\Http\Response;
 
 // Routes
 
-//$app->get('/[{name}]', function (Request $request, Response $response, array $args) {
-//    // Sample log message
-//    $this->logger->info("Slim-Skeleton '/' route");
-//
-//    // Render index view
-//    return $this->renderer->render($response, 'index.phtml', $args);
-//});
+$app->get('/', function (Request $request, Response $response, array $args) {
+    return $response->withRedirect('/login');
+});
 
 $app->get('/login', function (Request $request, Response $response, array $args) {
 
@@ -31,6 +27,6 @@ $app->post('/login', function (Request $req, Response $res) {
     $dbo->execute();
     $users = $dbo->fetchAll();
     $body = $req->getParsedBody();
-    echo $body[paswd];
+//    echo $body[password];
     $res = json_encode($body);
 });
