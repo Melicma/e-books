@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     $vendorDir . '/nikic/fast-route/src/functions.php',
+    $vendorDir . '/kriswallsmith/assetic/src/functions.php',
     $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
 );

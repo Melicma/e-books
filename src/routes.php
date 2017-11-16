@@ -10,16 +10,9 @@ $app->get('/', function (Request $request, Response $response, array $args) {
 });
 
 $app->get('/login', function (Request $request, Response $response, array $args) {
-
-    $response = $this->renderer->render($response, "login.phtml", []);
-//    if ($users->execute()) {
-//        // on success
-//        $data = $users->fetchAll();
-//        return $response;
-//    } else {
-//        $data = null;
-//        return $response;
-//    }
+    return $this->view->render($response, 'login.twig', [
+        
+    ]);
 });
 
 $app->post('/login', function (Request $req, Response $res) {
