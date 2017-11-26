@@ -1,6 +1,16 @@
 {% extends "home.phtml" %}
 
-{% block body %}
+{% block content %}
+    {% if logError %}
+        <div class="row justify-content-md-center">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Nesprávně zadaný email nebo heslo. &nbsp;&nbsp;&nbsp;
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    {% endif %}
     <div class="container">
         <div class="row justify-content-md-center">
             <form method="post">
@@ -12,14 +22,9 @@
                     <label for="exampleInputPassword1">Heslo</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Heslo">
                 </div>
-                <!--        <div class="form-check">-->
-                <!--            <label class="form-check-label">-->
-                <!--                <input type="checkbox" class="form-check-input">-->
-                <!--                Check me out-->
-                <!--            </label>-->
-                <!--        </div>-->
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
         </div>
     </div>
+
 {% endblock %}

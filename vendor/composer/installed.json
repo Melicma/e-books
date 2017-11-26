@@ -2196,5 +2196,56 @@
         ],
         "description": "jQuery JavaScript Library",
         "homepage": "http://jquery.com"
+    },
+    {
+        "name": "bryanjhv/slim-session",
+        "version": "3.3.0",
+        "version_normalized": "3.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bryanjhv/slim-session.git",
+            "reference": "d2bb057593be8fe015b86f2a4283f9af2231f6b9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bryanjhv/slim-session/zipball/d2bb057593be8fe015b86f2a4283f9af2231f6b9",
+            "reference": "d2bb057593be8fe015b86f2a4283f9af2231f6b9",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5",
+            "slim/slim": "^3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.7.*"
+        },
+        "time": "2017-06-05 14:49:58",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bryan Horna",
+                "email": "bryanjhv@gmail.com",
+                "homepage": "https://bryanjhv.github.io",
+                "role": "developer"
+            }
+        ],
+        "description": "Session middleware and helper for Slim framework 3.",
+        "homepage": "https://github.com/bryanjhv/slim-session",
+        "keywords": [
+            "helper",
+            "middleware",
+            "session",
+            "slim"
+        ]
     }
 ]

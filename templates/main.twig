@@ -1,6 +1,27 @@
 {% extends "home.phtml" %}
-{% block body %}
-<div>
-    It works!
-</div>
+{% block content %}
+    {#<div class="btn-group float-right pt-2 pr-2">#}
+        {#<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+            {#{{ user['UserEmail'] }}#}
+        {#</button>#}
+        {#<div class="dropdown-menu dropdown-menu-right">#}
+            {#<button class="dropdown-item" type="button">Profil</button>#}
+            {#<button class="dropdown-item" type="button" onclick="">Odhlásit</button>#}
+        {#</div>#}
+    {#</div>#}
+
+    <div class="dropdown float-right pt-2 pr-2">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ user['UserEmail'] }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Profil</a>
+            <a class="dropdown-item" href="/logout">Odhlásit</a>
+        </div>
+    </div>
+
+
+    <div class="user-info">
+        It works!
+    </div>
 {% endblock %}

@@ -40,3 +40,6 @@ $container['view'] = function ($container) {
     return $view;
 };
 
+$container['session'] = function ($c) {
+    return new \SlimSession\Helper;
+};
