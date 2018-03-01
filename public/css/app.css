@@ -16,3 +16,8 @@ h1 {
     font-weight: 200;
     margin-bottom: 0;
 }
+
+.content {
+    max-width: 90%;
+    margin: 0 auto;
+}

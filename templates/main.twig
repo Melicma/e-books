@@ -12,7 +12,7 @@
 
     <div class="dropdown float-right pt-2 pr-2">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{ user['UserEmail'] }}
+            {{ user }}
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="/change-password">Změna hesla</a>
@@ -20,8 +20,36 @@
         </div>
     </div>
 
-
-    <div class="user-info">
-        It works!
+    <div class="content">
+        <table id="tableWorks" class="display">
+            <thead>
+            <tr>
+                <th>Název</th>
+                <th>Autor</th>
+                <th>Rok</th>
+                <th>Status</th>
+                <th>Akce</th>
+                <th>Přílohy</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for key, work in works %}
+                <tr>
+                    <td>{{ work.Title }}</td>
+                    <td>Autor</td>
+                    <td>{{ work.Year }}</td>
+                    <td>{{ work.Status }}</td>
+                    <td>
+                        <a role="button" class="btn btn-primary" href="/metadata/{{ work.WorkID }}">Metadata</a>
+                        <a role="button" class="btn btn-primary" href="/text/{{ work.WorkID }}">Text</a>
+                        <a role="button" class="btn btn-danger" href="/delete/{{ work.WorkID }}">Smazat</a>
+                    </td>
+                    <td>
+                        <a role="button" class="btn btn-primary" href="/attachment/{{ work.WorkID }}">Přílohy({{ key }})</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

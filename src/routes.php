@@ -41,14 +41,15 @@ $app->post('/login', function (Request $req, Response $res) {
     } else {
         // doing session staff
         $session = new \SlimSession\Helper;
-        $session->ebooks = $users[0]['UserID'];
+        $session->userId = $users[0]['UserID'];
+        $session->userEmail = $body['email'];
         return $res->withRedirect('/content');
     }
 });
 
 $app->get('/content', function (Request $req, Response $res, array $args) {
     $session = $this->session;
-    if (!$session->exists('ebooks')) {
+    if (!$session->exists('userId')) {
         return $this->view->render($res, 'login.twig', [
             'sessionError' => true
         ]);
@@ -57,25 +58,24 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
     $sql =
         'SELECT * '.
         'FROM '.
-        ' users '.
-        'WHERE '.
-        ' UserId = ?';
+        ' works ';
 
     $dbo = $this->db->prepare($sql);
 
-    $dbo->execute(array($session->ebooks));
-    $user = $dbo->fetchAll();
-
+    $dbo->execute();
+    $works = $dbo->fetchAll();
+    
 
 //    $key =  substr(md5(rand()), 0, 7);
 //    $hash = bin2hex($key);
 //    $key = hex2bin($hash);
 
 // todo only for testing
-//    $session->delete('ebooks');
+//    $session->delete('userId');
 //    $session::destroy();
     return $this->view->render($res, 'main.twig', [
-        'user' => $user[0]
+        'user' => $session->userEmail,
+        'works' => $works
     ]);
 });
 
@@ -101,14 +101,14 @@ $app->post('/content', function (Request $req, Response $res) {
     } else {
         // doing session staff
         $session = new \SlimSession\Helper;
-        $session->ebooks = $users[0]['UserID'];
+        $session->userId = $users[0]['UserID'];
         return $res->withRedirect('/content');
     }
 });
 
 $app->get('/logout', function (Request $req, Response $res, array $args) {
     $session = $this->session;
-    $session->delete('ebooks');
+    $session->delete('userId');
     $session::destroy();
 
     return $res->withRedirect('/login');
@@ -116,7 +116,7 @@ $app->get('/logout', function (Request $req, Response $res, array $args) {
 
 $app->get('/change-password', function (Request $req, Response $res, array $args) use($app){
     $session = $this->session;
-    if (!$session->exists('ebooks')) {
+    if (!$session->exists('userId')) {
         $data = ['sessionError' => true];
         return $res->withRedirect($this->router->pathFor('login',[],$data));
     }
@@ -126,7 +126,7 @@ $app->get('/change-password', function (Request $req, Response $res, array $args
 
 $app->post('/change-password', function (Request $req, Response $res) {
     $session = $this->session;
-    if (!$session->exists('ebooks')) {
+    if (!$session->exists('userId')) {
         $data = ['sessionError' => true];
         return $res->withRedirect($this->router->pathFor('login', [], $data));
     }
@@ -140,7 +140,7 @@ $app->post('/change-password', function (Request $req, Response $res) {
 
     $dbo = $this->db->prepare($sql);
 
-    $dbo->execute(array($session->ebooks));
+    $dbo->execute(array($session->userId));
     $user = $dbo->fetchAll();
     $body = $req->getParsedBody();
 
@@ -173,7 +173,7 @@ $app->post('/change-password', function (Request $req, Response $res) {
 
     $dbo = $this->db->prepare($sql);
 
-    $dbo->execute(array(hash('sha256', $newPassword.$salt) ,bin2hex($salt) , $session->ebooks));
+    $dbo->execute(array(hash('sha256', $newPassword.$salt) ,bin2hex($salt) , $session->userID));
 
     return $res->withRedirect('/content');
 });
