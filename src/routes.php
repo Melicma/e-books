@@ -55,16 +55,46 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
         ]);
     }
 
-    $sql =
+    $sqlWorks =
         'SELECT * '.
         'FROM '.
         ' works ';
 
-    $dbo = $this->db->prepare($sql);
+    $sqlConnections =
+        'SELECT '.
+        ' AuthPubID as "id" '.
+        'FROM '.
+        ' connection '.
+        'WHERE '.
+        ' WorkID = ? '.
+        'AND '.
+        ' Type = "author"';
 
+    $sqlAuthors =
+        'SELECT * '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' ID = ? ';
+
+    $dbo = $this->db->prepare($sqlWorks);
     $dbo->execute();
+
     $works = $dbo->fetchAll();
-    
+
+    foreach ($works as $key => $work) {
+        $dbo = $this->db->prepare($sqlConnections);
+        $dbo->execute(array($work['WorkID']));
+        $authorIds = $dbo->fetchAll();
+
+        $works[$key]['Authors'] = array();
+        $dbo = $this->db->prepare($sqlAuthors);
+        foreach ($authorIds as $id) {
+            $dbo->execute(array($id['id']));
+            array_push($works[$key]['Authors'], $dbo->fetchAll());
+        }
+    }
+
 
 //    $key =  substr(md5(rand()), 0, 7);
 //    $hash = bin2hex($key);
