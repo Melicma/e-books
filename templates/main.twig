@@ -49,7 +49,8 @@
                         <td>
                             {{ work.Authors[0][0].Name }} {{ work.Authors[0][0].LastName }}
                             {% if work.Authors|length > 1 %}
-                                ...
+                                {#add title to display all authors#}
+                                <span data-toggle="tooltip" data-placement="bottom" title="{% for key2, author in  work.Authors %}{% if not loop.first %}{{ author[0].Name }} {{ author[0].LastName }}{% if not loop.last %}; {% endif %}{% endif %}{% endfor %}" >...</span>
                             {% endif %}
                         </td>
                         <td>{{ work.Year }}</td>
