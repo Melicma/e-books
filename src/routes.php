@@ -70,12 +70,32 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
         'AND '.
         ' Type = "author"';
 
-    $sqlAuthors =
+    $sqlAuthor =
         'SELECT * '.
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
         ' ID = ? ';
+
+    $sqlAuthors =
+        'SELECT DISTINCT '.
+        ' au.* '.
+        'FROM '.
+        ' authors_publishers au '.
+        'LEFT JOIN connection con '.
+        ' ON con.AuthPubId = au.ID  '.'
+        WHERE '.
+        ' con.Type = \'author\' '.
+        'ORDER BY '.
+        ' au.Name';
+
+    $sqlYears =
+        'SELECT DISTINCT '.
+        ' Year '.
+        'FROM '.
+        ' works '.
+        'ORDER BY '.
+        ' Year';
 
     $dbo = $this->db->prepare($sqlWorks);
     $dbo->execute();
@@ -88,12 +108,22 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
         $authorIds = $dbo->fetchAll();
 
         $works[$key]['Authors'] = array();
-        $dbo = $this->db->prepare($sqlAuthors);
+        $dbo = $this->db->prepare($sqlAuthor);
         foreach ($authorIds as $id) {
             $dbo->execute(array($id['id']));
             array_push($works[$key]['Authors'], $dbo->fetchAll());
         }
     }
+
+    $dbo = $this->db->prepare($sqlAuthors);
+    $dbo->execute();
+
+    $authors = $dbo->fetchAll();
+
+    $dbo = $this->db->prepare($sqlYears);
+    $dbo->execute();
+
+    $years = $dbo->fetchAll();
 
 
 //    $key =  substr(md5(rand()), 0, 7);
@@ -105,7 +135,9 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
 //    $session::destroy();
     return $this->view->render($res, 'main.twig', [
         'user' => $session->userEmail,
-        'works' => $works
+        'works' => $works,
+        'authors' => $authors,
+        'years' => $years
     ]);
 });
 

@@ -16,9 +16,81 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <h1 class="h1">Seznam děl</h1>
         </div>
+
+        <form class="row mb-5 mt-5">
+            <div class="col-2">
+                <h3 class="h3">Filtr:</h3>
+            </div>
+            <div class="col-4">
+                <div class="form-group row">
+                    <label class="col-5"for="authorsName">Jména autorů:</label>
+                    <select multiple class="form-control col-7" id="authorsName">
+                        {% for key, author in authors %}
+                            <option>{{ author.Name }} {{ author.LastName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="row">
+                    <span class="col-5 align-self-center">Rok vydání</span>
+                    <div class="col-7">
+                        <div class="row mb-2">
+                            <label class="col-4 align-self-center mb-0" for="yearFrom">od:</label>
+                            <select class="form-control col-8" id="yearFrom">
+                                <option> </option>
+                                {% for key, year in years %}
+                                    <option>{{ year.Year }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="row">
+                            <label class="col-4 align-self-center mb-0" for="yearTo">do:</label>
+                            <select class="form-control col-8" id="yearTo">
+                                <option> </option>
+                                {% for key, year in years %}
+                                    <option>{{ year.Year }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-3">
+                <div class="form-group row">
+                    <label class="col-5 align-self-center mb-0" for="fulltextSearch">Full-text</label>
+                    <input type="text" class="form-control col-7" id="fulltextSearch" placeholder="Zadejte text">
+                </div>
+                {#<div class="form-group">#}
+                    <div class="row mb-1">
+                        <label class="col-3 align-self-center mb-0" for="newWork">Nové</label>
+                        <input class="col-9" type="checkbox" name="new" id="newWork" value="">
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-3 align-self-center mb-0" for="incompleteWork">Rozděláno</label>
+                        <input class="col-9" type="checkbox" name="incopmlete" id="incompleteWork" value="">
+
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-3 align-self-center mb-0" for="checkedWork">Zkontrolováno</label>
+                        <input class="col-9" type="checkbox" name="checked" id="checkedWork" value="">
+
+                    </div>
+                    <div class="row">
+                        <label class="col-3 align-self-center mb-0" for="completeWork">Hotovo</label>
+                        <input class="col-9" type="checkbox" name="complete" id="completeWork" value="">
+                    </div>
+                {#</div>#}
+            </div>
+            <div class="col-3 align-self-end">
+                <button type="submit" class="btn btn-primary">Aplikovat filtr</button>
+            </div>
+            </form>
+
+
         <div class="row justify-content-center">
             <table id="tableWorks" class="display">
                 <thead>
