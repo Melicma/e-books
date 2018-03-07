@@ -6,7 +6,12 @@ use Slim\Http\Response;
 // Routes
 
 $app->get('/', function (Request $request, Response $response, array $args) {
-    return $response->withRedirect('/login');
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        return $response->withRedirect('/login');
+    } else {
+        return $response->withRedirect('/content');
+    }
 });
 
 $app->get('/login', function (Request $req, Response $res, array $args) {
@@ -144,6 +149,8 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
 $app->post('/content', function (Request $req, Response $res) {
     $body = $req->getParsedBody();
 
+    // this is for trying if login was succesfull
+    /*
     $sql =
         'SELECT * '.
         'FROM '.
@@ -165,7 +172,11 @@ $app->post('/content', function (Request $req, Response $res) {
         $session = new \SlimSession\Helper;
         $session->userId = $users[0]['UserID'];
         return $res->withRedirect('/content');
-    }
+    }*/
+
+    print_r($body);
+//    return $res->withRedirect('/content');
+
 });
 
 $app->get('/logout', function (Request $req, Response $res, array $args) {
@@ -238,4 +249,51 @@ $app->post('/change-password', function (Request $req, Response $res) {
     $dbo->execute(array(hash('sha256', $newPassword.$salt) ,bin2hex($salt) , $session->userID));
 
     return $res->withRedirect('/content');
+});
+
+$app->get('/metadata/{id}', function (Request $req, Response $res, $args){
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $sqlWork =
+        'SELECT * '.
+        'FROM '.
+        ' works '.
+        'WHERE '.
+        ' WorkID = ?';
+
+    $sqlAuthors =
+        'SELECT DISTINCT '.
+        ' au.* '.
+        'FROM '.
+        ' authors_publishers au '.
+        'LEFT JOIN connection con '.
+        ' ON con.AuthPubId = au.ID  '.'
+        WHERE '.
+        ' con.Type = \'author\' '.
+        'AND '.
+        ' con.WorkID = ? '.
+        'ORDER BY '.
+        ' au.Name';
+
+
+    // get information about work
+    $dbo = $this->db->prepare($sqlWork);
+    $dbo->execute(array($args['id']));
+    $work = $dbo->fetchAll();
+
+    $dbo = $this->db->prepare($sqlAuthors);
+    $dbo->execute(array($args['id']));
+
+
+    $work[0]['Authors'] = $dbo->fetchAll();
+
+
+    return $this->view->render($res, 'metadata.twig', [
+        'user' => $session->userEmail,
+        'work' => $work[0]
+    ]);
 });
