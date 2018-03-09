@@ -40,5 +40,10 @@ $(document).ready( function () {
 
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
-    })
+    });
+
+    $('#authorsName').selectivity({
+        multiple: true,
+        placeholder: 'Zadejte pro vyhledání autorů'
+    });
 } );

@@ -18,71 +18,71 @@
             <h1 class="h1 col-12">Seznam děl</h1>
         </div>
 
+
         <form class="row mb-5 mt-5" method="post">
             <div class="col-2">
                 <h3 class="h3">Filtr:</h3>
             </div>
-            <div class="col-4">
-                <div class="form-group row">
-                    <label class="col-5"for="authorsName">Jména autorů:</label>
-                    <select multiple class="form-control col-7" id="authorsName" name="authors[]">
+            <div class="col-8">
+                <div class="form-group">
+                    <label for="authorsName">Jména autorů:</label>
+                    <select multiple class="form-control" id="authorsName" name="authors[]">
                         {% for key, author in authors %}
                             <option>{{ author.Name }} {{ author.LastName }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="row">
-                    <span class="col-5 align-self-center">Rok vydání</span>
-                    <div class="col-7">
-                        <div class="row mb-2">
-                            <label class="col-4 align-self-center mb-0" for="yearFrom">od:</label>
-                            <select class="form-control col-8" id="yearFrom" name="yearFrom">
-                                <option> </option>
-                                {% for key, year in years %}
-                                    <option>{{ year.Year }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="row">
-                            <label class="col-4 align-self-center mb-0" for="yearTo">do:</label>
-                            <select class="form-control col-8" id="yearTo" name="yearTo">
-                                <option> </option>
-                                {% for key, year in years %}
-                                    <option>{{ year.Year }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                <div class="form-inline">
+                    <span>Rok vydání</span>
+                    <div class="form-group">
+                        <label class="ml-2" for="yearFrom">od:</label>
+                        <select class="form-control ml-2" id="yearFrom" name="yearFrom">
+                            <option>--</option>
+                            {% for key, year in years %}
+                                <option>{{ year.Year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="ml-2" for="yearTo">do:</label>
+                        <select class="form-control ml-2" id="yearTo" name="yearTo">
+                            <option>--</option>
+                            {% for key, year in years %}
+                                <option>{{ year.Year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-check ml-2">
+                        <input class="form-check-input" type="checkbox" id="unknownYear" value="1" name="unknownYear">
+                        <label class="form-check-label" for="unknownYear">Neznámí rok</label>
                     </div>
                 </div>
 
-            </div>
-            <div class="col-3">
-                <div class="form-group row">
-                    <label class="col-5 align-self-center mb-0" for="fulltextSearch">Full-text</label>
-                    <input type="text" class="form-control col-7" id="fulltextSearch" placeholder="Zadejte text" name="fulltext">
+                <div class="form-group">
+                    <label for="fulltextSearch">Full-text</label>
+                    <input type="text" class="form-control" id="fulltextSearch" placeholder="Zadejte text" name="fulltext">
                 </div>
-                {#<div class="form-group">#}
-                    <div class="row mb-1">
-                        <label class="col-3 align-self-center mb-0" for="newWork">Nové</label>
-                        <input class="col-9" type="checkbox" name="new" id="newWork" value="1">
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-3 align-self-center mb-0" for="incompleteWork">Rozděláno</label>
-                        <input class="col-9" type="checkbox" name="incopmlete" id="incompleteWork" value="1">
 
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-3 align-self-center mb-0" for="checkedWork">Zkontrolováno</label>
-                        <input class="col-9" type="checkbox" name="checked" id="checkedWork" value="1">
-
-                    </div>
-                    <div class="row">
-                        <label class="col-3 align-self-center mb-0" for="completeWork">Hotovo</label>
-                        <input class="col-9" type="checkbox" name="complete" id="completeWork" value="1">
-                    </div>
-                {#</div>#}
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" id="newWork" value="1" name="new">
+                    <label for="newWork">Nové</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" id="incompleteWork" value="1" name="incopmlete">
+                    <label for="incompleteWork">Rozděláno</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" id="checkedWork" value="1" name="checked">
+                    <label for="checkedWork">Zkontrolováno</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" id="completeWork" value="1" name="complete">
+                    <label for="completeWork">Hotovo</label>
+                </div>
             </div>
-            <div class="col-3 align-self-end">
+            <div class="col-2 align-self-end">
                 <button type="submit" class="btn btn-primary">Aplikovat filtr</button>
             </div>
             </form>
@@ -104,22 +104,10 @@
                 {% for key, work in works %}
                     <tr>
                         <td>{{ work.Title }}</td>
-                        {#<td>{% for key2, author in  work.Authors %}#}
-                                {#{% if loop.first %}#}
-                                    {#{{ author[0].Name }} {{ author[0].LastName }}#}
-                                    {#{% if loop.first and loop.length > 1 %}#}
-                                        {#...#}
-                                    {#{% endif %}#}
-                                {#{% else %}#}
-                                    {#<!--{{ author[0].Name }} {{ author[0].LastName }}-->#}
-                                {#{% endif %}#}
-                            {#{% endfor %}#}
-                        {#</td>#}
-                        <td>
+                        <td {% if work.Authors|length > 1 %} data-toggle="tooltip" data-placement="bottom" title="{% for key2, author in  work.Authors %}{% if not loop.first %}{{ author[0].Name }} {{ author[0].LastName }}{% if not loop.last %}; {% endif %}{% endif %}{% endfor %}" {% endif %}>
                             {{ work.Authors[0][0].Name }} {{ work.Authors[0][0].LastName }}
                             {% if work.Authors|length > 1 %}
-                                {#add title to display all authors#}
-                                <span data-toggle="tooltip" data-placement="bottom" title="{% for key2, author in  work.Authors %}{% if not loop.first %}{{ author[0].Name }} {{ author[0].LastName }}{% if not loop.last %}; {% endif %}{% endif %}{% endfor %}" >...</span>
+                                <span>...</span>
                             {% endif %}
                         </td>
                         <td>{{ work.Year }}</td>

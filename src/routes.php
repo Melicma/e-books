@@ -92,7 +92,7 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
         WHERE '.
         ' con.Type = \'author\' '.
         'ORDER BY '.
-        ' au.Name';
+        ' au.LastName';
 
     $sqlYears =
         'SELECT DISTINCT '.
@@ -277,7 +277,7 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         'AND '.
         ' con.WorkID = ? '.
         'ORDER BY '.
-        ' au.Name';
+        ' au.LastName';
 
 
     // get information about work
