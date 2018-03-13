@@ -1,6 +1,5 @@
 {% extends "home.phtml" %}
 {% block content %}
-
     <div class="container">
         <div class="row justify-content-end">
             <div class="dropdown pt-2 pr-2">
@@ -28,10 +27,21 @@
                     <label for="authorsName">Jména autorů:</label>
                     <select multiple class="form-control" id="authorsName" name="authors[]">
                         {% for key, author in authors %}
-                            <option>{{ author.Name }} {{ author.LastName }}</option>
+                            {% set el =  author.Name ~ ' ' ~ author.LastName %}
+                            <option {% if el in filterAuthors %}selected{% endif %}>{{ author.Name }} {{ author.LastName }}</option>
                         {% endfor %}
                     </select>
                 </div>
+                {% if filterYearError %}
+                    <div class="row justify-content-md-center">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            Nesprávně zadané datum publikace od do &nbsp;&nbsp;&nbsp;
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                {% endif %}
                 <div class="form-inline">
                     <span>Rok vydání</span>
                     <div class="form-group">
@@ -39,7 +49,7 @@
                         <select class="form-control ml-2" id="yearFrom" name="yearFrom">
                             <option>--</option>
                             {% for key, year in years %}
-                                <option>{{ year.Year }}</option>
+                                <option {% if filterYearFrom == year.Year %}selected{% endif %}>{{ year.Year }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -49,36 +59,36 @@
                         <select class="form-control ml-2" id="yearTo" name="yearTo">
                             <option>--</option>
                             {% for key, year in years %}
-                                <option>{{ year.Year }}</option>
+                                <option {% if filterYearTo == year.Year %}selected{% endif %}>{{ year.Year }}</option>
                             {% endfor %}
                         </select>
                     </div>
 
                     <div class="form-check ml-2">
-                        <input class="form-check-input" type="checkbox" id="unknownYear" value="1" name="unknownYear">
+                        <input {% if filterYearUnknown %}checked{% endif %} class="form-check-input" type="checkbox" id="unknownYear" value="1" name="unknownYear">
                         <label class="form-check-label" for="unknownYear">Neznámí rok</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="fulltextSearch">Full-text</label>
-                    <input type="text" class="form-control" id="fulltextSearch" placeholder="Zadejte text" name="fulltext">
+                    <input {% if filterFulltext %}value="{{ filterFulltext }}" {% endif %}type="text" class="form-control" id="fulltextSearch" placeholder="Zadejte text" name="fulltext">
                 </div>
 
                 <div class="form-check form-check-inline">
-                    <input type="checkbox" id="newWork" value="1" name="new">
+                    <input {% if filterNew %}checked{% endif %} type="checkbox" id="newWork" value="1" name="new">
                     <label for="newWork">Nové</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input type="checkbox" id="incompleteWork" value="1" name="incopmlete">
+                    <input {% if filterIncomplete %}checked{% endif %} type="checkbox" id="incompleteWork" value="1" name="incomplete">
                     <label for="incompleteWork">Rozděláno</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input type="checkbox" id="checkedWork" value="1" name="checked">
+                    <input {% if filterChecked %}checked{% endif %} type="checkbox" id="checkedWork" value="1" name="checked">
                     <label for="checkedWork">Zkontrolováno</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input type="checkbox" id="completeWork" value="1" name="complete">
+                    <input {% if filterComplete %}checked{% endif %} type="checkbox" id="completeWork" value="1" name="complete">
                     <label for="completeWork">Hotovo</label>
                 </div>
             </div>

@@ -147,35 +147,148 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
 });
 
 $app->post('/content', function (Request $req, Response $res) {
-    $body = $req->getParsedBody();
+    $session = $this->session;
+    //todo to future not render but redirect
+    if (!$session->exists('userId')) {
+        return $this->view->render($res, 'login.twig', [
+            'sessionError' => true
+        ]);
+    }
 
-    // this is for trying if login was succesfull
-    /*
-    $sql =
+    $sqlAuthors =
+        'SELECT DISTINCT '.
+        ' au.* '.
+        'FROM '.
+        ' authors_publishers au '.
+        'LEFT JOIN connection con '.
+        ' ON con.AuthPubId = au.ID '.
+        'WHERE '.
+        ' con.Type = \'author\' '.
+        'ORDER BY '.
+        ' au.LastName';
+
+    $sqlAuthorsByIds =
+        'SELECT DISTINCT '.
+        ' au.* '.
+        'FROM '.
+        ' authors_publishers au '.
+        'LEFT JOIN connection con '.
+        ' ON con.AuthPubId = au.ID '.
+        'WHERE '.
+        ' con.Type = \'author\' '.
+        'ORDER BY '.
+        ' au.LastName';
+
+    $sqlYears =
+        'SELECT DISTINCT '.
+        ' Year '.
+        'FROM '.
+        ' works '.
+        'ORDER BY '.
+        ' Year';
+
+    $sqlWorks =
         'SELECT * '.
         'FROM '.
-        ' users '.
-        'WHERE '.
-        ' UserEmail = ?';
+        ' works ';
 
-    $dbo = $this->db->prepare($sql);
+    $dbo = $this->db->prepare($sqlYears);
+    $dbo->execute();
 
-    $dbo->execute(array($body['email']));
+    $years = $dbo->fetchAll();
 
-    $users = $dbo->fetchAll();
-    if (empty($users) || (hash('sha256', $body['password'].hex2bin($users[0]['Password2'])) !== $users[0]['Password'])) {
-        return $this->view->render($res, 'login.twig', [
-            'logError' => true
-        ]);
+    $dbo = $this->db->prepare($sqlAuthors);
+    $dbo->execute();
+
+    $authors = $dbo->fetchAll();
+
+    $body = $req->getParsedBody();
+
+    $fAuthors = isset($body['authors']) ? $body['authors'] : null;
+    $fUnknownYear = isset($body['unknownYear']) ? $body['unknownYear'] : null;
+    $fNew = isset($body['new']) ? $body['new'] : null;
+    $fIncomplete = isset($body['incomplete']) ? $body['incomplete'] : null;
+    $fChecked = isset($body['checked']) ? $body['checked'] : null;
+    $fComplete = isset($body['complete']) ? $body['complete'] : null;
+
+    if ($fAuthors || $fUnknownYear || $fNew || $fIncomplete || $fChecked || $fComplete || $body['yearFrom'] != '--' || $body['yearTo'] != '--' || $body['fulltext']) {
+        $sqlWorks .= 'WHERE ';
     } else {
-        // doing session staff
-        $session = new \SlimSession\Helper;
-        $session->userId = $users[0]['UserID'];
         return $res->withRedirect('/content');
-    }*/
+    }
 
-    print_r($body);
-//    return $res->withRedirect('/content');
+    $otherFilter = false;
+    $params = array();
+    // if date from is higher than date to
+    if ((int)$body['yearTo'] < (int)$body['yearFrom'] && $body['yearTo'] != '--' && $body['yearFrom'] != '--') {
+        return $this->view->render($res, 'main.twig', [
+            'user' => $session->userEmail,
+//        'works' => $works,
+            'authors' => $authors,
+            'years' => $years,
+            'filterAuthors' => $fAuthors,
+            'filterYearFrom' => $body['yearFrom'],
+            'filterYearTo' => $body['yearTo'],
+            'filterYearUnknown' => $fUnknownYear,
+            'filterFulltext' => $body['fulltext'],
+            'filterNew' => $fNew,
+            'filterIncomplete' => $fIncomplete,
+            'filterChecked' => $fChecked,
+            'filterComplete' => $fComplete,
+            'filterYearError' => true
+        ]);
+    }
+    if ($body['yearTo'] != '--') {
+        $otherFilter = true;
+        $sqlWorks .= 'Year <= ? ';
+        array_push($params, $body['yearTo']);
+    }
+    if ($body['yearFrom'] != '--') {
+        if ($otherFilter) {
+            $sqlWorks .= ' AND Year >= ? ';
+        } else {
+            $sqlWorks .= ' Year >= ? ';
+            $otherFilter = true;
+        }
+        array_push($params, $body['yearFrom']);
+    }
+    //todo add check if uknonw year is there
+
+
+    print_r($sqlWorks);
+    $dbo = $this->db->prepare($sqlWorks);
+    $dbo->execute($params);
+
+    $works = $dbo->fetchAll();
+
+//    foreach ($works as $key => $work) {
+//        $dbo = $this->db->prepare($sqlConnections);
+//        $dbo->execute(array($work['WorkID']));
+//        $authorIds = $dbo->fetchAll();
+//
+//        $works[$key]['Authors'] = array();
+//        $dbo = $this->db->prepare($sqlAuthor);
+//        foreach ($authorIds as $id) {
+//            $dbo->execute(array($id['id']));
+//            array_push($works[$key]['Authors'], $dbo->fetchAll());
+//        }
+//    }
+
+    return $this->view->render($res, 'main.twig', [
+        'user' => $session->userEmail,
+        'works' => $works,
+        'authors' => $authors,
+        'years' => $years,
+        'filterAuthors' => $fAuthors,
+        'filterYearFrom' => $body['yearFrom'],
+        'filterYearTo' => $body['yearTo'],
+        'filterYearUnknown' => $fUnknownYear,
+        'filterFulltext' => $body['fulltext'],
+        'filterNew' => $fNew,
+        'filterIncomplete' => $fIncomplete,
+        'filterChecked' => $fChecked,
+        'filterComplete' => $fComplete
+    ]);
 
 });
 
