@@ -99,6 +99,8 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
         ' Year '.
         'FROM '.
         ' works '.
+        'WHERE '.
+        ' Year <> -1 '.
         'ORDER BY '.
         ' Year';
 
@@ -142,7 +144,12 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
         'user' => $session->userEmail,
         'works' => $works,
         'authors' => $authors,
-        'years' => $years
+        'years' => $years,
+        'filterYearUnknown' => true,
+        'filterNew' => true,
+        'filterIncomplete' => true,
+        'filterChecked' => true,
+        'filterComplete' => true
     ]);
 });
 
@@ -167,7 +174,7 @@ $app->post('/content', function (Request $req, Response $res) {
         'ORDER BY '.
         ' au.LastName';
 
-    $sqlAuthorsByIds =
+    $sqlAuthorsById =
         'SELECT DISTINCT '.
         ' au.* '.
         'FROM '.
@@ -176,6 +183,8 @@ $app->post('/content', function (Request $req, Response $res) {
         ' ON con.AuthPubId = au.ID '.
         'WHERE '.
         ' con.Type = \'author\' '.
+        'AND '.
+        ' con.WorkID = ? '.
         'ORDER BY '.
         ' au.LastName';
 
@@ -184,6 +193,8 @@ $app->post('/content', function (Request $req, Response $res) {
         ' Year '.
         'FROM '.
         ' works '.
+        'WHERE '.
+        ' Year <> -1 '.
         'ORDER BY '.
         ' Year';
 
@@ -211,13 +222,15 @@ $app->post('/content', function (Request $req, Response $res) {
     $fChecked = isset($body['checked']) ? $body['checked'] : null;
     $fComplete = isset($body['complete']) ? $body['complete'] : null;
 
-    if ($fAuthors || $fUnknownYear || $fNew || $fIncomplete || $fChecked || $fComplete || $body['yearFrom'] != '--' || $body['yearTo'] != '--' || $body['fulltext']) {
+    if ($fAuthors || !$fUnknownYear || $fNew || $fIncomplete || $fChecked || $fComplete || $body['yearFrom'] != '--' || $body['yearTo'] != '--' || $body['fulltext']) {
         $sqlWorks .= 'WHERE ';
     } else {
         return $res->withRedirect('/content');
     }
 
     $otherFilter = false;
+    $otherFilter2 = false;
+    $leftBracketMissing = false;
     $params = array();
     // if date from is higher than date to
     if ((int)$body['yearTo'] < (int)$body['yearFrom'] && $body['yearTo'] != '--' && $body['yearFrom'] != '--') {
@@ -238,41 +251,127 @@ $app->post('/content', function (Request $req, Response $res) {
             'filterYearError' => true
         ]);
     }
-    if ($body['yearTo'] != '--') {
-        $otherFilter = true;
-        $sqlWorks .= 'Year <= ? ';
-        array_push($params, $body['yearTo']);
-    }
+    // filter works depends on year of publishing
     if ($body['yearFrom'] != '--') {
-        if ($otherFilter) {
-            $sqlWorks .= ' AND Year >= ? ';
-        } else {
-            $sqlWorks .= ' Year >= ? ';
-            $otherFilter = true;
+        if ($fUnknownYear) {
+            $sqlWorks .= '(';
+            $leftBracketMissing = true;
+            if ($body['yearTo'] != '--') {
+                $sqlWorks .= '(';
+            }
         }
+        $otherFilter = true;
+        $sqlWorks .= 'Year >= ? ';
         array_push($params, $body['yearFrom']);
     }
-    //todo add check if uknonw year is there
+    if ($body['yearTo'] != '--') {
+        if ($otherFilter) {
+            $sqlWorks .= ' AND Year <= ? ';
+        } else {
+            $sqlWorks .= ' Year <= ? ';
+            $otherFilter = true;
+        }
+        array_push($params, $body['yearTo']);
+    }
+    if (!$fUnknownYear) {
+        if (!$otherFilter) {
+            // case Y <> -1
+            if ($body['yearFrom'] == '--' && $body['yearTo'] == '--') {
+                $otherFilter = true;
+                $sqlWorks .= ' Year <> -1 ';
+            }
 
+        } else {
+            //case Y < number AND Y <> -1
+            if ($body['yearFrom'] == '--' && $body['yearTo'] != '--') {
+                $sqlWorks .= ' AND Year <> -1 ';
+            }
+        }
+    } else {
+        //case (Y > number OR Y = -1)
+        if ($leftBracketMissing && $body['yearTo'] == '--') {
+            $sqlWorks .= ' OR Year = -1) ';
+            $leftBracketMissing = false;
+        }
+        // (Y > number AND Y < number2) OR Y = -1
+        if ($leftBracketMissing && $body['yearTo'] != '--' && $body['yearFrom'] != '--') {
+            $sqlWorks .= ') OR Year = -1) ';
+            $leftBracketMissing = false;
+        }
+    }
 
-    print_r($sqlWorks);
+    if ($fNew || $fIncomplete || $fChecked || $fComplete) {
+        if ($otherFilter) {
+            $sqlWorks .= ' AND ( ';
+        } else {
+            $sqlWorks .= ' ( ';
+        }
+
+        if ($fNew) {
+            $sqlWorks .= ' Status = \'nové\' ';
+            $otherFilter2 = true;
+        }
+
+        if ($fIncomplete) {
+            if ($otherFilter2) {
+                $sqlWorks .= ' OR Status = \'rozděláno\' ';
+            } else {
+                $sqlWorks .= ' Status = \'rozděláno\' ';
+                $otherFilter2 = true;
+            }
+        }
+
+        if ($fChecked) {
+            if ($otherFilter2) {
+                $sqlWorks .= ' OR Status = \'zkontrolováno\' ';
+            } else {
+                $sqlWorks .= ' Status = \'zkontrolováno\' ';
+                $otherFilter2 = true;
+            }
+        }
+
+        if ($fComplete) {
+            if ($otherFilter2) {
+                $sqlWorks .= ' OR Status = \'hotovo\' ';
+            } else {
+                $sqlWorks .= ' Status = \'hotovo\' ';
+                $otherFilter2 = true;
+            }
+        }
+
+        $sqlWorks .= ' ) ';
+    }
+
     $dbo = $this->db->prepare($sqlWorks);
     $dbo->execute($params);
 
     $works = $dbo->fetchAll();
 
-//    foreach ($works as $key => $work) {
-//        $dbo = $this->db->prepare($sqlConnections);
-//        $dbo->execute(array($work['WorkID']));
-//        $authorIds = $dbo->fetchAll();
-//
-//        $works[$key]['Authors'] = array();
-//        $dbo = $this->db->prepare($sqlAuthor);
-//        foreach ($authorIds as $id) {
-//            $dbo->execute(array($id['id']));
-//            array_push($works[$key]['Authors'], $dbo->fetchAll());
-//        }
-//    }
+    $worksOut = array();
+    foreach ($works as $key => $work) {
+        $dbo = $this->db->prepare($sqlAuthorsById);
+        $dbo->execute(array($work['WorkID']));
+        $workAuthors = $dbo->fetchAll();
+
+        $works[$key]['Authors'] = array();
+        $includeAuthor = false;
+        foreach ($workAuthors as $id) {
+            array_push($works[$key]['Authors'], array($id));
+            if ($fAuthors && !$includeAuthor) {
+                if (in_array($id['Name'] . ' ' . $id['LastName'], $fAuthors)) {
+                    $includeAuthor = true;
+                }
+            }
+        }
+        if ($fAuthors && $includeAuthor) {
+            array_push($worksOut, $works[$key]);
+        }
+    }
+
+//    print_r($worksOut);
+    if ($fAuthors) {
+        $works = $worksOut;
+    }
 
     return $this->view->render($res, 'main.twig', [
         'user' => $session->userEmail,

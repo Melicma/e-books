@@ -77,19 +77,19 @@
 
                 <div class="form-check form-check-inline">
                     <input {% if filterNew %}checked{% endif %} type="checkbox" id="newWork" value="1" name="new">
-                    <label for="newWork">Nové</label>
+                    <label for="newWork">nové</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input {% if filterIncomplete %}checked{% endif %} type="checkbox" id="incompleteWork" value="1" name="incomplete">
-                    <label for="incompleteWork">Rozděláno</label>
+                    <label for="incompleteWork">rozděláno</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input {% if filterChecked %}checked{% endif %} type="checkbox" id="checkedWork" value="1" name="checked">
-                    <label for="checkedWork">Zkontrolováno</label>
+                    <label for="checkedWork">zkontrolováno</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input {% if filterComplete %}checked{% endif %} type="checkbox" id="completeWork" value="1" name="complete">
-                    <label for="completeWork">Hotovo</label>
+                    <label for="completeWork">hotovo</label>
                 </div>
             </div>
             <div class="col-2 align-self-end">
@@ -120,7 +120,7 @@
                                 <span>...</span>
                             {% endif %}
                         </td>
-                        <td>{{ work.Year }}</td>
+                        <td>{% if work.Year == -1 %}neuveden{% else %}{{ work.Year }}{% endif %}</td>
                         <td>{{ work.Status }}</td>
                         <td>
                             <a role="button" class="btn btn-primary" href="/metadata/{{ work.WorkID }}">Metadata</a>
