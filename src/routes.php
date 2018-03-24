@@ -61,7 +61,7 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
     }
 
     $sqlWorks =
-        'SELECT * '.
+        'SELECT WorkID, Status, Year, Title '.
         'FROM '.
         ' works ';
 
@@ -199,7 +199,7 @@ $app->post('/content', function (Request $req, Response $res) {
         ' Year';
 
     $sqlWorks =
-        'SELECT * '.
+        'SELECT WorkID, Title, Year, Status '.
         'FROM '.
         ' works ';
 
@@ -398,7 +398,6 @@ $app->post('/content', function (Request $req, Response $res) {
         } else {
             if ($includeFulltextSearch) {
                 if (in_array($work['WorkID'], $workIds)) {
-                    print_r('pushuju');
                     array_push($worksOut, $works[$key]);
                 }
             }

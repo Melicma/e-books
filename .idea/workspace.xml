@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a4cd079-1dd4-4632-8688-3c08f0ae04b4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ebooks" afterPath="$PROJECT_DIR$/db/ebooks" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes.php" afterPath="$PROJECT_DIR$/src/routes.php" />
     </list>
@@ -39,20 +38,20 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="404" column="9" selection-start-line="404" selection-start-column="9" selection-end-line="404" selection-end-column="9" />
+            <state relative-caret-position="177">
+              <caret line="63" column="43" selection-start-line="63" selection-start-column="43" selection-end-line="63" selection-end-column="43" />
               <folding>
                 <element signature="e#7#29#0#PHP" expanded="true" />
                 <element signature="e#360#594#1#PHP" expanded="false" />
-                <element signature="e#7365#7619#0#PHP" expanded="false" />
-                <element signature="e#7624#8526#0#PHP" expanded="false" />
-                <element signature="e#8532#9642#0#PHP" expanded="false" />
-                <element signature="e#12691#14130#1#PHP" expanded="false" />
-                <marker date="1521919773062" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
-                <marker date="1521919773062" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
-                <marker date="1521919773062" expanded="true" signature="2085:2345" ph="SELECT DISTI... authors_publishers" />
-                <marker date="1521919773062" expanded="true" signature="2374:2524" ph="SELECT DISTI... " />
-                <marker date="1521919773062" expanded="true" signature="5005:5116" ph="SELECT WorkI... worksIndex" />
+                <element signature="e#7417#7671#0#PHP" expanded="false" />
+                <element signature="e#7676#8578#0#PHP" expanded="false" />
+                <element signature="e#8584#9694#0#PHP" expanded="false" />
+                <element signature="e#12677#14116#1#PHP" expanded="false" />
+                <marker date="1521920313058" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
+                <marker date="1521920313058" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
+                <marker date="1521920313058" expanded="true" signature="2111:2371" ph="SELECT DISTI... authors_publishers" />
+                <marker date="1521920313058" expanded="true" signature="2400:2550" ph="SELECT DISTI... " />
+                <marker date="1521920313058" expanded="true" signature="5057:5168" ph="SELECT WorkI... worksIndex" />
               </folding>
             </state>
           </provider>
@@ -376,12 +375,12 @@
       <workItem from="1513515757050" duration="2876000" />
       <workItem from="1513519161112" duration="4792000" />
       <workItem from="1519897983836" duration="55804000" />
-      <workItem from="1521892154656" duration="4095000" />
+      <workItem from="1521892154656" duration="4633000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="141106000" />
+    <option name="totallyTimeSpent" value="141644000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="63" y="24" width="1303" height="744" extended-state="6" />
@@ -437,15 +436,15 @@
           <folding>
             <element signature="e#7#29#0#PHP" expanded="true" />
             <element signature="e#360#594#1#PHP" expanded="false" />
-            <element signature="e#7365#7619#0#PHP" expanded="false" />
-            <element signature="e#7624#8526#0#PHP" expanded="false" />
-            <element signature="e#8532#9642#0#PHP" expanded="false" />
-            <element signature="e#12691#14130#1#PHP" expanded="false" />
-            <marker date="1521919773062" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
-            <marker date="1521919773062" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
-            <marker date="1521919773062" expanded="true" signature="2085:2345" ph="SELECT DISTI... authors_publishers" />
-            <marker date="1521919773062" expanded="true" signature="2374:2524" ph="SELECT DISTI... " />
-            <marker date="1521919773062" expanded="true" signature="5005:5116" ph="SELECT WorkI... worksIndex" />
+            <element signature="e#7417#7671#0#PHP" expanded="false" />
+            <element signature="e#7676#8578#0#PHP" expanded="false" />
+            <element signature="e#8584#9694#0#PHP" expanded="false" />
+            <element signature="e#12677#14116#1#PHP" expanded="false" />
+            <marker date="1521920313058" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
+            <marker date="1521920313058" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
+            <marker date="1521920313058" expanded="true" signature="2111:2371" ph="SELECT DISTI... authors_publishers" />
+            <marker date="1521920313058" expanded="true" signature="2400:2550" ph="SELECT DISTI... " />
+            <marker date="1521920313058" expanded="true" signature="5057:5168" ph="SELECT WorkI... worksIndex" />
           </folding>
         </state>
       </provider>
@@ -486,15 +485,15 @@
           <folding>
             <element signature="e#7#29#0#PHP" expanded="true" />
             <element signature="e#360#594#1#PHP" expanded="false" />
-            <element signature="e#7365#7619#0#PHP" expanded="false" />
-            <element signature="e#7624#8526#0#PHP" expanded="false" />
-            <element signature="e#8532#9642#0#PHP" expanded="false" />
-            <element signature="e#12691#14130#1#PHP" expanded="false" />
-            <marker date="1521919773062" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
-            <marker date="1521919773062" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
-            <marker date="1521919773062" expanded="true" signature="2085:2345" ph="SELECT DISTI... authors_publishers" />
-            <marker date="1521919773062" expanded="true" signature="2374:2524" ph="SELECT DISTI... " />
-            <marker date="1521919773062" expanded="true" signature="5005:5116" ph="SELECT WorkI... worksIndex" />
+            <element signature="e#7417#7671#0#PHP" expanded="false" />
+            <element signature="e#7676#8578#0#PHP" expanded="false" />
+            <element signature="e#8584#9694#0#PHP" expanded="false" />
+            <element signature="e#12677#14116#1#PHP" expanded="false" />
+            <marker date="1521920313058" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
+            <marker date="1521920313058" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
+            <marker date="1521920313058" expanded="true" signature="2111:2371" ph="SELECT DISTI... authors_publishers" />
+            <marker date="1521920313058" expanded="true" signature="2400:2550" ph="SELECT DISTI... " />
+            <marker date="1521920313058" expanded="true" signature="5057:5168" ph="SELECT WorkI... worksIndex" />
           </folding>
         </state>
       </provider>
@@ -549,15 +548,15 @@
           <folding>
             <element signature="e#7#29#0#PHP" expanded="true" />
             <element signature="e#360#594#1#PHP" expanded="false" />
-            <element signature="e#7365#7619#0#PHP" expanded="false" />
-            <element signature="e#7624#8526#0#PHP" expanded="false" />
-            <element signature="e#8532#9642#0#PHP" expanded="false" />
-            <element signature="e#12691#14130#1#PHP" expanded="false" />
-            <marker date="1521919773062" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
-            <marker date="1521919773062" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
-            <marker date="1521919773062" expanded="true" signature="2085:2345" ph="SELECT DISTI... authors_publishers" />
-            <marker date="1521919773062" expanded="true" signature="2374:2524" ph="SELECT DISTI... " />
-            <marker date="1521919773062" expanded="true" signature="5005:5116" ph="SELECT WorkI... worksIndex" />
+            <element signature="e#7417#7671#0#PHP" expanded="false" />
+            <element signature="e#7676#8578#0#PHP" expanded="false" />
+            <element signature="e#8584#9694#0#PHP" expanded="false" />
+            <element signature="e#12677#14116#1#PHP" expanded="false" />
+            <marker date="1521920313058" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
+            <marker date="1521920313058" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
+            <marker date="1521920313058" expanded="true" signature="2111:2371" ph="SELECT DISTI... authors_publishers" />
+            <marker date="1521920313058" expanded="true" signature="2400:2550" ph="SELECT DISTI... " />
+            <marker date="1521920313058" expanded="true" signature="5057:5168" ph="SELECT WorkI... worksIndex" />
           </folding>
         </state>
       </provider>
@@ -798,20 +797,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="404" column="9" selection-start-line="404" selection-start-column="9" selection-end-line="404" selection-end-column="9" />
+        <state relative-caret-position="177">
+          <caret line="63" column="43" selection-start-line="63" selection-start-column="43" selection-end-line="63" selection-end-column="43" />
           <folding>
             <element signature="e#7#29#0#PHP" expanded="true" />
             <element signature="e#360#594#1#PHP" expanded="false" />
-            <element signature="e#7365#7619#0#PHP" expanded="false" />
-            <element signature="e#7624#8526#0#PHP" expanded="false" />
-            <element signature="e#8532#9642#0#PHP" expanded="false" />
-            <element signature="e#12691#14130#1#PHP" expanded="false" />
-            <marker date="1521919773062" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
-            <marker date="1521919773062" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
-            <marker date="1521919773062" expanded="true" signature="2085:2345" ph="SELECT DISTI... authors_publishers" />
-            <marker date="1521919773062" expanded="true" signature="2374:2524" ph="SELECT DISTI... " />
-            <marker date="1521919773062" expanded="true" signature="5005:5116" ph="SELECT WorkI... worksIndex" />
+            <element signature="e#7417#7671#0#PHP" expanded="false" />
+            <element signature="e#7676#8578#0#PHP" expanded="false" />
+            <element signature="e#8584#9694#0#PHP" expanded="false" />
+            <element signature="e#12677#14116#1#PHP" expanded="false" />
+            <marker date="1521920313058" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
+            <marker date="1521920313058" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
+            <marker date="1521920313058" expanded="true" signature="2111:2371" ph="SELECT DISTI... authors_publishers" />
+            <marker date="1521920313058" expanded="true" signature="2400:2550" ph="SELECT DISTI... " />
+            <marker date="1521920313058" expanded="true" signature="5057:5168" ph="SELECT WorkI... worksIndex" />
           </folding>
         </state>
       </provider>
