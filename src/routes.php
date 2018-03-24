@@ -203,6 +203,14 @@ $app->post('/content', function (Request $req, Response $res) {
         'FROM '.
         ' works ';
 
+    $sqlFulltextSearch =
+        'SELECT '.
+        ' WorkID '.
+        'FROM '.
+        ' worksIndex '.
+        'WHERE '.
+        ' worksIndex ';
+
     $dbo = $this->db->prepare($sqlYears);
     $dbo->execute();
 
@@ -347,6 +355,19 @@ $app->post('/content', function (Request $req, Response $res) {
 
     $works = $dbo->fetchAll();
 
+    $workIds = array();
+    $includeFulltextSearch = false;
+    if ($body['fulltext']) {
+        $sqlFulltextSearch .= ' MATCH \'Fulltext:' . $body['fulltext'] . ' OR Title:' . $body['fulltext'] . '\'';
+        $dbo = $this->db->prepare($sqlFulltextSearch);
+        $dbo->execute();
+        $ids = $dbo->fetchAll();
+        foreach ($ids as $el) {
+            array_push($workIds, $el['WorkID']);
+        }
+        $includeFulltextSearch = true;
+    }
+
     $worksOut = array();
     foreach ($works as $key => $work) {
         $dbo = $this->db->prepare($sqlAuthorsById);
@@ -363,13 +384,28 @@ $app->post('/content', function (Request $req, Response $res) {
                 }
             }
         }
-        if ($fAuthors && $includeAuthor) {
-            array_push($worksOut, $works[$key]);
+
+        if ($fAuthors) {
+            if ($includeAuthor) {
+                if ($includeFulltextSearch) {
+                    if (in_array($work['WorkID'], $workIds)) {
+                        array_push($worksOut, $works[$key]);
+                    }
+                } else {
+                    array_push($worksOut, $works[$key]);
+                }
+            }
+        } else {
+            if ($includeFulltextSearch) {
+                if (in_array($work['WorkID'], $workIds)) {
+                    print_r('pushuju');
+                    array_push($worksOut, $works[$key]);
+                }
+            }
         }
     }
 
-//    print_r($worksOut);
-    if ($fAuthors) {
+    if ($fAuthors || $body['fulltext']) {
         $works = $worksOut;
     }
 
