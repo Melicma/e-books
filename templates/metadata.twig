@@ -41,8 +41,8 @@
                             <span>{{ author.Name}} {{ author.LastName }} </span>
                         </div>
                         <div class="col-7">
-                            <a role="button" class="btn btn-primary" href="#">Upravit</a>
-                            <a role="button" class="btn btn-danger" href="#">Smazat</a>
+                            <a role="button" class="btn btn-primary" href="/author/{{ author.ID }}">Upravit</a>
+                            <a role="button" class="btn btn-danger" href="/delete-author/{{ author.ID }}">Smazat</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -56,9 +56,139 @@
             <h3 class="h3 col-12">Vydavatel</h3>
         </div>
 
+        <div class="row justify-content-md-center">
+            <div class="col-5">
+                {% for key, publisher in work.Publisher %}
+                    <div class="row align-items-center pt-2">
+                        <div class="col-5">
+                            <span>{{ publisher.Name}}</span>
+                        </div>
+                        <div class="col-7">
+                            <a role="button" class="btn btn-primary" href="/publisher/{{ publisher.ID }}">Upravit</a>
+                            <a role="button" class="btn btn-danger" href="/delete-publisher/{{ publisher.ID }}">Smazat</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-4 align-self-end">
+                <a role="button" class="btn btn-primary" href="#">Přidat nového</a>
+            </div>
+        </div>
+
         <div class="row">
             <h3 class="h3 col-12">Metadata</h3>
         </div>
+
+        <form class="row mb-5 mt-5 justify-content-md-center" method="post">
+
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="title">Titul</label>
+                            <input {% if work.Title %}value="{{ work.Title }}" {% endif %}type="text" class="form-control" id="title" placeholder="Zadejte název" name="title">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="subtitle">Podtitul</label>
+                            <input {% if work.Subtitle %}value="{{ work.Subtitle }}" {% endif %}type="text" class="form-control" id="subtitle" placeholder="Zadejte název" name="subtitle">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="place">Místo</label>
+                            <input {% if work.Place %}value="{{ work.Place }}" {% endif %}type="text" class="form-control" id="place" placeholder="Zadejte místo" name="place">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="subtitle">Rok vydání</label>
+                            <input {% if work.Year %}value="{{ work.Year }}" {% endif %}type="text" class="form-control" id="year" placeholder="Zadejte rok vydání" name="year">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="edition">Vydání</label>
+                            <input {% if work.Edition %}value="{{ work.Edition }}" {% endif %}type="text" class="form-control" id="edition" placeholder="Zadejte vydání" name="edition">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="pages">Stran</label>
+                            <input {% if work.Pages %}value="{{ work.Pages }}" {% endif %}type="text" class="form-control" id="pages" placeholder="Zadejte počet stran" name="pages">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="inscription">Věnování</label>
+                            <input {% if work.Inscription %}value="{{ work.Inscription }}" {% endif %}type="text" class="form-control" id="inscription" placeholder="Zadejte věnování" name="inscription">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="mottoAuthor">Autor motta</label>
+                            <input {% if work.MottoAuthor %}value="{{ work.MottoAuthor }}" {% endif %}type="text" class="form-control" id="mottoAuthor" placeholder="Zadejte jméno autora motta" name="mottoAuthor">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="motto">Motto</label>
+                            <input {% if work.Motto %}value="{{ work.Motto}}" {% endif %}type="text" class="form-control" id="motto" placeholder="Zadejte motto" name="motto">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="format">Formát</label>
+                            <input {% if work.Format %}value="{{ work.Format }}" {% endif %}type="text" class="form-control" id="format" placeholder="Zadejte formát" name="format">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="signature">Zdroj signatura</label>
+                            <input {% if work.Signature %}value="{{ work.Signature }}" {% endif %}type="text" class="form-control" id="signature" placeholder="Zadejte zdroj" name="signature">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="description">Popis</label>
+                            <textarea class="form-control" id="description" placeholder="Zadejte popis" name="description" rows="7">{{ work.Description}}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="editNote">Ediční poznámka</label>
+                            <textarea class="form-control" id="editNote" placeholder="Zadejte popis" name="editNote" rows="7">{{ work.EditNote}}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-end">
+                    <button type="submit" class="btn btn-primary">Aplikovat filtr</button>
+                </div>
+            </div>
+        </form>
 
     </div>
 

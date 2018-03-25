@@ -55,9 +55,11 @@ $app->post('/login', function (Request $req, Response $res) {
 $app->get('/content', function (Request $req, Response $res, array $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
-        return $this->view->render($res, 'login.twig', [
-            'sessionError' => true
-        ]);
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+//        return $this->view->render($res, 'login.twig', [
+//            'sessionError' => true
+//        ]);
     }
 
     $sqlWorks =
@@ -526,6 +528,20 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         'ORDER BY '.
         ' au.LastName';
 
+    $sqlPublisher =
+        'SELECT DISTINCT '.
+        ' au.* '.
+        'FROM '.
+        ' authors_publishers au '.
+        'LEFT JOIN connection con '.
+        ' ON con.AuthPubId = au.ID  '.'
+        WHERE '.
+        ' con.Type = \'publisher\' '.
+        'AND '.
+        ' con.WorkID = ? '.
+        'ORDER BY '.
+        ' au.Name';
+
 
     // get information about work
     $dbo = $this->db->prepare($sqlWork);
@@ -535,12 +551,72 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
     $dbo = $this->db->prepare($sqlAuthors);
     $dbo->execute(array($args['id']));
 
-
     $work[0]['Authors'] = $dbo->fetchAll();
 
+    $dbo = $this->db->prepare($sqlPublisher);
+    $dbo->execute(array($args['id']));
+
+    $work[0]['Publisher'] = $dbo->fetchAll();
 
     return $this->view->render($res, 'metadata.twig', [
         'user' => $session->userEmail,
         'work' => $work[0]
     ]);
+});
+
+$app->post('/metadata/{id}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login', [], $data));
+    }
+
+    $sqlUpdate =
+        'UPDATE '.
+        ' works '.
+        'SET '.
+        ' Title = ?, Subtitle = ?, Year = ?, Place = ?, '.
+        ' Edition = ?, Pages = ?, Inscription = ?, Motto = ?, '.
+        ' MottoAuthor = ?, Format = ?, Signature = ?, Description = ?, EditNote = ? '.
+        'WHERE '.
+        ' WorkID = ?';
+
+    $body = $req->getParsedBody();
+
+    $uTitle = isset($body['title']) ? $body['title'] : null;
+    $uSubtitle = isset($body['subtitle']) ? $body['subtitle'] : null;
+    $uYear = isset($body['year']) ? $body['year'] : null;
+    $uPlace = isset($body['place']) ? $body['place'] : null;
+    $uEdition = isset($body['edition']) ? $body['edition'] : null;
+    $uPages = isset($body['pages']) ? $body['pages'] : null;
+    $uInscription = isset($body['inscription']) ? $body['inscription'] : null;
+    $uMotto = isset($body['motto']) ? $body['motto'] : null;
+    $uMottoAuthor = isset($body['mottoAuthor']) ? $body['mottoAuthor'] : null;
+    $uFormat = isset($body['format']) ? $body['format'] : null;
+    $uSignature = isset($body['signature']) ? $body['signature'] : null;
+    $uDescription = isset($body['description']) ? $body['description'] : null;
+    $uEditNote = isset($body['editNote']) ? $body['editNote'] : null;
+
+    $params = array();
+    array_push($params, $uTitle);
+    array_push($params, $uSubtitle);
+    array_push($params, $uYear);
+    array_push($params, $uPlace);
+    array_push($params, $uEdition);
+    array_push($params, $uPages);
+    array_push($params, $uInscription);
+    array_push($params, $uMotto);
+    array_push($params, $uMottoAuthor);
+    array_push($params, $uFormat);
+    array_push($params, $uSignature);
+    array_push($params, $uDescription);
+    array_push($params, $uEditNote);
+    array_push($params, $args['id']);
+
+
+    $dbo = $this->db->prepare($sqlUpdate);
+    $dbo->execute($params);
+
+    return $res->withRedirect('/metadata/' . $args['id']);
+//    return $res;
 });
