@@ -41,6 +41,11 @@
                             <span>{{ author.Name}} {{ author.LastName }} </span>
                         </div>
                         <div class="col-7">
+                            {#<form name="editAuthor" action="/author/{{ author.ID }}" method="get">#}
+                                {#<label for="workID"></label>#}
+                                {#<input type="text" value="{{ work.WorkID }}" name="workID" id="workID" style="display: none"/>#}
+                                {#<button class="btn btn-primary" style="cursor: pointer">Upravit</button>#}
+                            {#</form>#}
                             <a role="button" class="btn btn-primary" href="/author/{{ author.ID }}">Upravit</a>
                             <a role="button" class="btn btn-danger" href="/delete-author/{{ author.ID }}">Smazat</a>
                         </div>
@@ -185,7 +190,7 @@
                 </div>
 
                 <div class="row justify-content-md-end">
-                    <button type="submit" class="btn btn-primary">Aplikovat filtr</button>
+                    <button type="submit" class="btn btn-primary">Uložit</button>
                 </div>
             </div>
         </form>

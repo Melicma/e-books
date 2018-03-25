@@ -618,5 +618,69 @@ $app->post('/metadata/{id}', function (Request $req, Response $res, $args) {
     $dbo->execute($params);
 
     return $res->withRedirect('/metadata/' . $args['id']);
-//    return $res;
+});
+
+$app->get('/author/{id}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $sqlAuthor =
+        'SELECT * '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' ID = ?';
+
+    $body = $req->getParsedBody();
+
+    print_r($body);
+
+    $dbo = $this->db->prepare($sqlAuthor);
+    $dbo->execute(array($args['id']));
+    $author = $dbo->fetch();
+
+
+    return $this->view->render($res, 'authorPublisher.twig', [
+        'user' => $session->userEmail,
+        'goBack' => $_SERVER['HTTP_REFERER'],
+        'author' => $author,
+        'isAuthor' => true
+    ]);
+});
+
+$app->post('/author/{id}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login', [], $data));
+    }
+
+    $sqlUpdate =
+        'UPDATE '.
+        ' authors_publishers '.
+        'SET '.
+        ' Name = ?, LastName = ?, Corporation = ? '.
+        'WHERE '.
+        ' ID = ?';
+
+    $body = $req->getParsedBody();
+
+    $uName = isset($body['name']) ? $body['name'] : null;
+    $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
+    $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
+
+    $params = array();
+    array_push($params, $uName);
+    array_push($params, $uLastName);
+    array_push($params, $uCorporation);
+    array_push($params, $args['id']);
+
+
+    $dbo = $this->db->prepare($sqlUpdate);
+    $dbo->execute($params);
+
+    return $res->withRedirect('/author/' . $args['id']);
 });
