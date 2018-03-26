@@ -684,3 +684,211 @@ $app->post('/author/{id}', function (Request $req, Response $res, $args) {
 
     return $res->withRedirect('/author/' . $args['id']);
 });
+
+$app->get('/new-author/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+
+    return $this->view->render($res, 'authorPublisher.twig', [
+        'user' => $session->userEmail,
+        'goBack' => $_SERVER['HTTP_REFERER'],
+        'author' => null,
+        'isAuthor' => true,
+        'workId' => $args['workId']
+    ]);
+});
+
+$app->post('/new-author/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login', [], $data));
+    }
+
+    $sqlInsert =
+        'INSERT '.'INTO '.
+        ' authors_publishers '.
+        ' (Name, LastName, Corporation) '.
+        'VALUES '.
+        ' (?, ?, ?) ';
+
+    $sqlGetId =
+        'SELECT '.
+        ' last_insert_rowid() as "id"';
+
+    $sqlInsertConnection =
+        'INSERT '.'INTO '.
+        ' connection '.
+        ' (WorkID, AuthPubID, Type) '.
+        'VALUES '.
+        ' (?, ?, ?)';
+
+    $body = $req->getParsedBody();
+
+    $uName = isset($body['name']) ? $body['name'] : null;
+    $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
+    $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
+
+    $params = array();
+    array_push($params, $uName);
+    array_push($params, $uLastName);
+    array_push($params, $uCorporation);
+
+
+    $dbo = $this->db->prepare($sqlInsert);
+    $dbo->execute($params);
+
+    $dbo = $this->db->prepare($sqlGetId);
+    $dbo->execute();
+
+    $authId = $dbo->fetch()['id'];
+
+    $params = array();
+    array_push($params, $args['workId']);
+    array_push($params, $authId);
+    array_push($params, 'author');
+
+    $dbo = $this->db->prepare($sqlInsertConnection);
+    $dbo->execute($params);
+
+    return $res->withRedirect('/metadata/' . $args['workId']);
+});
+
+$app->get('/publisher/{id}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $sqlAuthor =
+        'SELECT * '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' ID = ?';
+
+    $body = $req->getParsedBody();
+
+    print_r($body);
+
+    $dbo = $this->db->prepare($sqlAuthor);
+    $dbo->execute(array($args['id']));
+    $author = $dbo->fetch();
+
+
+    return $this->view->render($res, 'authorPublisher.twig', [
+        'user' => $session->userEmail,
+        'goBack' => $_SERVER['HTTP_REFERER'],
+        'author' => $author,
+        'isAuthor' => false
+    ]);
+});
+
+$app->post('/publisher/{id}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login', [], $data));
+    }
+
+    $sqlUpdate =
+        'UPDATE '.
+        ' authors_publishers '.
+        'SET '.
+        ' Name = ?, LastName = ? '.
+        'WHERE '.
+        ' ID = ?';
+
+    $body = $req->getParsedBody();
+
+    $uName = isset($body['name']) ? $body['name'] : null;
+    $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
+
+    $params = array();
+    array_push($params, $uName);
+    array_push($params, $uLastName);
+    array_push($params, $args['id']);
+
+
+    $dbo = $this->db->prepare($sqlUpdate);
+    $dbo->execute($params);
+
+    return $res->withRedirect('/publisher/' . $args['id']);
+});
+
+$app->get('/new-publisher/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+
+    return $this->view->render($res, 'authorPublisher.twig', [
+        'user' => $session->userEmail,
+        'goBack' => $_SERVER['HTTP_REFERER'],
+        'author' => null,
+        'isAuthor' => false,
+        'workId' => $args['workId']
+    ]);
+});
+
+$app->post('/new-publisher/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login', [], $data));
+    }
+
+    $sqlInsert =
+        'INSERT '.'INTO '.
+        ' authors_publishers '.
+        ' (Name, LastName) '.
+        'VALUES '.
+        ' (?, ?) ';
+
+    $sqlGetId =
+        'SELECT '.
+        ' last_insert_rowid() as "id"';
+
+    $sqlInsertConnection =
+        'INSERT '.'INTO '.
+        ' connection '.
+        ' (WorkID, AuthPubID, Type) '.
+        'VALUES '.
+        ' (?, ?, ?)';
+
+    $body = $req->getParsedBody();
+
+    $uName = isset($body['name']) ? $body['name'] : null;
+    $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
+    $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
+
+    $params = array();
+    array_push($params, $uName);
+    array_push($params, $uLastName);
+
+
+    $dbo = $this->db->prepare($sqlInsert);
+    $dbo->execute($params);
+
+    $dbo = $this->db->prepare($sqlGetId);
+    $dbo->execute();
+
+    $authId = $dbo->fetch()['id'];
+
+    $params = array();
+    array_push($params, $args['workId']);
+    array_push($params, $authId);
+    array_push($params, 'publisher');
+
+    $dbo = $this->db->prepare($sqlInsertConnection);
+    $dbo->execute($params);
+
+    return $res->withRedirect('/metadata/' . $args['workId']);
+});

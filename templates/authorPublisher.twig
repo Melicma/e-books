@@ -24,10 +24,10 @@
 
 
         <div class="row">
-            <h1 class="h1 col-12">Údaje o: {{ author.Name}}</h1>
+            <h1 class="h1 col-12">{% if workId %}Nový {% if isAuthor %}autor{% else %}vydavatel{% endif %}{% else %}Údaje o: {{ author.Name}}{% endif %}</h1>
         </div>
 
-        <form class="row mb-5 mt-5 justify-content-md-center" method="post">
+        <form class="row mb-5 mt-5 justify-content-md-center" method="post" action={% if isAuthor %}"/new-author/{{ workId }}"{% else %}"/new-publisher/{{ workId }}"{% endif %}>
 
             <div class="col-10">
 

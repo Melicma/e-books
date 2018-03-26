@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a4cd079-1dd4-4632-8688-3c08f0ae04b4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/authorPublisher.twig" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ebooks" afterPath="$PROJECT_DIR$/db/ebooks" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes.php" afterPath="$PROJECT_DIR$/src/routes.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/authorPublisher.twig" afterPath="$PROJECT_DIR$/templates/authorPublisher.twig" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/metadata.twig" afterPath="$PROJECT_DIR$/templates/metadata.twig" />
     </list>
     <ignored path="e-books.iws" />
@@ -31,7 +31,7 @@
       <file leaf-file-name="main.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/main.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-396">
+            <state relative-caret-position="306">
               <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
               <folding />
             </state>
@@ -41,8 +41,8 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="638" column="19" selection-start-line="638" selection-start-column="19" selection-end-line="638" selection-end-column="19" />
+            <state relative-caret-position="297">
+              <caret line="891" column="0" selection-start-line="891" selection-start-column="0" selection-end-line="891" selection-end-column="0" />
               <folding>
                 <element signature="e#7#29#0#PHP" expanded="true" />
                 <element signature="e#360#594#1#PHP" expanded="false" />
@@ -52,13 +52,13 @@
                 <element signature="e#8709#9819#0#PHP" expanded="false" />
                 <element signature="e#12222#12407#1#PHP" expanded="false" />
                 <element signature="e#12802#14241#1#PHP" expanded="false" />
-                <marker date="1521988463190" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
-                <marker date="1521988463190" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
-                <marker date="1521988463190" expanded="true" signature="2236:2496" ph="SELECT DISTI... authors_publishers" />
-                <marker date="1521988463190" expanded="true" signature="2525:2675" ph="SELECT DISTI... " />
-                <marker date="1521988463190" expanded="true" signature="5182:5293" ph="SELECT WorkI... worksIndex" />
-                <marker date="1521988463190" expanded="true" signature="16145:16439" ph="UPDATE works... " />
-                <marker date="1521988463190" expanded="true" signature="18330:18425" ph="SELECT * FRO... authors_publishers" />
+                <marker date="1522090933724" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
+                <marker date="1522090933724" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
+                <marker date="1522090933724" expanded="true" signature="2236:2496" ph="SELECT DISTI... authors_publishers" />
+                <marker date="1522090933724" expanded="true" signature="2525:2675" ph="SELECT DISTI... " />
+                <marker date="1522090933724" expanded="true" signature="5182:5293" ph="SELECT WorkI... worksIndex" />
+                <marker date="1522090933724" expanded="true" signature="16145:16439" ph="UPDATE works... " />
+                <marker date="1522090933724" expanded="true" signature="18330:18425" ph="SELECT * FRO... authors_publishers" />
               </folding>
             </state>
           </provider>
@@ -77,8 +77,8 @@
       <file leaf-file-name="authorPublisher.twig" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/authorPublisher.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="59" column="26" selection-start-line="59" selection-start-column="26" selection-end-line="59" selection-end-column="26" />
+            <state relative-caret-position="216">
+              <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -87,8 +87,8 @@
       <file leaf-file-name="metadata.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/metadata.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="192" column="0" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
+            <state relative-caret-position="324">
+              <caret line="78" column="77" selection-start-line="78" selection-start-column="77" selection-end-line="78" selection-end-column="77" />
               <folding />
             </state>
           </provider>
@@ -132,9 +132,9 @@
         <option value="$PROJECT_DIR$/public/js/app.js" />
         <option value="$PROJECT_DIR$/templates/home.phtml" />
         <option value="$PROJECT_DIR$/templates/main.twig" />
-        <option value="$PROJECT_DIR$/templates/authorPublisher.twig" />
         <option value="$PROJECT_DIR$/src/routes.php" />
         <option value="$PROJECT_DIR$/templates/metadata.twig" />
+        <option value="$PROJECT_DIR$/templates/authorPublisher.twig" />
       </list>
     </option>
   </component>
@@ -309,12 +309,12 @@
       <workItem from="1513515757050" duration="2876000" />
       <workItem from="1513519161112" duration="4792000" />
       <workItem from="1519897983836" duration="55804000" />
-      <workItem from="1521892154656" duration="20713000" />
+      <workItem from="1521892154656" duration="23548000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="157724000" />
+    <option name="totallyTimeSpent" value="160559000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="63" y="24" width="1303" height="744" extended-state="6" />
@@ -368,13 +368,13 @@
             <element signature="e#8709#9819#0#PHP" expanded="false" />
             <element signature="e#12222#12407#1#PHP" expanded="false" />
             <element signature="e#12802#14241#1#PHP" expanded="false" />
-            <marker date="1521988463190" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
-            <marker date="1521988463190" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
-            <marker date="1521988463190" expanded="true" signature="2236:2496" ph="SELECT DISTI... authors_publishers" />
-            <marker date="1521988463190" expanded="true" signature="2525:2675" ph="SELECT DISTI... " />
-            <marker date="1521988463190" expanded="true" signature="5182:5293" ph="SELECT WorkI... worksIndex" />
-            <marker date="1521988463190" expanded="true" signature="16145:16439" ph="UPDATE works... " />
-            <marker date="1521988463190" expanded="true" signature="18330:18425" ph="SELECT * FRO... authors_publishers" />
+            <marker date="1522090933724" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
+            <marker date="1522090933724" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
+            <marker date="1522090933724" expanded="true" signature="2236:2496" ph="SELECT DISTI... authors_publishers" />
+            <marker date="1522090933724" expanded="true" signature="2525:2675" ph="SELECT DISTI... " />
+            <marker date="1522090933724" expanded="true" signature="5182:5293" ph="SELECT WorkI... worksIndex" />
+            <marker date="1522090933724" expanded="true" signature="16145:16439" ph="UPDATE works... " />
+            <marker date="1522090933724" expanded="true" signature="18330:18425" ph="SELECT * FRO... authors_publishers" />
           </folding>
         </state>
       </provider>
@@ -421,13 +421,13 @@
             <element signature="e#8709#9819#0#PHP" expanded="false" />
             <element signature="e#12222#12407#1#PHP" expanded="false" />
             <element signature="e#12802#14241#1#PHP" expanded="false" />
-            <marker date="1521988463190" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
-            <marker date="1521988463190" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
-            <marker date="1521988463190" expanded="true" signature="2236:2496" ph="SELECT DISTI... authors_publishers" />
-            <marker date="1521988463190" expanded="true" signature="2525:2675" ph="SELECT DISTI... " />
-            <marker date="1521988463190" expanded="true" signature="5182:5293" ph="SELECT WorkI... worksIndex" />
-            <marker date="1521988463190" expanded="true" signature="16145:16439" ph="UPDATE works... " />
-            <marker date="1521988463190" expanded="true" signature="18330:18425" ph="SELECT * FRO... authors_publishers" />
+            <marker date="1522090933724" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
+            <marker date="1522090933724" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
+            <marker date="1522090933724" expanded="true" signature="2236:2496" ph="SELECT DISTI... authors_publishers" />
+            <marker date="1522090933724" expanded="true" signature="2525:2675" ph="SELECT DISTI... " />
+            <marker date="1522090933724" expanded="true" signature="5182:5293" ph="SELECT WorkI... worksIndex" />
+            <marker date="1522090933724" expanded="true" signature="16145:16439" ph="UPDATE works... " />
+            <marker date="1522090933724" expanded="true" signature="18330:18425" ph="SELECT * FRO... authors_publishers" />
           </folding>
         </state>
       </provider>
@@ -488,13 +488,13 @@
             <element signature="e#8709#9819#0#PHP" expanded="false" />
             <element signature="e#12222#12407#1#PHP" expanded="false" />
             <element signature="e#12802#14241#1#PHP" expanded="false" />
-            <marker date="1521988463190" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
-            <marker date="1521988463190" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
-            <marker date="1521988463190" expanded="true" signature="2236:2496" ph="SELECT DISTI... authors_publishers" />
-            <marker date="1521988463190" expanded="true" signature="2525:2675" ph="SELECT DISTI... " />
-            <marker date="1521988463190" expanded="true" signature="5182:5293" ph="SELECT WorkI... worksIndex" />
-            <marker date="1521988463190" expanded="true" signature="16145:16439" ph="UPDATE works... " />
-            <marker date="1521988463190" expanded="true" signature="18330:18425" ph="SELECT * FRO... authors_publishers" />
+            <marker date="1522090933724" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
+            <marker date="1522090933724" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
+            <marker date="1522090933724" expanded="true" signature="2236:2496" ph="SELECT DISTI... authors_publishers" />
+            <marker date="1522090933724" expanded="true" signature="2525:2675" ph="SELECT DISTI... " />
+            <marker date="1522090933724" expanded="true" signature="5182:5293" ph="SELECT WorkI... worksIndex" />
+            <marker date="1522090933724" expanded="true" signature="16145:16439" ph="UPDATE works... " />
+            <marker date="1522090933724" expanded="true" signature="18330:18425" ph="SELECT * FRO... authors_publishers" />
           </folding>
         </state>
       </provider>
@@ -684,14 +684,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/main.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-396">
-          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/settings.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -734,10 +726,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/main.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="638" column="19" selection-start-line="638" selection-start-column="19" selection-end-line="638" selection-end-column="19" />
+        <state relative-caret-position="297">
+          <caret line="891" column="0" selection-start-line="891" selection-start-column="0" selection-end-line="891" selection-end-column="0" />
           <folding>
             <element signature="e#7#29#0#PHP" expanded="true" />
             <element signature="e#360#594#1#PHP" expanded="false" />
@@ -747,29 +747,29 @@
             <element signature="e#8709#9819#0#PHP" expanded="false" />
             <element signature="e#12222#12407#1#PHP" expanded="false" />
             <element signature="e#12802#14241#1#PHP" expanded="false" />
-            <marker date="1521988463190" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
-            <marker date="1521988463190" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
-            <marker date="1521988463190" expanded="true" signature="2236:2496" ph="SELECT DISTI... authors_publishers" />
-            <marker date="1521988463190" expanded="true" signature="2525:2675" ph="SELECT DISTI... " />
-            <marker date="1521988463190" expanded="true" signature="5182:5293" ph="SELECT WorkI... worksIndex" />
-            <marker date="1521988463190" expanded="true" signature="16145:16439" ph="UPDATE works... " />
-            <marker date="1521988463190" expanded="true" signature="18330:18425" ph="SELECT * FRO... authors_publishers" />
+            <marker date="1522090933724" expanded="true" signature="734:827" ph="SELECT * FRO... fruit" />
+            <marker date="1522090933724" expanded="true" signature="907:908" ph="SELECT * FRO... users" />
+            <marker date="1522090933724" expanded="true" signature="2236:2496" ph="SELECT DISTI... authors_publishers" />
+            <marker date="1522090933724" expanded="true" signature="2525:2675" ph="SELECT DISTI... " />
+            <marker date="1522090933724" expanded="true" signature="5182:5293" ph="SELECT WorkI... worksIndex" />
+            <marker date="1522090933724" expanded="true" signature="16145:16439" ph="UPDATE works... " />
+            <marker date="1522090933724" expanded="true" signature="18330:18425" ph="SELECT * FRO... authors_publishers" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/metadata.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="192" column="0" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
+        <state relative-caret-position="324">
+          <caret line="78" column="77" selection-start-line="78" selection-start-column="77" selection-end-line="78" selection-end-column="77" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/authorPublisher.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="59" column="26" selection-start-line="59" selection-start-column="26" selection-end-line="59" selection-end-column="26" />
+        <state relative-caret-position="216">
+          <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
           <folding />
         </state>
       </provider>
