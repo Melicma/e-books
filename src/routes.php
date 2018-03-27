@@ -968,3 +968,15 @@ $app->get('/delete-publisher/{id}/{workId}', function (Request $req, Response $r
     return $res->withRedirect('/metadata/' . $args['workId']);
 
 });
+
+$app->get('/attachments/{id}', function (Request $req, Response $res, $args) {
+
+    print_r('route for attachments prepared');
+    return $res;
+});
+
+$app->get('/text/{id}', function (Request $req, Response $res, $args) {
+
+    print_r('route for text prepared');
+    return $res;
+});
