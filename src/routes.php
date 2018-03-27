@@ -758,6 +758,44 @@ $app->post('/new-author/{workId}', function (Request $req, Response $res, $args)
     return $res->withRedirect('/metadata/' . $args['workId']);
 });
 
+$app->get('/delete-author/{id}/{workId}', function (Request $req, Response $res, $args) {
+
+    $sqlDeleteConnection =
+        'DELETE '.
+        'FROM '.
+        ' connection '.
+        'WHERE '.
+        ' WorkID = ? AND AuthPubID = ? AND Type = ?';
+
+    $sqlDeleteAuthor =
+        'DELETE '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' ID = ?';
+    $params = array();
+    array_push($params, $args['workId']);
+    array_push($params, $args['id']);
+    array_push($params, 'author');
+
+    $dbo = $this->db->prepare($sqlDeleteConnection);
+    $dbo->execute($params);
+
+    $params = array();
+    array_push($params, $args['id']);
+
+
+    try {
+        $dbo = $this->db->prepare($sqlDeleteAuthor);
+        $dbo->execute($params);
+    } catch (Exception $e) {
+        return $res->withRedirect('/metadata/' . $args['workId']);
+    }
+
+    return $res->withRedirect('/metadata/' . $args['workId']);
+
+});
+
 $app->get('/publisher/{id}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -891,4 +929,42 @@ $app->post('/new-publisher/{workId}', function (Request $req, Response $res, $ar
     $dbo->execute($params);
 
     return $res->withRedirect('/metadata/' . $args['workId']);
+});
+
+$app->get('/delete-publisher/{id}/{workId}', function (Request $req, Response $res, $args) {
+
+    $sqlDeleteConnection =
+        'DELETE '.
+        'FROM '.
+        ' connection '.
+        'WHERE '.
+        ' WorkID = ? AND AuthPubID = ? AND Type = ?';
+
+    $sqlDeletePublisher =
+        'DELETE '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' ID = ?';
+    $params = array();
+    array_push($params, $args['workId']);
+    array_push($params, $args['id']);
+    array_push($params, 'publisher');
+
+    $dbo = $this->db->prepare($sqlDeleteConnection);
+    $dbo->execute($params);
+
+    $params = array();
+    array_push($params, $args['id']);
+
+
+    try {
+        $dbo = $this->db->prepare($sqlDeletePublisher);
+        $dbo->execute($params);
+    } catch (Exception $e) {
+        return $res->withRedirect('/metadata/' . $args['workId']);
+    }
+
+    return $res->withRedirect('/metadata/' . $args['workId']);
+
 });

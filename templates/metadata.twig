@@ -47,7 +47,7 @@
                                 {#<button class="btn btn-primary" style="cursor: pointer">Upravit</button>#}
                             {#</form>#}
                             <a role="button" class="btn btn-primary" href="/author/{{ author.ID }}">Upravit</a>
-                            <a role="button" class="btn btn-danger" href="/delete-author/{{ author.ID }}">Smazat</a>
+                            <a role="button" class="btn btn-danger" href="/delete-author/{{ author.ID }}/{{ work.WorkID }}">Smazat</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-7">
                             <a role="button" class="btn btn-primary" href="/publisher/{{ publisher.ID }}">Upravit</a>
-                            <a role="button" class="btn btn-danger" href="/delete-publisher/{{ publisher.ID }}">Smazat</a>
+                            <a role="button" class="btn btn-danger" href="/delete-publisher/{{ publisher.ID }}/{{ work.WorkID }}">Smazat</a>
                         </div>
                     </div>
                 {% endfor %}
