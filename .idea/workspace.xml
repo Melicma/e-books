@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a4cd079-1dd4-4632-8688-3c08f0ae04b4" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ebooks" afterPath="$PROJECT_DIR$/db/ebooks" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes.php" afterPath="$PROJECT_DIR$/src/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/main.twig" afterPath="$PROJECT_DIR$/templates/main.twig" />
     </list>
     <ignored path="e-books.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,8 +38,8 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="979" column="27" selection-start-line="979" selection-start-column="27" selection-end-line="979" selection-end-column="27" />
+            <state relative-caret-position="-45">
+              <caret line="716" column="18" selection-start-line="716" selection-start-column="18" selection-end-line="716" selection-end-column="18" />
               <folding>
                 <element signature="e#7#29#0#PHP" expanded="true" />
                 <element signature="e#360#594#1#PHP" expanded="false" />
@@ -301,12 +300,12 @@
       <workItem from="1513519161112" duration="4792000" />
       <workItem from="1519897983836" duration="55804000" />
       <workItem from="1521892154656" duration="26402000" />
-      <workItem from="1522182561153" duration="595000" />
+      <workItem from="1522182561153" duration="2548000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="164008000" />
+    <option name="totallyTimeSpent" value="165961000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="63" y="24" width="1303" height="744" extended-state="6" />
@@ -643,6 +642,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="7" column="53" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -721,8 +721,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="979" column="27" selection-start-line="979" selection-start-column="27" selection-end-line="979" selection-end-column="27" />
+        <state relative-caret-position="-45">
+          <caret line="716" column="18" selection-start-line="716" selection-start-column="18" selection-end-line="716" selection-end-column="18" />
           <folding>
             <element signature="e#7#29#0#PHP" expanded="true" />
             <element signature="e#360#594#1#PHP" expanded="false" />
