@@ -969,14 +969,60 @@ $app->get('/delete-publisher/{id}/{workId}', function (Request $req, Response $r
 
 });
 
-$app->get('/attachments/{id}', function (Request $req, Response $res, $args) {
+$app->get('/attachments/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
 
-    print_r('route for attachments prepared');
-    return $res;
+    $sqlWorks =
+        'SELECT Title '.
+        'FROM '.
+        ' works '.
+        'WHERE '.
+        ' WorkID = ?';
+
+    $params = array();
+    array_push($params, $args['workId']);
+
+    $dbo = $this->db->prepare($sqlWorks);
+    $dbo->execute($params);
+
+    $work = $dbo->fetch();
+    $work['WorkID'] = $args['workId'];
+
+    return $this->view->render($res, 'attachments.twig', [
+        'user' => $session->userEmail,
+        'work' => $work
+    ]);
 });
 
-$app->get('/text/{id}', function (Request $req, Response $res, $args) {
+$app->get('/text/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
 
-    print_r('route for text prepared');
-    return $res;
+    $sqlWorks =
+        'SELECT Title, Content '.
+        'FROM '.
+        ' works '.
+        'WHERE '.
+        ' WorkID = ?';
+
+    $params = array();
+    array_push($params, $args['workId']);
+
+    $dbo = $this->db->prepare($sqlWorks);
+    $dbo->execute($params);
+
+    $work = $dbo->fetch();
+    $work['WorkID'] = $args['workId'];
+    
+    return $this->view->render($res, 'text.twig', [
+        'user' => $session->userEmail,
+        'work' => $work
+    ]);
 });
