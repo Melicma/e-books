@@ -768,12 +768,6 @@ $app->get('/delete-author/{id}/{workId}', function (Request $req, Response $res,
         'WHERE '.
         ' WorkID = ? AND AuthPubID = ? AND Type = ?';
 
-    $sqlDeleteAuthor =
-        'DELETE '.
-        'FROM '.
-        ' authors_publishers '.
-        'WHERE '.
-        ' ID = ?';
     $params = array();
     array_push($params, $args['workId']);
     array_push($params, $args['id']);
@@ -781,17 +775,6 @@ $app->get('/delete-author/{id}/{workId}', function (Request $req, Response $res,
 
     $dbo = $this->db->prepare($sqlDeleteConnection);
     $dbo->execute($params);
-
-    $params = array();
-    array_push($params, $args['id']);
-
-
-    try {
-        $dbo = $this->db->prepare($sqlDeleteAuthor);
-        $dbo->execute($params);
-    } catch (Exception $e) {
-        return $res->withRedirect('/metadata/' . $args['workId']);
-    }
 
     return $res->withRedirect('/metadata/' . $args['workId']);
 
@@ -944,12 +927,6 @@ $app->get('/delete-publisher/{id}/{workId}', function (Request $req, Response $r
         'WHERE '.
         ' WorkID = ? AND AuthPubID = ? AND Type = ?';
 
-    $sqlDeletePublisher =
-        'DELETE '.
-        'FROM '.
-        ' authors_publishers '.
-        'WHERE '.
-        ' ID = ?';
     $params = array();
     array_push($params, $args['workId']);
     array_push($params, $args['id']);
@@ -957,17 +934,6 @@ $app->get('/delete-publisher/{id}/{workId}', function (Request $req, Response $r
 
     $dbo = $this->db->prepare($sqlDeleteConnection);
     $dbo->execute($params);
-
-    $params = array();
-    array_push($params, $args['id']);
-
-
-    try {
-        $dbo = $this->db->prepare($sqlDeletePublisher);
-        $dbo->execute($params);
-    } catch (Exception $e) {
-        return $res->withRedirect('/metadata/' . $args['workId']);
-    }
 
     return $res->withRedirect('/metadata/' . $args['workId']);
 
@@ -1029,4 +995,63 @@ $app->get('/text/{workId}', function (Request $req, Response $res, $args) {
         'user' => $session->userEmail,
         'work' => $work
     ]);
+});
+
+
+$app->get('/list-author-publisher', function (Request $req, Response $res) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $sql =
+        'SELECT DISTINCT '.
+        ' a.ID, a.Name, a.Corporation, c.Type '.
+        'FROM '.
+        ' authors_publishers a '.
+        'LEFT JOIN '.
+        ' connection c '.
+        'ON '.
+        ' a.ID = c.AuthPubID';
+
+
+    $dbo = $this->db->prepare($sql);
+    $dbo->execute();
+
+    $elements = $dbo->fetchAll();
+
+    return $this->view->render($res, 'listAuthorPublisher.twig', [
+        'user' => $session->userEmail,
+        'elements' => $elements
+    ]);
+});
+
+$app->get('/delete-authPub/{id}', function (Request $req, Response $res, $args) {
+
+    $sqlDeleteConnection =
+        'DELETE '.
+        'FROM '.
+        ' connection '.
+        'WHERE '.
+        ' AuthPubID = ?';
+
+    $sqlDelete =
+        'DELETE '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' ID = ?';
+
+    $params = array();
+    array_push($params, $args['id']);
+
+    $dbo = $this->db->prepare($sqlDeleteConnection);
+    $dbo->execute($params);
+
+    $dbo = $this->db->prepare($sqlDelete);
+    $dbo->execute($params);
+
+    return $res->withRedirect('/list-author-publisher');
+
 });

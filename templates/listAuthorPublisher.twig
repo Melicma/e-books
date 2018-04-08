@@ -1,0 +1,49 @@
+{% extends "home.phtml" %}
+{% block content %}
+    <div class="container">
+        <div class="row pt-2 pb-2">
+            <div class="col-6">
+                <a class="btn btn-secondary" role="button" href="/content" >
+                    Seznam děl
+                </a>
+            </div>
+            <div class="dropdown col-6">
+                <button class="btn btn-secondary dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ user }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/change-password">Změna hesla</a>
+                    <a class="dropdown-item" href="/logout">Odhlásit</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h1 class="h1 col-12">Seznam autorů a vydavatelů</h1>
+        </div>
+
+        <div class="row justify-content-center">
+            <table id="tableList" class="display">
+                <thead>
+                <tr>
+                    <th>Jméno</th>
+                    <th>Korporace</th>
+                    <th>Akce</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for el in elements %}
+                    <tr>
+                        <td{% if el.Name|length > 50 %} data-toggle="tooltip" data-placement="bottom" title="{{ el.Name }}" {% endif %}> {{ el.Name|length > 50 ? el.Name|slice(0, 50) ~ ' ...' : el.Name }}</td>
+                        <td>{{ el.Corporation }}</td>
+                        <td>
+                            <a role="button" class="btn btn-primary" href="/{{ el.Type }}/{{ el.ID }}">Upravit</a>
+                            <a href="/delete-authPub/{{ el.ID }}" role="button" class="btn btn-danger" onclick="return confirm('Opravdu si přejete smazat {{ el.Name }}?')">Smazat</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
