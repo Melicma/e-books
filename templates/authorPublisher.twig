@@ -7,8 +7,8 @@
                 <a class="btn btn-secondary" role="button" href="/content" >
                     Seznam děl
                 </a>
-                <a class="btn btn-secondary" role="button" href="{{ goBack }}" >
-                    Zpět
+                <a class="btn btn-secondary" role="button" href="/metadata/{{ workID }}" >
+                    Metadata
                 </a>
             </div>
             <div class="dropdown col-6">
@@ -24,10 +24,10 @@
 
 
         <div class="row">
-            <h1 class="h1 col-12">{% if workId %}Nový {% if isAuthor %}autor{% else %}vydavatel{% endif %}{% else %}Údaje o: {{ author.Name}}{% endif %}</h1>
+            <h1 class="h1 col-12">{% if newWorkID %}Nový {% if isAuthor %}autor{% else %}vydavatel{% endif %}{% else %}Údaje o: {{ author.Name}}{% endif %}</h1>
         </div>
 
-        <form class="row mb-5 mt-5 justify-content-md-center" method="post" action={% if isAuthor %}"/new-author/{{ workId }}"{% else %}"/new-publisher/{{ workId }}"{% endif %}>
+        <form class="row mb-5 mt-5 justify-content-md-center" method="post" {% if newWorkID %}action={% if isAuthor %}"/new-author/{{ newWorkID }}"{% else %}"/new-publisher/{{ newWorkID }}"{% endif %} {% endif %}>
 
             <div class="col-10">
 
@@ -49,16 +49,14 @@
                     </div>
                 </div>
 
-                {% if isAuthor %}
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="corporation">Korporace</label>
-                                <input {% if author.Corporation %}value="{{ author.Corporation}}" {% endif %}type="text" class="form-control" id="corporation" placeholder="Zadejte korporaci" name="corporation">
-                            </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="corporation">Korporace</label>
+                            <input {% if author.Corporation %}value="{{ author.Corporation}}" {% endif %}type="text" class="form-control" id="corporation" placeholder="Zadejte korporaci" name="corporation">
                         </div>
                     </div>
-                {% endif %}
+                </div>
 
                 <div class="row justify-content-md-end">
                     <button type="submit" class="btn btn-primary">Uložit</button>

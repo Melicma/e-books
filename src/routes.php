@@ -558,6 +558,8 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
 
     $work[0]['Publisher'] = $dbo->fetchAll();
 
+    $session->workID = $args['id'];
+
     return $this->view->render($res, 'metadata.twig', [
         'user' => $session->userEmail,
         'work' => $work[0]
@@ -634,9 +636,8 @@ $app->get('/author/{id}', function (Request $req, Response $res, $args) {
         'WHERE '.
         ' ID = ?';
 
-    $body = $req->getParsedBody();
 
-    print_r($body);
+    print_r($session['workID']);
 
     $dbo = $this->db->prepare($sqlAuthor);
     $dbo->execute(array($args['id']));
@@ -645,7 +646,7 @@ $app->get('/author/{id}', function (Request $req, Response $res, $args) {
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
-        'goBack' => $_SERVER['HTTP_REFERER'],
+        'workID' => $session['workID'],
         'author' => $author,
         'isAuthor' => true
     ]);
@@ -695,10 +696,10 @@ $app->get('/new-author/{workId}', function (Request $req, Response $res, $args) 
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
-        'goBack' => $_SERVER['HTTP_REFERER'],
+        'workID' => $session['workID'],
         'author' => null,
         'isAuthor' => true,
-        'workId' => $args['workId']
+        'newWorkID' => $args['workId']
     ]);
 });
 
@@ -821,7 +822,7 @@ $app->get('/publisher/{id}', function (Request $req, Response $res, $args) {
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
-        'goBack' => $_SERVER['HTTP_REFERER'],
+        'workID' => $session['workID'],
         'author' => $author,
         'isAuthor' => false
     ]);
@@ -838,7 +839,7 @@ $app->post('/publisher/{id}', function (Request $req, Response $res, $args) {
         'UPDATE '.
         ' authors_publishers '.
         'SET '.
-        ' Name = ?, LastName = ? '.
+        ' Name = ?, LastName = ?, Corporation = ? '.
         'WHERE '.
         ' ID = ?';
 
@@ -846,10 +847,12 @@ $app->post('/publisher/{id}', function (Request $req, Response $res, $args) {
 
     $uName = isset($body['name']) ? $body['name'] : null;
     $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
+    $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
 
     $params = array();
     array_push($params, $uName);
     array_push($params, $uLastName);
+    array_push($params, $uCorporation);
     array_push($params, $args['id']);
 
 
@@ -869,10 +872,10 @@ $app->get('/new-publisher/{workId}', function (Request $req, Response $res, $arg
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
-        'goBack' => $_SERVER['HTTP_REFERER'],
+        'workID' => $session['workID'],
         'author' => null,
         'isAuthor' => false,
-        'workId' => $args['workId']
+        'newWorkID' => $args['workId']
     ]);
 });
 
@@ -886,9 +889,9 @@ $app->post('/new-publisher/{workId}', function (Request $req, Response $res, $ar
     $sqlInsert =
         'INSERT '.'INTO '.
         ' authors_publishers '.
-        ' (Name, LastName) '.
+        ' (Name, LastName, Corporation) '.
         'VALUES '.
-        ' (?, ?) ';
+        ' (?, ?, ?) ';
 
     $sqlGetId =
         'SELECT '.
@@ -910,6 +913,7 @@ $app->post('/new-publisher/{workId}', function (Request $req, Response $res, $ar
     $params = array();
     array_push($params, $uName);
     array_push($params, $uLastName);
+    array_push($params, $uCorporation);
 
 
     $dbo = $this->db->prepare($sqlInsert);
