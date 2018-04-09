@@ -34,7 +34,8 @@
                 <tbody>
                 {% for el in elements %}
                     <tr>
-                        <td{% if el.Name|length > 50 %} data-toggle="tooltip" data-placement="bottom" title="{{ el.Name }}" {% endif %}> {{ el.Name|length > 50 ? el.Name|slice(0, 50) ~ ' ...' : el.Name }}</td>
+                        {% set name =  el.Name ~ ' ' ~ el.LastName %}
+                        <td{% if name|length > 50 %} data-toggle="tooltip" data-placement="bottom" title="{{ name }}" {% endif %}> {{ name|length > 50 ? name|slice(0, 50) ~ ' ...' : name }}</td>
                         <td>{{ el.Corporation }}</td>
                         <td>
                             <a role="button" class="btn btn-primary" href="/{{ el.Type }}/{{ el.ID }}">Upravit</a>

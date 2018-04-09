@@ -558,7 +558,6 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
 
     $work[0]['Publisher'] = $dbo->fetchAll();
 
-    $session->workID = $args['id'];
 
     return $this->view->render($res, 'metadata.twig', [
         'user' => $session->userEmail,
@@ -637,7 +636,6 @@ $app->get('/author/{id}', function (Request $req, Response $res, $args) {
         ' ID = ?';
 
 
-    print_r($session['workID']);
 
     $dbo = $this->db->prepare($sqlAuthor);
     $dbo->execute(array($args['id']));
@@ -646,7 +644,6 @@ $app->get('/author/{id}', function (Request $req, Response $res, $args) {
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
-        'workID' => $session['workID'],
         'author' => $author,
         'isAuthor' => true
     ]);
@@ -696,7 +693,6 @@ $app->get('/new-author/{workId}', function (Request $req, Response $res, $args) 
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
-        'workID' => $session['workID'],
         'author' => null,
         'isAuthor' => true,
         'newWorkID' => $args['workId']
@@ -805,7 +801,6 @@ $app->get('/publisher/{id}', function (Request $req, Response $res, $args) {
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
-        'workID' => $session['workID'],
         'author' => $author,
         'isAuthor' => false
     ]);
@@ -855,7 +850,6 @@ $app->get('/new-publisher/{workId}', function (Request $req, Response $res, $arg
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
-        'workID' => $session['workID'],
         'author' => null,
         'isAuthor' => false,
         'newWorkID' => $args['workId']
@@ -1007,7 +1001,7 @@ $app->get('/list-author-publisher', function (Request $req, Response $res) {
 
     $sql =
         'SELECT DISTINCT '.
-        ' a.ID, a.Name, a.Corporation, c.Type '.
+        ' a.ID, a.Name, a.Corporation, a.LastName, c.Type '.
         'FROM '.
         ' authors_publishers a '.
         'LEFT JOIN '.

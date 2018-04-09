@@ -7,9 +7,15 @@
                 <a class="btn btn-secondary" role="button" href="/content" >
                     Seznam děl
                 </a>
-                <a class="btn btn-secondary" role="button" href="/metadata/{{ workID }}" >
+                {% if newWorkID %}
+                <a class="btn btn-secondary" role="button" href="/metadata/{{ newWorkID }}" >
                     Metadata
                 </a>
+                {% else %}
+                <a class="btn btn-secondary" role="button" href="/list-author-publisher" >
+                    List
+                </a>
+                {% endif %}
             </div>
             <div class="dropdown col-6">
                 <button class="btn btn-secondary dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
