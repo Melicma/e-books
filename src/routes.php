@@ -75,7 +75,7 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
         'WHERE '.
         ' WorkID = ? '.
         'AND '.
-        ' Type = "author"';
+        ' Type = \'author\' ';
 
     $sqlAuthor =
         'SELECT * '.
@@ -541,6 +541,17 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         ' con.WorkID = ? '.
         'ORDER BY '.
         ' au.Name';
+    
+    $sqlAllAuthors =
+        'SELECT au.* '.
+        'FROM '.
+        ' authors_publishers au '.
+        'LEFT JOIN '.
+        ' connection c '.
+        'ON '.
+        ' au.ID = c.AuthPubID '.
+        'WHERE '.
+        ' c.Type = \'author\' ';
 
 
     // get information about work
@@ -551,8 +562,19 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
     $dbo = $this->db->prepare($sqlAuthors);
     $dbo->execute(array($args['id']));
 
-    $work[0]['Authors'] = $dbo->fetchAll();
+    $tmpAuthors = $dbo->fetchAll();
 
+    $work[0]['Authors'] = array();
+    
+    foreach ($tmpAuthors as $el) {
+        array_push($work[0]['Authors'], $el['Name'] . ' ' . $el['LastName']);
+    }
+    
+    $dbo = $this->db->prepare($sqlAllAuthors);
+    $dbo->execute();
+    
+    $authors = $dbo->fetchAll();
+    
     $dbo = $this->db->prepare($sqlPublisher);
     $dbo->execute(array($args['id']));
 
@@ -561,7 +583,8 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
 
     return $this->view->render($res, 'metadata.twig', [
         'user' => $session->userEmail,
-        'work' => $work[0]
+        'work' => $work[0],
+        'authors' => $authors
     ]);
 });
 
@@ -1048,4 +1071,55 @@ $app->get('/delete-authPub/{id}', function (Request $req, Response $res, $args) 
 
     return $res->withRedirect('/list-author-publisher');
 
+});
+
+$app->post('/update-authors/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $body = $req->getParsedBody();
+    print_r($body);
+
+    $sqlAllAuthors =
+        'SELECT (au.Name || \' \' || au.LastName) as \'name\' '.
+        'FROM '.
+        ' authors_publishers au '.
+        'LEFT JOIN '.
+        ' connection c '.
+        'ON '.
+        ' au.ID = c.AuthPubID '.
+        'WHERE '.
+        ' c.Type = \'author\' '.
+        'AND '.
+        ' c.WorkID = ? ';
+
+    $sqlGetAuthorId =
+        'SELECT '.
+        ' ID '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' (Name ||\' \' || LastName) = ? ';
+
+    $dbo = $this->db->prepare($sqlAllAuthors);
+    $dbo->execute(array($args['workId']));
+
+    $conAuthors = $dbo->fetchAll(PDO::FETCH_COLUMN);
+
+    foreach ($body['authors'] as $el) {
+        // todo added new author to connection
+        if (!in_array($el, $conAuthors)) {
+            $dbo = $this->db->prepare($sqlGetAuthorId);
+            $dbo->execute(array($el));
+
+            print_r('-'.$el.'-');
+            print_r($dbo->fetch());
+        }
+    }
+
+
+    return $res;
 });

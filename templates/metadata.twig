@@ -33,29 +33,24 @@
             <h3 class="h3 col-12">Autoři</h3>
         </div>
 
-        <div class="row justify-content-md-center">
+        <form class="row mb-5 mt-5 justify-content-md-center" method="post" action="/update-authors/{{ work.WorkID }}">
             <div class="col-5">
-                {% for key, author in work.Authors %}
-                    <div class="row align-items-center pt-2">
-                        <div class="col-5">
-                            <span>{{ author.Name}} {{ author.LastName }} </span>
-                        </div>
-                        <div class="col-7">
-                            {#<form name="editAuthor" action="/author/{{ author.ID }}" method="get">#}
-                                {#<label for="workID"></label>#}
-                                {#<input type="text" value="{{ work.WorkID }}" name="workID" id="workID" style="display: none"/>#}
-                                {#<button class="btn btn-primary" style="cursor: pointer">Upravit</button>#}
-                            {#</form>#}
-                            <a role="button" class="btn btn-primary" href="/author/{{ author.ID }}">Upravit</a>
-                            <a role="button" class="btn btn-danger" href="/delete-author/{{ author.ID }}/{{ work.WorkID }}">Smazat</a>
-                        </div>
-                    </div>
-                {% endfor %}
+                <div>
+                    <label for="authorsNameSecond">Jména autorů:</label>
+                    <select multiple class="form-control" id="authorsNameSecond" name="authors[]">
+                        {% for key, author in authors %}
+                            {% set el =  author.Name ~ ' ' ~ author.LastName %}
+                            <option {% if el in work.Authors %}selected{% endif %}>{{ author.Name }} {{ author.LastName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
             <div class="col-4 align-self-end">
+                <button type="submit" class="btn btn-primary">Aktualizovat</button>
                 <a role="button" class="btn btn-primary" href="/new-author/{{ work.WorkID }}">Přidat nového</a>
+
             </div>
-        </div>
+        </form>
 
         <div class="row">
             <h3 class="h3 col-12">Vydavatel</h3>

@@ -78,4 +78,9 @@ $(document).ready( function () {
         multiple: true,
         placeholder: 'Zadejte pro vyhledání autorů'
     });
+
+    $('#authorsNameSecond').selectivity({
+        multiple: true,
+        placeholder: 'Zadejte pro vyhledání autorů'
+    });
 } );
