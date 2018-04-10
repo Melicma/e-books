@@ -543,7 +543,7 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         ' au.Name';
     
     $sqlAllAuthors =
-        'SELECT au.* '.
+        'SELECT DISTINCT au.* '.
         'FROM '.
         ' authors_publishers au '.
         'LEFT JOIN '.
@@ -1081,7 +1081,6 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
     }
 
     $body = $req->getParsedBody();
-    print_r($body);
 
     $sqlAllAuthors =
         'SELECT (au.Name || \' \' || au.LastName) as \'name\' '.
@@ -1104,22 +1103,56 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
         'WHERE '.
         ' (Name ||\' \' || LastName) = ? ';
 
+    $sqlCreateConnection =
+        'INSERT '.'INTO '.
+        ' connection '.
+        ' (WorkID, AuthPubID, Type) '.
+        'VALUES (?, ?, ?)';
+
+    $sqlCancelConnection =
+        'DELETE '.
+        'FROM '.
+        ' connection '.
+        'WHERE '.
+        ' WorkID = ? AND AuthPubID = ? AND Type = \'author\'';
+
     $dbo = $this->db->prepare($sqlAllAuthors);
     $dbo->execute(array($args['workId']));
 
     $conAuthors = $dbo->fetchAll(PDO::FETCH_COLUMN);
 
-    foreach ($body['authors'] as $el) {
-        // todo added new author to connection
+    foreach ($body['authorsPubs'] as $el) {
+        // add new connection
         if (!in_array($el, $conAuthors)) {
             $dbo = $this->db->prepare($sqlGetAuthorId);
             $dbo->execute(array($el));
 
-            print_r('-'.$el.'-');
-            print_r($dbo->fetch());
+            $id = $dbo->fetch()['ID'];
+
+            $dbo = $this->db->prepare($sqlCreateConnection);
+            $params = array();
+            array_push($params, $args['workId']);
+            array_push($params, $id);
+            array_push($params, 'author');
+            $dbo->execute($params);
+        } else {
+            unset($conAuthors[array_search($el, $conAuthors)]);
         }
     }
 
+    foreach ($conAuthors as $el) {
+        $dbo = $this->db->prepare($sqlGetAuthorId);
+        $dbo->execute(array($el));
 
-    return $res;
+        $id = $dbo->fetch()['ID'];
+        $params = array();
+        array_push($params, $args['workId']);
+        array_push($params, $id);
+
+        $dbo = $this->db->prepare($sqlCancelConnection);
+        $dbo->execute($params);
+    }
+
+
+    return $res->withRedirect('/metadata/' . $args['workId']);
 });

@@ -37,7 +37,7 @@
             <div class="col-5">
                 <div>
                     <label for="authorsNameSecond">Jména autorů:</label>
-                    <select multiple class="form-control" id="authorsNameSecond" name="authors[]">
+                    <select multiple class="form-control" id="authorsNameSecond" name="authorsPubs[]">
                         {% for key, author in authors %}
                             {% set el =  author.Name ~ ' ' ~ author.LastName %}
                             <option {% if el in work.Authors %}selected{% endif %}>{{ author.Name }} {{ author.LastName }}</option>
