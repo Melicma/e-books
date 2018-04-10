@@ -106,12 +106,24 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
         'ORDER BY '.
         ' Year';
 
+    $sqlCountAttachments =
+        'SELECT '.
+        ' COUNT(*) as \'count\''.
+        'FROM '.
+        ' attachments '.
+        'WHERE '.
+        ' WorkID = ?';
+
     $dbo = $this->db->prepare($sqlWorks);
     $dbo->execute();
 
     $works = $dbo->fetchAll();
 
     foreach ($works as $key => $work) {
+        $dbo = $this->db->prepare($sqlCountAttachments);
+        $dbo->execute(array($work['WorkID']));
+        $works[$key]['countAttachments'] = $dbo->fetch();
+        
         $dbo = $this->db->prepare($sqlConnections);
         $dbo->execute(array($work['WorkID']));
         $authorIds = $dbo->fetchAll();
