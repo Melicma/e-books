@@ -997,6 +997,17 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
     ]);
 });
 
+$app->get('/img/{workId}', function (Request $req, Response $res, $args) {
+    $image = @file_get_contents(__DIR__.'/../public/images/00051/006.jpg', true);
+    if ($image === false) {
+        $res->write('Could not find 006.jpg.');
+        return $res->withStatus(404);
+    }
+
+    $res->write($image);
+    return $res->withHeader('Content-Type', 'image/jpeg');
+});
+
 $app->get('/text/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {

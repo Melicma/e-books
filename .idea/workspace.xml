@@ -2,10 +2,62 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a4cd079-1dd4-4632-8688-3c08f0ae04b4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ebooks" afterPath="$PROJECT_DIR$/db/ebooks" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/001.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/001_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/002.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/002_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/003.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/003_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/004.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/004_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/005.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/005_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/006.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/006_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/007.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/007_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/008.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/008_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/009.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/009_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/010.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/010_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/011.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/011_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/012.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/012_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/013.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/013_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/014.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/014_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/015.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/015_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/016.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/016_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/017.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/017_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/018.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/018_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/019.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/019_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/020.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/020_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/021.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/021_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/022.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/022_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/023.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/023_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/024.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/024_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/025.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/025_small.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/026.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/00051/026_small.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes.php" afterPath="$PROJECT_DIR$/src/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/main.twig" afterPath="$PROJECT_DIR$/templates/main.twig" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/attachments.twig" afterPath="$PROJECT_DIR$/templates/attachments.twig" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/metadata.twig" afterPath="$PROJECT_DIR$/templates/metadata.twig" />
     </list>
     <ignored path="e-books.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,11 +79,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.twig" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/main.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="135" column="145" selection-start-line="135" selection-start-column="145" selection-end-line="135" selection-end-column="145" />
+            <state relative-caret-position="299">
+              <caret line="138" column="24" selection-start-line="138" selection-start-column="24" selection-end-line="138" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -50,8 +102,8 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="125" column="8" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="8" />
+            <state relative-caret-position="106">
+              <caret line="1002" column="38" selection-start-line="1002" selection-start-column="38" selection-end-line="1002" selection-end-column="38" />
               <folding>
                 <element signature="e#7#29#0#PHP" expanded="true" />
                 <element signature="e#360#594#1#PHP" expanded="false" />
@@ -61,27 +113,37 @@
                 <element signature="e#9047#10157#0#PHP" expanded="false" />
                 <element signature="e#12560#12745#1#PHP" expanded="false" />
                 <element signature="e#13140#14579#1#PHP" expanded="false" />
-                <marker date="1523395086265" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
-                <marker date="1523395086265" expanded="true" signature="29221:29443" ph="SELECT a.ID,... authors_publishers" />
-                <marker date="1523395086265" expanded="true" signature="30988:31099" ph="SELECT ID FR... authors_publishers" />
-                <marker date="1523395086265" expanded="true" signature="30988:31101" ph="SELECT ID FR... authors_publishers" />
-                <marker date="1523395086265" expanded="true" signature="30988:31117" ph="SELECT ID FR... authors_publishers" />
-                <marker date="1523395086265" expanded="true" signature="30988:31121" ph="SELECT ID FR... authors_publishers" />
-                <marker date="1523395086265" expanded="true" signature="31162:31201" ph="INSERT INTO connection" />
-                <marker date="1523395086265" expanded="true" signature="31162:31203" ph="INSERT INTO connection" />
-                <marker date="1523395086265" expanded="true" signature="31162:31268" ph="INSERT INTO connection... " />
-                <marker date="1523395086265" expanded="true" signature="31308:31426" ph="DELETE FROM " />
-                <marker date="1523395086265" expanded="true" signature="31308:31437" ph="DELETE FROM " />
+                <marker date="1523470961428" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
+                <marker date="1523470961428" expanded="true" signature="29588:29810" ph="SELECT a.ID,... authors_publishers" />
+                <marker date="1523470961428" expanded="true" signature="31355:31466" ph="SELECT ID FR... authors_publishers" />
+                <marker date="1523470961428" expanded="true" signature="31355:31468" ph="SELECT ID FR... authors_publishers" />
+                <marker date="1523470961428" expanded="true" signature="31355:31484" ph="SELECT ID FR... authors_publishers" />
+                <marker date="1523470961428" expanded="true" signature="31355:31488" ph="SELECT ID FR... authors_publishers" />
+                <marker date="1523470961428" expanded="true" signature="31529:31568" ph="INSERT INTO connection" />
+                <marker date="1523470961428" expanded="true" signature="31529:31570" ph="INSERT INTO connection" />
+                <marker date="1523470961428" expanded="true" signature="31529:31635" ph="INSERT INTO connection... " />
+                <marker date="1523470961428" expanded="true" signature="31675:31793" ph="DELETE FROM " />
+                <marker date="1523470961428" expanded="true" signature="31675:31804" ph="DELETE FROM " />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="attachments.twig" pinned="false" current-in-tab="false">
+      <file leaf-file-name="attachments.twig" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/attachments.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-263">
-              <caret line="4" column="8" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+            <state relative-caret-position="213">
+              <caret line="36" column="18" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home.phtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/home.phtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="7" column="53" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -110,8 +172,8 @@
       <file leaf-file-name="metadata.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/metadata.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="35" column="74" selection-start-line="35" selection-start-column="74" selection-end-line="35" selection-end-column="74" />
+            <state relative-caret-position="-1582">
+              <caret line="12" column="77" selection-start-line="12" selection-start-column="77" selection-end-line="12" selection-end-column="77" />
               <folding />
             </state>
           </provider>
@@ -172,15 +234,15 @@
         <option value="$PROJECT_DIR$/public/.htaccess" />
         <option value="$PROJECT_DIR$/templates/home.phtml" />
         <option value="$PROJECT_DIR$/src/dependencies.php" />
-        <option value="$PROJECT_DIR$/templates/attachments.twig" />
         <option value="$PROJECT_DIR$/templates/text.twig" />
         <option value="$PROJECT_DIR$/public/css/app.css" />
         <option value="$PROJECT_DIR$/templates/listAuthorPublisher.twig" />
         <option value="$PROJECT_DIR$/templates/authorPublisher.twig" />
         <option value="$PROJECT_DIR$/public/js/app.js" />
+        <option value="$PROJECT_DIR$/templates/main.twig" />
         <option value="$PROJECT_DIR$/templates/metadata.twig" />
         <option value="$PROJECT_DIR$/src/routes.php" />
-        <option value="$PROJECT_DIR$/templates/main.twig" />
+        <option value="$PROJECT_DIR$/templates/attachments.twig" />
       </list>
     </option>
   </component>
@@ -269,20 +331,6 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-books" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-books" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="public" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
@@ -301,25 +349,11 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-books" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-books" />
+              <option name="myItemId" value="images" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
+              <option name="myItemId" value="00051" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -337,13 +371,15 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/public/css" />
       <recent name="$PROJECT_DIR$/public/js" />
-      <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/templates" />
       <recent name="$PROJECT_DIR$/templates/twig" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/templates" />
       <recent name="$PROJECT_DIR$/db" />
     </key>
@@ -409,12 +445,12 @@
       <workItem from="1521892154656" duration="26402000" />
       <workItem from="1522182561153" duration="2887000" />
       <workItem from="1522771662932" duration="2366000" />
-      <workItem from="1523211869680" duration="22820000" />
+      <workItem from="1523211869680" duration="27170000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="191486000" />
+    <option name="totallyTimeSpent" value="195836000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="63" y="24" width="1303" height="744" extended-state="0" />
@@ -457,7 +493,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/index.phtml" />
     <entry file="file://$PROJECT_DIR$/src/dependencies.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
@@ -478,17 +513,17 @@
             <element signature="e#9047#10157#0#PHP" expanded="false" />
             <element signature="e#12560#12745#1#PHP" expanded="false" />
             <element signature="e#13140#14579#1#PHP" expanded="false" />
-            <marker date="1523395086265" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
-            <marker date="1523395086265" expanded="true" signature="29221:29443" ph="SELECT a.ID,... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31099" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31101" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31117" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31121" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="31162:31201" ph="INSERT INTO connection" />
-            <marker date="1523395086265" expanded="true" signature="31162:31203" ph="INSERT INTO connection" />
-            <marker date="1523395086265" expanded="true" signature="31162:31268" ph="INSERT INTO connection... " />
-            <marker date="1523395086265" expanded="true" signature="31308:31426" ph="DELETE FROM " />
-            <marker date="1523395086265" expanded="true" signature="31308:31437" ph="DELETE FROM " />
+            <marker date="1523470961428" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
+            <marker date="1523470961428" expanded="true" signature="29588:29810" ph="SELECT a.ID,... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31466" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31468" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31484" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31488" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31529:31568" ph="INSERT INTO connection" />
+            <marker date="1523470961428" expanded="true" signature="31529:31570" ph="INSERT INTO connection" />
+            <marker date="1523470961428" expanded="true" signature="31529:31635" ph="INSERT INTO connection... " />
+            <marker date="1523470961428" expanded="true" signature="31675:31793" ph="DELETE FROM " />
+            <marker date="1523470961428" expanded="true" signature="31675:31804" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -549,17 +584,17 @@
             <element signature="e#9047#10157#0#PHP" expanded="false" />
             <element signature="e#12560#12745#1#PHP" expanded="false" />
             <element signature="e#13140#14579#1#PHP" expanded="false" />
-            <marker date="1523395086265" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
-            <marker date="1523395086265" expanded="true" signature="29221:29443" ph="SELECT a.ID,... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31099" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31101" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31117" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31121" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="31162:31201" ph="INSERT INTO connection" />
-            <marker date="1523395086265" expanded="true" signature="31162:31203" ph="INSERT INTO connection" />
-            <marker date="1523395086265" expanded="true" signature="31162:31268" ph="INSERT INTO connection... " />
-            <marker date="1523395086265" expanded="true" signature="31308:31426" ph="DELETE FROM " />
-            <marker date="1523395086265" expanded="true" signature="31308:31437" ph="DELETE FROM " />
+            <marker date="1523470961428" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
+            <marker date="1523470961428" expanded="true" signature="29588:29810" ph="SELECT a.ID,... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31466" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31468" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31484" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31488" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31529:31568" ph="INSERT INTO connection" />
+            <marker date="1523470961428" expanded="true" signature="31529:31570" ph="INSERT INTO connection" />
+            <marker date="1523470961428" expanded="true" signature="31529:31635" ph="INSERT INTO connection... " />
+            <marker date="1523470961428" expanded="true" signature="31675:31793" ph="DELETE FROM " />
+            <marker date="1523470961428" expanded="true" signature="31675:31804" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -722,13 +757,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/home.phtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="53" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/changePasswdord.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -782,30 +810,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/attachments.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-263">
-          <caret line="4" column="8" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/authorPublisher.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/listAuthorPublisher.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/text.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="576">
@@ -822,18 +826,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/main.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="138" column="24" selection-start-line="138" selection-start-column="24" selection-end-line="138" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/authorPublisher.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/metadata.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="35" column="74" selection-start-line="35" selection-start-column="74" selection-end-line="35" selection-end-column="74" />
+        <state relative-caret-position="-1582">
+          <caret line="12" column="77" selection-start-line="12" selection-start-column="77" selection-end-line="12" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/listAuthorPublisher.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/006.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/home.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="53" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="125" column="8" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="8" />
+        <state relative-caret-position="106">
+          <caret line="1002" column="38" selection-start-line="1002" selection-start-column="38" selection-end-line="1002" selection-end-column="38" />
           <folding>
             <element signature="e#7#29#0#PHP" expanded="true" />
             <element signature="e#360#594#1#PHP" expanded="false" />
@@ -843,25 +884,25 @@
             <element signature="e#9047#10157#0#PHP" expanded="false" />
             <element signature="e#12560#12745#1#PHP" expanded="false" />
             <element signature="e#13140#14579#1#PHP" expanded="false" />
-            <marker date="1523395086265" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
-            <marker date="1523395086265" expanded="true" signature="29221:29443" ph="SELECT a.ID,... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31099" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31101" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31117" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="30988:31121" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1523395086265" expanded="true" signature="31162:31201" ph="INSERT INTO connection" />
-            <marker date="1523395086265" expanded="true" signature="31162:31203" ph="INSERT INTO connection" />
-            <marker date="1523395086265" expanded="true" signature="31162:31268" ph="INSERT INTO connection... " />
-            <marker date="1523395086265" expanded="true" signature="31308:31426" ph="DELETE FROM " />
-            <marker date="1523395086265" expanded="true" signature="31308:31437" ph="DELETE FROM " />
+            <marker date="1523470961428" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
+            <marker date="1523470961428" expanded="true" signature="29588:29810" ph="SELECT a.ID,... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31466" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31468" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31484" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31355:31488" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1523470961428" expanded="true" signature="31529:31568" ph="INSERT INTO connection" />
+            <marker date="1523470961428" expanded="true" signature="31529:31570" ph="INSERT INTO connection" />
+            <marker date="1523470961428" expanded="true" signature="31529:31635" ph="INSERT INTO connection... " />
+            <marker date="1523470961428" expanded="true" signature="31675:31793" ph="DELETE FROM " />
+            <marker date="1523470961428" expanded="true" signature="31675:31804" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/main.twig">
+    <entry file="file://$PROJECT_DIR$/templates/attachments.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="135" column="145" selection-start-line="135" selection-start-column="145" selection-end-line="135" selection-end-column="145" />
+        <state relative-caret-position="213">
+          <caret line="36" column="18" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
           <folding />
         </state>
       </provider>
