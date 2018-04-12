@@ -37,7 +37,7 @@
             <div class="col-5">
                 <div>
                     <label for="authorsNameSecond">Jména autorů:</label>
-                    <select multiple class="form-control" id="authorsNameSecond" name="authorsPubs[]">
+                    <select multiple class="form-control" id="authorsNameSecond" name="authors[]">
                         {% for key, author in authors %}
                             {% set el =  author.Name ~ ' ' ~ author.LastName %}
                             <option {% if el in work.Authors %}selected{% endif %}>{{ author.Name }} {{ author.LastName }}</option>
@@ -53,27 +53,27 @@
         </form>
 
         <div class="row">
-            <h3 class="h3 col-12">Vydavatel</h3>
+            <h3 class="h3 col-12">Vydavatelé</h3>
         </div>
 
-        <div class="row justify-content-md-center">
+        <form class="row mb-5 mt-5 justify-content-md-center" method="post" action="/update-publishers/{{ work.WorkID }}">
             <div class="col-5">
-                {% for key, publisher in work.Publisher %}
-                    <div class="row align-items-center pt-2">
-                        <div class="col-5">
-                            <span>{{ publisher.Name}}</span>
-                        </div>
-                        <div class="col-7">
-                            <a role="button" class="btn btn-primary" href="/publisher/{{ publisher.ID }}">Upravit</a>
-                            <a role="button" class="btn btn-danger" href="/delete-publisher/{{ publisher.ID }}/{{ work.WorkID }}">Smazat</a>
-                        </div>
-                    </div>
-                {% endfor %}
+                <div>
+                    <label for="publishersName">Jména vydavatelů:</label>
+                    <select multiple class="form-control" id="publishersName" name="pubs[]">
+                        {% for key, publisher in publishers %}
+                            {% set el =  publisher.Name ~ ' ' ~ publisher.LastName %}
+                            <option {% if el in work.Publisher %}selected{% endif %}>{{ publisher.Name }} {{ publisher.LastName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
             <div class="col-4 align-self-end">
+                <button type="submit" class="btn btn-primary">Aktualizovat</button>
                 <a role="button" class="btn btn-primary" href="/new-publisher/{{ work.WorkID }}">Přidat nového</a>
+
             </div>
-        </div>
+        </form>
 
         <div class="row">
             <h3 class="h3 col-12">Metadata</h3>

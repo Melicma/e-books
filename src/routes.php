@@ -565,6 +565,17 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         'WHERE '.
         ' c.Type = \'author\' ';
 
+    $sqlAllPublisher =
+        'SELECT DISTINCT au.* '.
+        'FROM '.
+        ' authors_publishers au '.
+        'LEFT JOIN '.
+        ' connection c '.
+        'ON '.
+        ' au.ID = c.AuthPubID '.
+        'WHERE '.
+        ' c.Type = \'publisher\' ';
+
 
     // get information about work
     $dbo = $this->db->prepare($sqlWork);
@@ -590,13 +601,24 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
     $dbo = $this->db->prepare($sqlPublisher);
     $dbo->execute(array($args['id']));
 
-    $work[0]['Publisher'] = $dbo->fetchAll();
+    $tmpPublishers = $dbo->fetchAll();
 
+    $work[0]['Publisher'] = array();
+
+    foreach ($tmpPublishers as $el) {
+        array_push($work[0]['Publisher'], $el['Name'] . ' ' . $el['LastName']);
+    }
+
+    $dbo = $this->db->prepare($sqlAllPublisher);
+    $dbo->execute();
+
+    $publishers = $dbo->fetchAll();
 
     return $this->view->render($res, 'metadata.twig', [
         'user' => $session->userEmail,
         'work' => $work[0],
-        'authors' => $authors
+        'authors' => $authors,
+        'publishers' => $publishers
     ]);
 });
 
@@ -1144,7 +1166,7 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
 
     $conAuthors = $dbo->fetchAll(PDO::FETCH_COLUMN);
 
-    foreach ($body['authorsPubs'] as $el) {
+    foreach ($body['authors'] as $el) {
         // add new connection
         if (!in_array($el, $conAuthors)) {
             $dbo = $this->db->prepare($sqlGetAuthorId);
@@ -1165,6 +1187,90 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
 
     foreach ($conAuthors as $el) {
         $dbo = $this->db->prepare($sqlGetAuthorId);
+        $dbo->execute(array($el));
+
+        $id = $dbo->fetch()['ID'];
+        $params = array();
+        array_push($params, $args['workId']);
+        array_push($params, $id);
+
+        $dbo = $this->db->prepare($sqlCancelConnection);
+        $dbo->execute($params);
+    }
+
+
+    return $res->withRedirect('/metadata/' . $args['workId']);
+});
+
+$app->post('/update-publishers/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $body = $req->getParsedBody();
+
+    $sqlAllPublishers =
+        'SELECT (au.Name || \' \' || au.LastName) as \'name\' '.
+        'FROM '.
+        ' authors_publishers au '.
+        'LEFT JOIN '.
+        ' connection c '.
+        'ON '.
+        ' au.ID = c.AuthPubID '.
+        'WHERE '.
+        ' c.Type = \'publisher\' '.
+        'AND '.
+        ' c.WorkID = ? ';
+
+    $sqlGetPublisherId =
+        'SELECT '.
+        ' ID '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' (Name ||\' \' || LastName) = ? ';
+
+    $sqlCreateConnection =
+        'INSERT '.'INTO '.
+        ' connection '.
+        ' (WorkID, AuthPubID, Type) '.
+        'VALUES (?, ?, ?)';
+
+    $sqlCancelConnection =
+        'DELETE '.
+        'FROM '.
+        ' connection '.
+        'WHERE '.
+        ' WorkID = ? AND AuthPubID = ? AND Type = \'publisher\'';
+
+    $dbo = $this->db->prepare($sqlAllPublishers);
+    $dbo->execute(array($args['workId']));
+
+    $conPublishers = $dbo->fetchAll(PDO::FETCH_COLUMN);
+
+    foreach ($body['pubs'] as $el) {
+        // add new connection
+        if (!in_array($el, $conPublishers)) {
+            $dbo = $this->db->prepare($sqlGetPublisherId);
+            $dbo->execute(array($el));
+
+            $id = $dbo->fetch()['ID'];
+
+            $dbo = $this->db->prepare($sqlCreateConnection);
+            $params = array();
+            array_push($params, $args['workId']);
+            array_push($params, $id);
+            array_push($params, 'publisher');
+            $dbo->execute($params);
+        } else {
+            unset($conPublishers[array_search($el, $conPublishers)]);
+        }
+    }
+
+    foreach ($conPublishers as $el) {
+        $dbo = $this->db->prepare($sqlGetPublisherId);
         $dbo->execute(array($el));
 
         $id = $dbo->fetch()['ID'];

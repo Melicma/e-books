@@ -42,6 +42,7 @@ $(document).ready( function () {
         "columns": [
             null,
             null,
+            null,
             {"orderable": false}
         ],
         "language": {
@@ -80,6 +81,11 @@ $(document).ready( function () {
     });
 
     $('#authorsNameSecond').selectivity({
+        multiple: true,
+        placeholder: 'Zadejte pro vyhledání autorů'
+    });
+
+    $('#publishersName').selectivity({
         multiple: true,
         placeholder: 'Zadejte pro vyhledání autorů'
     });
