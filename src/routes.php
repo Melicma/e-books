@@ -1019,6 +1019,58 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
     ]);
 });
 
+
+$app->post('/attachments/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login', [], $data));
+    }
+
+//    $body = $req->getParsedBody();
+
+//    $uName = isset($body['name']) ? $body['name'] : null;
+
+
+//    $dbo = $this->db->prepare($sqlGetId);
+//    $dbo->execute();
+//
+//    $authId = $dbo->fetch()['id'];
+    $path = __DIR__.'/../public/images/' . str_pad($args['workId'], 5, '0', STR_PAD_LEFT) . '/';
+    if (!file_exists($path)) {
+        mkdir($path, 0777, true);
+    }
+
+
+    extract($_POST);
+    $error=array();
+    $extension=array("jpeg","jpg","png","gif");
+    foreach($_FILES["files"]["tmp_name"] as $key=>$tmp_name)
+    {
+        $file_name=$_FILES["files"]["name"][$key];
+        $file_tmp=$_FILES["files"]["tmp_name"][$key];
+        $ext=pathinfo($file_name,PATHINFO_EXTENSION);
+        if(in_array($ext,$extension))
+        {
+            if(!file_exists($path.$file_name))
+            {
+                move_uploaded_file($file_tmp=$_FILES["files"]["tmp_name"][$key],$path.$file_name);
+            }
+            else
+            {
+                $filename=basename($file_name,$ext);
+                $newFileName=$filename.time().".".$ext;
+                move_uploaded_file($file_tmp=$_FILES["files"]["tmp_name"][$key],$path.$newFileName);
+            }
+        }
+        else
+        {
+            array_push($error,"$file_name, ");
+        }
+    }
+    return $res->withRedirect('/attachments/' . $args['workId']);
+});
+
 $app->get('/img/{workId}', function (Request $req, Response $res, $args) {
     $image = @file_get_contents(__DIR__.'/../public/images/00051/006.jpg', true);
     if ($image === false) {

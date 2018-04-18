@@ -81,20 +81,20 @@
                 </div>
 
                 <div class="form-check form-check-inline">
-                    <input {% if filterNew %}checked{% endif %} type="checkbox" id="newWork" value="1" name="new">
-                    <label for="newWork">nové</label>
+                    <input class="form-check-input" {% if filterNew %}checked{% endif %} type="checkbox" id="newWork" value="1" name="new">
+                    <label class="form-check-label" for="newWork">nové</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input {% if filterIncomplete %}checked{% endif %} type="checkbox" id="incompleteWork" value="1" name="incomplete">
-                    <label for="incompleteWork">rozděláno</label>
+                    <input class="form-check-input" {% if filterIncomplete %}checked{% endif %} type="checkbox" id="incompleteWork" value="1" name="incomplete">
+                    <label class="form-check-label" for="incompleteWork">rozděláno</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input {% if filterChecked %}checked{% endif %} type="checkbox" id="checkedWork" value="1" name="checked">
-                    <label for="checkedWork">zkontrolováno</label>
+                    <input class="form-check-input" {% if filterChecked %}checked{% endif %} type="checkbox" id="checkedWork" value="1" name="checked">
+                    <label class="form-check-label" for="checkedWork">zkontrolováno</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input {% if filterComplete %}checked{% endif %} type="checkbox" id="completeWork" value="1" name="complete">
-                    <label for="completeWork">hotovo</label>
+                    <input class="form-check-input" {% if filterComplete %}checked{% endif %} type="checkbox" id="completeWork" value="1" name="complete">
+                    <label class="form-check-label" for="completeWork">hotovo</label>
                 </div>
             </div>
             <div class="col-2 align-self-end">

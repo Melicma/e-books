@@ -25,9 +25,46 @@
             </div>
         </div>
 
+
         <div class="row">
             <h1 class="h1 col-12">Přílohy k: {{ work.Title}}</h1>
         </div>
+
+
+        <form action="/attachments/{{ work.WorkID }}" method="post" enctype="multipart/form-data">
+            <div class="col-10">
+            {#<table width="100%">#}
+                {#<tr>#}
+                    {#<td>Select Photo (one or multiple):</td>#}
+                    {#<td><input type="file" name="files[]" multiple/></td>#}
+                {#</tr>#}
+                {#<tr>#}
+                    {#<td colspan="2" align="center">Note: Supported image format: .jpeg, .jpg, .png, .gif</td>#}
+                {#</tr>#}
+                {#<tr>#}
+                    {#<td colspan="2" align="center"><input type="submit" value="Create Gallery" id="selectedButton"/></td>#}
+                {#</tr>#}
+            {#</table>#}
+
+                <div class="row">
+                    <div class="col-4">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile" name="files[]" multiple>
+                            <label class="custom-file-label" for="customFile">Vyberte soubory</label>
+                        </div>
+                        {#<div class="form-group">#}
+                            {#<label for="name">Vyberte jeden nebo více obrázků</label>#}
+                            {#<input type="file" name="files[]" multiple/>#}
+                        {#</div>#}
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary">Uložit</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
 
         <div class="row">
             <div class="col-6">

@@ -89,4 +89,21 @@ $(document).ready( function () {
         multiple: true,
         placeholder: 'Zadejte pro vyhledání autorů'
     });
+
+
+    $('input[type="file"]').change(function(e){
+        var number = e.target.files.length;
+        var fileName = '';
+        if (number > 1) {
+            if (number < 5) {
+                fileName = number + ' soubory vybrány';
+            } else {
+                fileName = number + ' souborů vybráno';
+            }
+        } else {
+            fileName = e.target.files[0].name;
+        }
+
+        $("label[for='" + this.id + "']").text(fileName);
+    });
 } );
