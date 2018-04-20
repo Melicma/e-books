@@ -38,9 +38,9 @@
                 <div>
                     <label for="authorsNameSecond">Jména autorů:</label>
                     <select multiple class="form-control" id="authorsNameSecond" name="authors[]">
-                        {% for key, author in authors %}
-                            {% set el =  author.Name ~ ' ' ~ author.LastName %}
-                            <option {% if el in work.Authors %}selected{% endif %}>{{ author.Name }} {{ author.LastName }}</option>
+                        {% for key, author in elements %}
+                            {% set el =  author.Name ~ ' ' ~ author.LastName ~ ' ' ~ author.Corporation %}
+                            <option value="{{ el }}" {% if el in work.Authors %}selected{% endif %}>{% if author.Name %}{{ author.Name }} {{ author.LastName }} {{ author.Corporation }}{% elseif author.Corporation %}{{ author.Corporation }}{% endif %}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -61,9 +61,9 @@
                 <div>
                     <label for="publishersName">Jména vydavatelů:</label>
                     <select multiple class="form-control" id="publishersName" name="pubs[]">
-                        {% for key, publisher in publishers %}
-                            {% set el =  publisher.Name ~ ' ' ~ publisher.LastName %}
-                            <option {% if el in work.Publisher %}selected{% endif %}>{{ publisher.Name }} {{ publisher.LastName }}</option>
+                        {% for key, publisher in elements %}
+                            {% set el =  publisher.Name ~ ' ' ~ publisher.LastName ~ ' ' ~ publisher.Corporation %}
+                            <option value="{{ el }}" {% if el in work.Publisher %}selected{% endif %}>{% if publisher.Name %}{{ publisher.Name }} {{ publisher.LastName }} {{ publisher.Corporation }}{% elseif publisher.Corporation %}{{ publisher.Corporation }}{% endif %}</option>
                         {% endfor %}
                     </select>
                 </div>

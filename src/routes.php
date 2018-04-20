@@ -554,28 +554,32 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         'ORDER BY '.
         ' au.Name';
     
-    $sqlAllAuthors =
+//    $sqlAllAuthors =
+//        'SELECT DISTINCT au.* '.
+//        'FROM '.
+//        ' authors_publishers au '.
+//        'LEFT JOIN '.
+//        ' connection c '.
+//        'ON '.
+//        ' au.ID = c.AuthPubID '.
+//        'WHERE '.
+//        ' c.Type = \'author\' ';
+//
+//    $sqlAllPublisher =
+//        'SELECT DISTINCT au.* '.
+//        'FROM '.
+//        ' authors_publishers au '.
+//        'LEFT JOIN '.
+//        ' connection c '.
+//        'ON '.
+//        ' au.ID = c.AuthPubID '.
+//        'WHERE '.
+//        ' c.Type = \'publisher\' ';
+
+    $sqlAll =
         'SELECT DISTINCT au.* '.
         'FROM '.
-        ' authors_publishers au '.
-        'LEFT JOIN '.
-        ' connection c '.
-        'ON '.
-        ' au.ID = c.AuthPubID '.
-        'WHERE '.
-        ' c.Type = \'author\' ';
-
-    $sqlAllPublisher =
-        'SELECT DISTINCT au.* '.
-        'FROM '.
-        ' authors_publishers au '.
-        'LEFT JOIN '.
-        ' connection c '.
-        'ON '.
-        ' au.ID = c.AuthPubID '.
-        'WHERE '.
-        ' c.Type = \'publisher\' ';
-
+        ' authors_publishers au ';
 
     // get information about work
     $dbo = $this->db->prepare($sqlWork);
@@ -590,13 +594,13 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
     $work[0]['Authors'] = array();
     
     foreach ($tmpAuthors as $el) {
-        array_push($work[0]['Authors'], $el['Name'] . ' ' . $el['LastName']);
+        array_push($work[0]['Authors'], $el['Name'] . ' ' . $el['LastName'] . ' ' . $el['Corporation']);
     }
     
-    $dbo = $this->db->prepare($sqlAllAuthors);
-    $dbo->execute();
-    
-    $authors = $dbo->fetchAll();
+//    $dbo = $this->db->prepare($sqlAllAuthors);
+//    $dbo->execute();
+//
+//    $authors = $dbo->fetchAll();
     
     $dbo = $this->db->prepare($sqlPublisher);
     $dbo->execute(array($args['id']));
@@ -606,19 +610,25 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
     $work[0]['Publisher'] = array();
 
     foreach ($tmpPublishers as $el) {
-        array_push($work[0]['Publisher'], $el['Name'] . ' ' . $el['LastName']);
+        array_push($work[0]['Publisher'], $el['Name'] . ' ' . $el['LastName'] . ' ' . $el['Corporation']);
     }
 
-    $dbo = $this->db->prepare($sqlAllPublisher);
+//    $dbo = $this->db->prepare($sqlAllPublisher);
+//    $dbo->execute();
+//
+//    $publishers = $dbo->fetchAll();
+
+    $dbo = $this->db->prepare($sqlAll);
     $dbo->execute();
 
-    $publishers = $dbo->fetchAll();
+    $elements = $dbo->fetchAll();
 
     return $this->view->render($res, 'metadata.twig', [
         'user' => $session->userEmail,
         'work' => $work[0],
-        'authors' => $authors,
-        'publishers' => $publishers
+//        'authors' => $authors,
+//        'publishers' => $publishers,
+        'elements' => $elements
     ]);
 });
 
@@ -1180,7 +1190,7 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
     $body = $req->getParsedBody();
 
     $sqlAllAuthors =
-        'SELECT (au.Name || \' \' || au.LastName) as \'name\' '.
+        'SELECT (COALESCE(au.Name, \'\') || \' \' || COALESCE(au.LastName, \'\') || \' \' || COALESCE(au.Corporation, \'\')) as \'name\' '.
         'FROM '.
         ' authors_publishers au '.
         'LEFT JOIN '.
@@ -1198,7 +1208,7 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
-        ' (Name ||\' \' || LastName) = ? ';
+        ' (COALESCE(Name, \'\') || \' \' || COALESCE(LastName, \'\') || \' \' || COALESCE(Corporation, \'\')) = ? ';
 
     $sqlCreateConnection =
         'INSERT '.'INTO '.
@@ -1250,7 +1260,6 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
         $dbo->execute($params);
     }
 
-
     return $res->withRedirect('/metadata/' . $args['workId']);
 });
 
@@ -1264,7 +1273,7 @@ $app->post('/update-publishers/{workId}', function (Request $req, Response $res,
     $body = $req->getParsedBody();
 
     $sqlAllPublishers =
-        'SELECT (au.Name || \' \' || au.LastName) as \'name\' '.
+        'SELECT (COALESCE(au.Name, \'\') || \' \' || COALESCE(au.LastName, \'\') || \' \' || COALESCE(au.Corporation, \'\')) as \'name\' '.
         'FROM '.
         ' authors_publishers au '.
         'LEFT JOIN '.
@@ -1282,7 +1291,7 @@ $app->post('/update-publishers/{workId}', function (Request $req, Response $res,
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
-        ' (Name ||\' \' || LastName) = ? ';
+        ' (COALESCE(Name, \'\') || \' \' || COALESCE(LastName, \'\') || \' \' || COALESCE(Corporation, \'\')) = ? ';
 
     $sqlCreateConnection =
         'INSERT '.'INTO '.
