@@ -393,7 +393,7 @@ $app->post('/content', function (Request $req, Response $res) {
         foreach ($workAuthors as $id) {
             array_push($works[$key]['Authors'], array($id));
             if ($fAuthors && !$includeAuthor) {
-                if (in_array($id['Name'] . ' ' . $id['LastName'], $fAuthors)) {
+                if (in_array($id['Name'] . ' ' . $id['LastName'] . ' ' . $id['Corporation'], $fAuthors)) {
                     $includeAuthor = true;
                 }
             }

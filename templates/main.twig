@@ -32,8 +32,8 @@
                     <label for="authorsName">Jména autorů:</label>
                     <select multiple class="form-control" id="authorsName" name="authors[]">
                         {% for key, author in authors %}
-                            {% set el =  author.Name ~ ' ' ~ author.LastName %}
-                            <option {% if el in filterAuthors %}selected{% endif %}>{{ author.Name }} {{ author.LastName }}</option>
+                            {% set el =  author.Name ~ ' ' ~ author.LastName ~ ' ' ~ author.Corporation %}
+                            <option value="{{ el }}" {% if el in filterAuthors %}selected{% endif %}>{% if author.Name %}{{ author.Name }} {{ author.LastName }} {{ author.Corporation }}{% elseif author.Corporation %}{{ author.Corporation }}{% endif %}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -119,8 +119,9 @@
                 {% for key, work in works %}
                     <tr>
                         <td>{{ work.Title }}</td>
-                        <td {% if work.Authors|length > 1 %} data-toggle="tooltip" data-placement="bottom" title="{% for key2, author in  work.Authors %}{% if not loop.first %}{{ author[0].Name }} {{ author[0].LastName }}{% if not loop.last %}; {% endif %}{% endif %}{% endfor %}" {% endif %}>
-                            {{ work.Authors[0][0].Name }} {{ work.Authors[0][0].LastName }}
+                        {% set el = work.Authors[0][0].Name ~ ' ' ~ work.Authors[0][0].LastName ~ ' ' ~ work.Authors[0][0].name %}
+                        <td {% if (work.Authors|length > 1 or el|length > 25) %} data-toggle="tooltip" data-placement="bottom" title="{% for key2, author in  work.Authors %}{{ author[0].Name }} {{ author[0].LastName }} {{ author[0].Corporation }}{% if not loop.last %}; {% endif %}{% endfor %}" {% endif %}>
+                            {{ el|length > 25 ? el|slice(0,25) : el }}
                             {% if work.Authors|length > 1 %}
                                 <span>...</span>
                             {% endif %}
