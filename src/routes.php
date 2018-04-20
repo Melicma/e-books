@@ -1148,17 +1148,20 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
         return $res->withRedirect($this->router->pathFor('login',[],$data));
     }
 
-    $sqlWorks =
+    $sqlWork =
         'SELECT Title '.
         'FROM '.
         ' works '.
         'WHERE '.
         ' WorkID = ?';
 
+//    $sqlAttachments =
+//        'SELECT '
+
     $params = array();
     array_push($params, $args['workId']);
 
-    $dbo = $this->db->prepare($sqlWorks);
+    $dbo = $this->db->prepare($sqlWork);
     $dbo->execute($params);
 
     $work = $dbo->fetch();
