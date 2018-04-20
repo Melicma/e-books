@@ -30,7 +30,7 @@
 
 
         <div class="row">
-            <h1 class="h1 col-12">{% if newWorkID %}Nový {% if isAuthor %}autor{% else %}vydavatel{% endif %}{% else %}Údaje o: {{ author.Name}}{% endif %}</h1>
+            <h1 class="h1 col-12">{% if newWorkID %}Nový {% if isAuthor %}autor{% else %}vydavatel{% endif %}{% else %}Údaje o: {{ element.Name }} {{ element.LastName }} {{ element.Corporation }}{% endif %}</h1>
         </div>
 
         <form class="row mb-5 mt-5 justify-content-md-center" method="post" {% if newWorkID %}action={% if isAuthor %}"/new-author/{{ newWorkID }}"{% else %}"/new-publisher/{{ newWorkID }}"{% endif %} {% endif %}>
@@ -40,8 +40,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label for="name">{% if isAuthor %}Jméno{% else %}Název{% endif %}</label>
-                            <input {% if author.Name %}value="{{ author.Name}}" {% endif %}type="text" class="form-control" id="name" placeholder="{% if isAuthor %}Zadejte jméno autora{% else %}Zadejte název vydavatele{% endif %}" name="name">
+                            <label for="name">Jméno</label>
+                            <input value="{{ element.Name}}" type="text" class="form-control" id="name" placeholder="Zadejte jméno" name="name">
                         </div>
                     </div>
                 </div>
@@ -49,8 +49,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label for="lastName">{% if isAuthor %}Přijmení{% else %}Poznámka{% endif %}</label>
-                            <input {% if author.LastName %}value="{{ author.LastName}}" {% endif %}type="text" class="form-control" id="lastName" placeholder="{% if isAuthor %}Zadejte přijmení autora{% else %}Zadejte poznámku{% endif %}" name="lastName">
+                            <label for="lastName">Přijmení</label>
+                            <input value="{{ element.LastName}}" type="text" class="form-control" id="lastName" placeholder="Zadejte přijmení" name="lastName">
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label for="corporation">Korporace</label>
-                            <input {% if author.Corporation %}value="{{ author.Corporation}}" {% endif %}type="text" class="form-control" id="corporation" placeholder="Zadejte korporaci" name="corporation">
+                            <input value="{{ element.Corporation}}" type="text" class="form-control" id="corporation" placeholder="Zadejte korporaci" name="corporation">
                         </div>
                     </div>
                 </div>
