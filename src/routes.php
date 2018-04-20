@@ -913,6 +913,55 @@ $app->post('/new-author/{workId}', function (Request $req, Response $res, $args)
     return $res->withRedirect('/metadata/' . $args['workId']);
 });
 
+
+
+$app->get('/new-author-publisher', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+
+    return $this->view->render($res, 'authorPublisher.twig', [
+        'user' => $session->userEmail,
+        'author' => null,
+        'newWorkID' => true
+    ]);
+});
+
+$app->post('/new-author-publisher', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login', [], $data));
+    }
+
+    $sqlInsert =
+        'INSERT '.'INTO '.
+        ' authors_publishers '.
+        ' (Name, LastName, Corporation) '.
+        'VALUES '.
+        ' (?, ?, ?) ';
+
+    $body = $req->getParsedBody();
+
+    $uName = isset($body['name']) ? $body['name'] : null;
+    $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
+    $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
+
+    $params = array();
+    array_push($params, $uName);
+    array_push($params, $uLastName);
+    array_push($params, $uCorporation);
+
+
+    $dbo = $this->db->prepare($sqlInsert);
+    $dbo->execute($params);
+
+    return $res->withRedirect('/list-author-publisher');
+});
+
 //$app->get('/delete-author/{id}/{workId}', function (Request $req, Response $res, $args) {
 //
 //    $sqlDeleteConnection =
@@ -1010,6 +1059,7 @@ $app->get('/new-publisher/{workId}', function (Request $req, Response $res, $arg
         'user' => $session->userEmail,
         'author' => null,
         'isAuthor' => false,
+        'isPublisher' => true,
         'newWorkID' => $args['workId']
     ]);
 });

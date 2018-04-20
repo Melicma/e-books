@@ -30,10 +30,10 @@
 
 
         <div class="row">
-            <h1 class="h1 col-12">{% if newWorkID %}Nový {% if isAuthor %}autor{% else %}vydavatel{% endif %}{% else %}Údaje o: {{ element.Name }} {{ element.LastName }} {{ element.Corporation }}{% endif %}</h1>
+            <h1 class="h1 col-12">{% if newWorkID %}Nový {% if isAuthor %}autor{% elseif isPublisher %}vydavatel{% else %}záznam{% endif %}{% else %}Údaje o: {{ element.Name }} {{ element.LastName }} {{ element.Corporation }}{% endif %}</h1>
         </div>
 
-        <form class="row mb-5 mt-5 justify-content-md-center" method="post" {% if newWorkID %}action={% if isAuthor %}"/new-author/{{ newWorkID }}"{% else %}"/new-publisher/{{ newWorkID }}"{% endif %} {% endif %}>
+        <form class="row mb-5 mt-5 justify-content-md-center" method="post" {% if newWorkID %}action={% if isAuthor %}"/new-author/{{ newWorkID }}"{% elseif isPublisher %}"/new-publisher/{{ newWorkID }}"{% else %}"/new-author-publisher"{% endif %} {% endif %}>
 
             <div class="col-10">
 
