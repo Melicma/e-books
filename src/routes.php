@@ -1272,9 +1272,11 @@ $app->get('/list-author-publisher', function (Request $req, Response $res) {
 
     $sql =
         'SELECT DISTINCT '.
-        ' * '.
+        ' au.*, (select count(c.AuthPubID) from connection ) as number '.
         'FROM '.
-        ' authors_publishers a ';
+        ' authors_publishers au LEFT JOIN connection c ON c.AuthPubID = au.ID '.
+	    'GROUP BY '.
+        ' au.ID';
 
     $dbo = $this->db->prepare($sql);
     $dbo->execute();
