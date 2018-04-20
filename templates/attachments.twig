@@ -31,7 +31,7 @@
         </div>
 
 
-        <form action="/attachments/{{ work.WorkID }}" method="post" enctype="multipart/form-data">
+        <form class="pb-2" action="/attachments/{{ work.WorkID }}" method="post" enctype="multipart/form-data">
             <div class="col-10">
 
                 <div class="row">
@@ -50,13 +50,30 @@
             </div>
         </form>
 
-        <div class="row">
-            <div class="col-6">
-                <a href="/img/{{ work.WorkID }}" target="_blank">
-                    <img src="/images/00051/006_small.jpg" class="img-thumbnail">
-                </a>
-            </div>
+        <div class="row pt-2">
+            {% set counter = 1 %}
+            {% for el in attachments %}
+                <div class="col-3 pb-2">
+                    <a href="#" onclick="doImgModal({{ counter }})">
+                        <img id="myImg{{ counter }}" src="/images/{{ '%05d'|format(work.WorkID) }}/{{ el.ThumbName }}" class="img-thumbnail">
+                    </a>
+                    <span>{{ el.Identifier }}</span>
+                    <a role="button" class="btn btn-primary" href="/delete/{{ work.WorkID }}">Upravit</a>
+                    <a role="button" class="btn btn-danger" href="/delete/{{ work.WorkID }}">Smazat</a>
+                </div>
+                {% set counter = counter + 1 %}
+            {% endfor %}
         </div>
     </div>
 
+    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <img src="" class="imagepreview" style="width: 100%;" >
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

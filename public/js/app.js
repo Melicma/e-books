@@ -108,3 +108,8 @@ $(document).ready( function () {
         $("label[for='" + this.id + "']").text(fileName);
     });
 } );
+
+function doImgModal(id) {
+    $('.imagepreview').attr('src', $('#myImg'+id).attr('src').replace('_small', ''));
+    $('#imagemodal').modal('show');
+}

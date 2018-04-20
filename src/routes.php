@@ -1155,8 +1155,13 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
         'WHERE '.
         ' WorkID = ?';
 
-//    $sqlAttachments =
-//        'SELECT '
+    $sqlAttachments =
+        'SELECT '.
+        ' Filename, Identifier '.
+        'FROM '.
+        ' attachments '.
+        'WHERE '.
+        ' WorkID = ?';
 
     $params = array();
     array_push($params, $args['workId']);
@@ -1167,9 +1172,23 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
     $work = $dbo->fetch();
     $work['WorkID'] = $args['workId'];
 
+    $dbo = $this->db->prepare($sqlAttachments);
+    $dbo->execute($params);
+
+    $attachmentsOut = array();
+    $attachments = $dbo->fetchAll();
+
+    foreach ($attachments as $el) {
+        $tmp['Filename'] = $el['Filename'];
+        $tmp['Identifier'] = $el['Identifier'];
+        $tmp['ThumbName'] = preg_replace('/(\.gif|\.jpg|\.png)/', '_small$1', $el['Filename']);
+        array_push($attachmentsOut, $tmp);
+    }
+
     return $this->view->render($res, 'attachments.twig', [
         'user' => $session->userEmail,
-        'work' => $work
+        'work' => $work,
+        'attachments' => $attachmentsOut
     ]);
 });
 
@@ -1223,17 +1242,6 @@ $app->post('/attachments/{workId}', function (Request $req, Response $res, $args
         }
     }
     return $res->withRedirect('/attachments/' . $args['workId']);
-});
-
-$app->get('/img/{workId}', function (Request $req, Response $res, $args) {
-    $image = @file_get_contents(__DIR__.'/../public/images/00051/006.jpg', true);
-    if ($image === false) {
-        $res->write('Could not find 006.jpg.');
-        return $res->withStatus(404);
-    }
-
-    $res->write($image);
-    return $res->withHeader('Content-Type', 'image/jpeg');
 });
 
 $app->get('/text/{workId}', function (Request $req, Response $res, $args) {
