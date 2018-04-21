@@ -16,3 +16,7 @@ body {
 .text-align-center {
     text-align: center;
 }
+
+.custom-file-input ~ .custom-file-label::after {
+    content: "Vybrat";
+}

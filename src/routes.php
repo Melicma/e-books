@@ -1157,7 +1157,7 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
 
     $sqlAttachments =
         'SELECT '.
-        ' Filename, Identifier '.
+        ' Filename, Identifier, ID '.
         'FROM '.
         ' attachments '.
         'WHERE '.
@@ -1181,6 +1181,7 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
     foreach ($attachments as $el) {
         $tmp['Filename'] = $el['Filename'];
         $tmp['Identifier'] = $el['Identifier'];
+        $tmp['ID'] = $el['ID'];
         $tmp['ThumbName'] = preg_replace('/(\.gif|\.jpg|\.png)/', '_small$1', $el['Filename']);
         array_push($attachmentsOut, $tmp);
     }
@@ -1241,6 +1242,70 @@ $app->post('/attachments/{workId}', function (Request $req, Response $res, $args
             array_push($error,"$file_name, ");
         }
     }
+    return $res->withRedirect('/attachments/' . $args['workId']);
+});
+
+$app->get('/delete-attachment/{attchId}/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $sqlAttach =
+        'SELECT '.
+        ' Filename '.
+        'FROM '.
+        ' attachments '.
+        'WHERE '.
+        ' ID = ?';
+
+    $sqlDelete =
+        'DELETE '.
+        'FROM '.
+        ' attachments '.
+        'WHERE '.
+        ' ID = ?';
+
+    $dbo = $this->db->prepare($sqlAttach);
+    $dbo->execute(array($args['attchId']));
+
+    $fileName = $dbo->fetch();
+
+    $dbo = $this->db->prepare($sqlDelete);
+    $dbo->execute(array($args['attchId']));
+
+    $smallFilename = preg_replace('/(\.gif|\.jpg|\.png)/', '_small$1', $fileName['Filename']);
+    unlink(__DIR__.'/../public/images/' . str_pad($args['workId'], 5, '0', STR_PAD_LEFT) . '/' . $fileName['Filename']);
+    unlink(__DIR__.'/../public/images/' . str_pad($args['workId'], 5, '0', STR_PAD_LEFT) . '/' . $smallFilename);
+
+    return $res->withRedirect('/attachments/' . $args['workId']);
+});
+
+$app->post('/update-attachment/{attchId}/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $body = $req->getParsedBody();
+
+    $sqlUpdate =
+        'UPDATE '.
+        ' attachments '.
+        'SET '.
+        ' Identifier = ? '.
+        'WHERE '.
+        ' ID = ?';
+
+    $dbo = $this->db->prepare($sqlUpdate);
+    $params = array();
+    array_push($params, $body['identifier']);
+    array_push($params, $args['attchId']);
+
+    $dbo->execute($params);
+
     return $res->withRedirect('/attachments/' . $args['workId']);
 });
 

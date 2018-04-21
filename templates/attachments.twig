@@ -38,7 +38,7 @@
                     <div class="col-4">
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="customFile" name="files[]" multiple>
-                            <label class="custom-file-label" for="customFile">Vyberte soubory</label>
+                            <label class="custom-file-label" for="customFile">Soubor nevybrán</label>
                         </div>
                     </div>
                     <div class="col-4">
@@ -53,13 +53,44 @@
         <div class="row pt-2">
             {% set counter = 1 %}
             {% for el in attachments %}
-                <div class="col-3 pb-2">
-                    <a href="#" onclick="doImgModal({{ counter }})">
-                        <img id="myImg{{ counter }}" src="/images/{{ '%05d'|format(work.WorkID) }}/{{ el.ThumbName }}" class="img-thumbnail">
-                    </a>
-                    <span>{{ el.Identifier }}</span>
-                    <a role="button" class="btn btn-primary" href="/delete/{{ work.WorkID }}">Upravit</a>
-                    <a role="button" class="btn btn-danger" href="/delete/{{ work.WorkID }}">Smazat</a>
+                <div class="col-4 pb-2">
+                    <div class="row">
+                        <div class="col-4">
+                            <a href="#" onclick="doImgModal({{ counter }})">
+                                <img id="myImg{{ counter }}"
+                                     src="/images/{{ '%05d'|format(work.WorkID) }}/{{ el.ThumbName }}"
+                                     class="img-thumbnail">
+                            </a>
+                        </div>
+                        <div class="col-8">
+                            <form method="post" action="/update-attachment/{{ el.ID }}/{{ work.WorkID }}">
+                                <div class="pb-1 row">
+                                    <div class="col-12">
+                                        <span>Pořadí: {{ counter }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="pb-1 row">
+                                    <div class="col-4">
+                                        <label class="col-form-label" for="identifier">Poznámka:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input class="form-control" id="identifier" name="identifier" value="{{ el.Identifier }}">
+                                    </div>
+                                </div>
+
+                                <div class="pb-1 row">
+                                    <div class="col-6">
+                                        <button type="submit" class="btn btn-primary">Upravit</button>
+                                        {#<a role="button" class="btn btn-primary" href="/update-attachment/{{ el.ID }}/{{ work.WorkID }}">Upravit</a>#}
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <a role="button" class="btn btn-danger" href="/delete-attachment/{{ el.ID }}/{{ work.WorkID }}" onclick="return confirm('Opravdu si přejete smazat {{ el.Filename }}?')">Smazat</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 {% set counter = counter + 1 %}
             {% endfor %}
