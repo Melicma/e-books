@@ -1201,47 +1201,70 @@ $app->post('/attachments/{workId}', function (Request $req, Response $res, $args
         return $res->withRedirect($this->router->pathFor('login', [], $data));
     }
 
-//    $body = $req->getParsedBody();
+    $sqlGetLastCounter =
+        'SELECT '.
+        ' COUNT(*) as count '.
+        'FROM '.
+        ' attachments '.
+        'WHERE '.
+        ' WorkID = ?';
 
-//    $uName = isset($body['name']) ? $body['name'] : null;
+    $sqlInsertAttach =
+        'INSERT '.'INTO '.
+        ' attachments '.
+        ' (WorkID, Filename) '.
+        'VALUES '.
+        ' (?, ?)';
 
+    $dbo = $this->db->prepare($sqlGetLastCounter);
+    $dbo->execute(array($args['workId']));
 
-//    $dbo = $this->db->prepare($sqlGetId);
-//    $dbo->execute();
-//
-//    $authId = $dbo->fetch()['id'];
+    $counter = $dbo->fetch()['count'];
+
+    if ($counter > 0) {
+        $counter++;
+    } else {
+        $counter = 1;
+    }
+
     $path = __DIR__.'/../public/images/' . str_pad($args['workId'], 5, '0', STR_PAD_LEFT) . '/';
     if (!file_exists($path)) {
         mkdir($path, 0777, true);
     }
 
+    array_multisort($_FILES['files']['name'], SORT_ASC, SORT_STRING, $_FILES['files']['type'], $_FILES['files']['tmp_name'], $_FILES['files']['error'], $_FILES['files']['size']);
 
     extract($_POST);
     $error=array();
     $extension=array("jpeg","jpg","png","gif");
-    foreach($_FILES["files"]["tmp_name"] as $key=>$tmp_name)
-    {
+
+    $dbo = $this->db->prepare($sqlInsertAttach);
+
+    foreach($_FILES["files"]["tmp_name"] as $key=>$tmp_name) {
         $file_name=$_FILES["files"]["name"][$key];
         $file_tmp=$_FILES["files"]["tmp_name"][$key];
-        $ext=pathinfo($file_name,PATHINFO_EXTENSION);
-        if(in_array($ext,$extension))
-        {
-            if(!file_exists($path.$file_name))
-            {
-                move_uploaded_file($file_tmp=$_FILES["files"]["tmp_name"][$key],$path.$file_name);
-            }
-            else
-            {
-                $filename=basename($file_name,$ext);
-                $newFileName=$filename.time().".".$ext;
-                move_uploaded_file($file_tmp=$_FILES["files"]["tmp_name"][$key],$path.$newFileName);
-            }
+        $ext=pathinfo($file_name, PATHINFO_EXTENSION);
+        $filenameNew = str_pad($counter, 3, '0', STR_PAD_LEFT). '.'.$ext;
+        $filenameNewSmall = preg_replace('/(\.gif|\.jpg|\.png)/', '_small$1', $filenameNew);
+        if(in_array($ext,$extension)) {
+//            if(!file_exists($path.$file_name)) {
+            $dbo->execute(array($args['workId'], $filenameNew));
+            //do resize 68x100
+//            resize(68, $filenameNewSmall, $file_tmp);
+            move_uploaded_file($file_tmp=$_FILES["files"]["tmp_name"][$key], $path.$filenameNew);
+//            }
+//            else {
+//                $filename=basename($file_name,$ext);
+//                $newFileName=$filename.time().".".$ext;
+//                move_uploaded_file($file_tmp=$_FILES["files"]["tmp_name"][$key],$path.$newFileName);
+//            }
         }
-        else
-        {
+        else {
             array_push($error,"$file_name, ");
         }
+        $counter++;
     }
+
     return $res->withRedirect('/attachments/' . $args['workId']);
 });
 
@@ -1590,3 +1613,45 @@ $app->get('/delete/{workId}', function (Request $req, Response $res, $args) {
 
     return $res->withRedirect('/content');
 });
+
+//function resize($newWidth, $targetFile, $originalFile) {
+//
+//    $info = getimagesize($originalFile);
+//    $mime = $info['mime'];
+//
+//    switch ($mime) {
+//        case 'image/jpeg':
+//            $image_create_func = 'imagecreatefromjpeg';
+//            $image_save_func = 'imagejpeg';
+//            $new_image_ext = 'jpg';
+//            break;
+//
+//        case 'image/png':
+//            $image_create_func = 'imagecreatefrompng';
+//            $image_save_func = 'imagepng';
+//            $new_image_ext = 'png';
+//            break;
+//
+//        case 'image/gif':
+//            $image_create_func = 'imagecreatefromgif';
+//            $image_save_func = 'imagegif';
+//            $new_image_ext = 'gif';
+//            break;
+//
+//        default:
+//            throw new Exception('Unknown image type.');
+//    }
+//
+//    $img = $image_create_func($originalFile);
+//    list($width, $height) = getimagesize($originalFile);
+//
+//    $newHeight = ($height / $width) * $newWidth;
+//    $tmp = imagecreatetruecolor($newWidth, $newHeight);
+//    imagecopyresampled($tmp, $img, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+//
+//    if (file_exists($targetFile)) {
+//        unlink($targetFile);
+//    }
+//    $tmp = __DIR__.'/../public/images/00056/';
+//    $image_save_func($tmp, "$tmp.$targetFile.$new_image_ext");
+//}

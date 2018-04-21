@@ -5,8 +5,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ebooks" afterPath="$PROJECT_DIR$/db/ebooks" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes.php" afterPath="$PROJECT_DIR$/src/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/attachments.twig" afterPath="$PROJECT_DIR$/templates/attachments.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/main.twig" afterPath="$PROJECT_DIR$/templates/main.twig" />
     </list>
     <ignored path="e-books.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,8 +39,8 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="1583" column="0" selection-start-line="1583" selection-start-column="0" selection-end-line="1583" selection-end-column="0" />
+            <state relative-caret-position="207">
+              <caret line="1255" column="20" selection-start-line="1255" selection-start-column="20" selection-end-line="1255" selection-end-column="20" />
               <folding>
                 <element signature="e#7#29#0#PHP" expanded="true" />
                 <element signature="e#360#594#1#PHP" expanded="false" />
@@ -51,24 +49,26 @@
                 <element signature="e#9047#10157#0#PHP" expanded="false" />
                 <element signature="e#12587#12772#1#PHP" expanded="false" />
                 <element signature="e#13167#14606#1#PHP" expanded="false" />
-                <marker date="1524323542351" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
-                <marker date="1524323542351" expanded="true" signature="32885:33013" ph="SELECT Filen... attachments" />
-                <marker date="1524323542351" expanded="true" signature="35789:35897" ph="SELECT Filen... attachments" />
-                <marker date="1524323542351" expanded="true" signature="35927:36013" ph="DELETE FROM " />
-                <marker date="1524323542351" expanded="true" signature="36985:37098" ph="UPDATE attac... " />
-                <marker date="1524323542351" expanded="true" signature="38388:38612" ph="SELECT DISTI... authors_publishers" />
-                <marker date="1524323542351" expanded="true" signature="38424:38465" ph="select count... connection" />
-                <marker date="1524323542351" expanded="true" signature="40287:40414" ph="SELECT ID FR... authors_publishers" />
-                <marker date="1524323542351" expanded="true" signature="40287:40417" ph="SELECT ID FR... authors_publishers" />
-                <marker date="1524323542351" expanded="true" signature="40287:40489" ph="SELECT ID FR... authors_publishers" />
-                <marker date="1524323542351" expanded="true" signature="40287:40493" ph="SELECT ID FR... authors_publishers" />
-                <marker date="1524323542351" expanded="true" signature="40534:40573" ph="INSERT INTO connection" />
-                <marker date="1524323542351" expanded="true" signature="40534:40575" ph="INSERT INTO connection" />
-                <marker date="1524323542351" expanded="true" signature="40534:40640" ph="INSERT INTO connection... " />
-                <marker date="1524323542351" expanded="true" signature="40680:40798" ph="DELETE FROM " />
-                <marker date="1524323542351" expanded="true" signature="40680:40809" ph="DELETE FROM " />
-                <marker date="1524323542351" expanded="true" signature="44805:44894" ph="DELETE FROM " />
-                <marker date="1524323542351" expanded="true" signature="44928:45012" ph="DELETE FROM " />
+                <marker date="1524343242200" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
+                <marker date="1524343242200" expanded="true" signature="32885:33013" ph="SELECT Filen... attachments" />
+                <marker date="1524343242200" expanded="true" signature="34166:34287" ph="SELECT COUNT... attachments" />
+                <marker date="1524343242200" expanded="true" signature="34323:34433" ph="INSERT INTO attachments... " />
+                <marker date="1524343242200" expanded="true" signature="36648:36756" ph="SELECT Filen... attachments" />
+                <marker date="1524343242200" expanded="true" signature="36786:36872" ph="DELETE FROM " />
+                <marker date="1524343242200" expanded="true" signature="37844:37957" ph="UPDATE attac... " />
+                <marker date="1524343242200" expanded="true" signature="39247:39471" ph="SELECT DISTI... authors_publishers" />
+                <marker date="1524343242200" expanded="true" signature="39283:39324" ph="select count... connection" />
+                <marker date="1524343242200" expanded="true" signature="41146:41273" ph="SELECT ID FR... authors_publishers" />
+                <marker date="1524343242200" expanded="true" signature="41146:41276" ph="SELECT ID FR... authors_publishers" />
+                <marker date="1524343242200" expanded="true" signature="41146:41348" ph="SELECT ID FR... authors_publishers" />
+                <marker date="1524343242200" expanded="true" signature="41146:41352" ph="SELECT ID FR... authors_publishers" />
+                <marker date="1524343242200" expanded="true" signature="41393:41432" ph="INSERT INTO connection" />
+                <marker date="1524343242200" expanded="true" signature="41393:41434" ph="INSERT INTO connection" />
+                <marker date="1524343242200" expanded="true" signature="41393:41499" ph="INSERT INTO connection... " />
+                <marker date="1524343242200" expanded="true" signature="41539:41657" ph="DELETE FROM " />
+                <marker date="1524343242200" expanded="true" signature="41539:41668" ph="DELETE FROM " />
+                <marker date="1524343242200" expanded="true" signature="45664:45753" ph="DELETE FROM " />
+                <marker date="1524343242200" expanded="true" signature="45787:45871" ph="DELETE FROM " />
               </folding>
             </state>
           </provider>
@@ -77,8 +77,8 @@
       <file leaf-file-name="attachments.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/attachments.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="83" column="7" selection-start-line="83" selection-start-column="7" selection-end-line="83" selection-end-column="7" />
+            <state relative-caret-position="198">
+              <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -242,7 +242,39 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
+              <option name="myItemId" value="vendor" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="e-books" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="e-books" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vendor" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slim" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="e-books" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="e-books" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -257,24 +289,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-books" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-books" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -293,24 +307,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-books" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-books" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -405,24 +401,24 @@
       <workItem from="1522182561153" duration="2887000" />
       <workItem from="1522771662932" duration="2366000" />
       <workItem from="1523211869680" duration="68384000" />
-      <workItem from="1524310134886" duration="9358000" />
+      <workItem from="1524310134886" duration="23042000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="246408000" />
+    <option name="totallyTimeSpent" value="260092000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="63" y="24" width="1303" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24741448" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24741448" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34567901" sideWeight="0.50278443" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22376543" sideWeight="0.4972156" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38425925" sideWeight="0.4972156" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -460,24 +456,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/Functional/BaseTestCase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/Functional/HomepageTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/autoload.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -539,13 +521,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -583,20 +558,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="17" column="19" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/middleware.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/.htaccess">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -616,20 +577,6 @@
         <state relative-caret-position="8676">
           <caret line="497" column="30" selection-start-line="497" selection-start-column="27" selection-end-line="497" selection-end-column="30" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/settings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dependencies.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-81">
-          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -755,16 +702,72 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/attachments.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="83" column="7" selection-start-line="83" selection-start-column="7" selection-end-line="83" selection-end-column="7" />
+        <state relative-caret-position="198">
+          <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="17" column="19" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/middleware.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dependencies.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/settings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/slim/slim/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/autoload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="1583" column="0" selection-start-line="1583" selection-start-column="0" selection-end-line="1583" selection-end-column="0" />
+        <state relative-caret-position="207">
+          <caret line="1255" column="20" selection-start-line="1255" selection-start-column="20" selection-end-line="1255" selection-end-column="20" />
           <folding>
             <element signature="e#7#29#0#PHP" expanded="true" />
             <element signature="e#360#594#1#PHP" expanded="false" />
@@ -773,24 +776,26 @@
             <element signature="e#9047#10157#0#PHP" expanded="false" />
             <element signature="e#12587#12772#1#PHP" expanded="false" />
             <element signature="e#13167#14606#1#PHP" expanded="false" />
-            <marker date="1524323542351" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
-            <marker date="1524323542351" expanded="true" signature="32885:33013" ph="SELECT Filen... attachments" />
-            <marker date="1524323542351" expanded="true" signature="35789:35897" ph="SELECT Filen... attachments" />
-            <marker date="1524323542351" expanded="true" signature="35927:36013" ph="DELETE FROM " />
-            <marker date="1524323542351" expanded="true" signature="36985:37098" ph="UPDATE attac... " />
-            <marker date="1524323542351" expanded="true" signature="38388:38612" ph="SELECT DISTI... authors_publishers" />
-            <marker date="1524323542351" expanded="true" signature="38424:38465" ph="select count... connection" />
-            <marker date="1524323542351" expanded="true" signature="40287:40414" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1524323542351" expanded="true" signature="40287:40417" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1524323542351" expanded="true" signature="40287:40489" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1524323542351" expanded="true" signature="40287:40493" ph="SELECT ID FR... authors_publishers" />
-            <marker date="1524323542351" expanded="true" signature="40534:40573" ph="INSERT INTO connection" />
-            <marker date="1524323542351" expanded="true" signature="40534:40575" ph="INSERT INTO connection" />
-            <marker date="1524323542351" expanded="true" signature="40534:40640" ph="INSERT INTO connection... " />
-            <marker date="1524323542351" expanded="true" signature="40680:40798" ph="DELETE FROM " />
-            <marker date="1524323542351" expanded="true" signature="40680:40809" ph="DELETE FROM " />
-            <marker date="1524323542351" expanded="true" signature="44805:44894" ph="DELETE FROM " />
-            <marker date="1524323542351" expanded="true" signature="44928:45012" ph="DELETE FROM " />
+            <marker date="1524343242200" expanded="true" signature="2718:2842" ph="SELECT COUNT... attachments" />
+            <marker date="1524343242200" expanded="true" signature="32885:33013" ph="SELECT Filen... attachments" />
+            <marker date="1524343242200" expanded="true" signature="34166:34287" ph="SELECT COUNT... attachments" />
+            <marker date="1524343242200" expanded="true" signature="34323:34433" ph="INSERT INTO attachments... " />
+            <marker date="1524343242200" expanded="true" signature="36648:36756" ph="SELECT Filen... attachments" />
+            <marker date="1524343242200" expanded="true" signature="36786:36872" ph="DELETE FROM " />
+            <marker date="1524343242200" expanded="true" signature="37844:37957" ph="UPDATE attac... " />
+            <marker date="1524343242200" expanded="true" signature="39247:39471" ph="SELECT DISTI... authors_publishers" />
+            <marker date="1524343242200" expanded="true" signature="39283:39324" ph="select count... connection" />
+            <marker date="1524343242200" expanded="true" signature="41146:41273" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1524343242200" expanded="true" signature="41146:41276" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1524343242200" expanded="true" signature="41146:41348" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1524343242200" expanded="true" signature="41146:41352" ph="SELECT ID FR... authors_publishers" />
+            <marker date="1524343242200" expanded="true" signature="41393:41432" ph="INSERT INTO connection" />
+            <marker date="1524343242200" expanded="true" signature="41393:41434" ph="INSERT INTO connection" />
+            <marker date="1524343242200" expanded="true" signature="41393:41499" ph="INSERT INTO connection... " />
+            <marker date="1524343242200" expanded="true" signature="41539:41657" ph="DELETE FROM " />
+            <marker date="1524343242200" expanded="true" signature="41539:41668" ph="DELETE FROM " />
+            <marker date="1524343242200" expanded="true" signature="45664:45753" ph="DELETE FROM " />
+            <marker date="1524343242200" expanded="true" signature="45787:45871" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
