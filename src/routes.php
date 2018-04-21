@@ -1614,6 +1614,53 @@ $app->get('/delete/{workId}', function (Request $req, Response $res, $args) {
     return $res->withRedirect('/content');
 });
 
+$app->get('/delete-attachments/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $sqlDeleteAttachments =
+        'DELETE '.
+        'FROM '.
+        ' attachments '.
+        'WHERE '.
+        ' WorkID = ?';
+
+    $dbo = $this->db->prepare($sqlDeleteAttachments);
+    $dbo->execute(array($args['workId']));
+
+    $path = __DIR__.'/../public/images/' . str_pad($args['workId'], 5, '0', STR_PAD_LEFT) . '/';
+    
+    deleteDirectory($path);
+
+    return $res->withRedirect('/attachments/'.$args['workId']);
+});
+
+function deleteDirectory($dir) {
+    if (!file_exists($dir)) {
+        return true;
+    }
+
+    if (!is_dir($dir)) {
+        return unlink($dir);
+    }
+
+    foreach (scandir($dir) as $item) {
+        if ($item == '.' || $item == '..') {
+            continue;
+        }
+
+        if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+            return false;
+        }
+
+    }
+
+    return rmdir($dir);
+}
+
 //function resize($newWidth, $targetFile, $originalFile) {
 //
 //    $info = getimagesize($originalFile);
