@@ -119,7 +119,7 @@
                 {% for key, work in works %}
                     <tr>
                         <td>{{ work.Title }}</td>
-                        {% set el = work.Authors[0][0].Name ~ ' ' ~ work.Authors[0][0].LastName ~ ' ' ~ work.Authors[0][0].name %}
+                        {% set el = work.Authors[0][0].Name ~ ' ' ~ work.Authors[0][0].LastName ~ ' ' ~ work.Authors[0][0].Corporation %}
                         <td {% if (work.Authors|length > 1 or el|length > 25) %} data-toggle="tooltip" data-placement="bottom" title="{% for key2, author in  work.Authors %}{{ author[0].Name }} {{ author[0].LastName }} {{ author[0].Corporation }}{% if not loop.last %}; {% endif %}{% endfor %}" {% endif %}>
                             {{ el|length > 25 ? el|slice(0,25) : el }}
                             {% if work.Authors|length > 1 %}
@@ -131,7 +131,7 @@
                         <td>
                             <a role="button" class="btn btn-primary" href="/metadata/{{ work.WorkID }}">Metadata</a>
                             <a role="button" class="btn btn-primary" href="/text/{{ work.WorkID }}">Text</a>
-                            <a role="button" class="btn btn-danger" href="/delete/{{ work.WorkID }}">Smazat</a>
+                            <a role="button" class="btn btn-danger" href="/delete/{{ work.WorkID }}" onclick="return confirm('Opravdu si přejete smazat {{ work.Title }}?')">Smazat</a>
                         </td>
                         <td>
                             <a role="button" class="btn btn-primary" href="/attachments/{{ work.WorkID }}">Přílohy({{ work.countAttachments.count }})</a>

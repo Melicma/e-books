@@ -1560,3 +1560,33 @@ $app->post('/update-publishers/{workId}', function (Request $req, Response $res,
 
     return $res->withRedirect('/metadata/' . $args['workId']);
 });
+
+$app->get('/delete/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $sqlDeleteConnections =
+        'DELETE '.
+        'FROM '.
+        ' connection '.
+        'WHERE '.
+        ' WorkID = ?';
+
+    $sqlDeleteWork =
+        'DELETE '.
+        'FROM '.
+        ' works '.
+        'WHERE '.
+        ' WorkID = ?';
+
+    $dbo = $this->db->prepare($sqlDeleteConnections);
+    $dbo->execute(array($args['workId']));
+
+    $dbo = $this->db->prepare($sqlDeleteWork);
+    $dbo->execute(array($args['workId']));
+
+    return $res->withRedirect('/content');
+});
