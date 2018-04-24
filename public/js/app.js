@@ -133,17 +133,72 @@ function doImgModal(id) {
     $('#imagemodal').modal('show');
 }
 
-function doBold() {
+function doTag(tag) {
     var editor = document.getElementById("texArea01");
-    console.log(editor.value);
     var editorHTML = editor.value;
     var selectionStart = 0, selectionEnd = 0;
     if (editor.selectionStart) selectionStart = editor.selectionStart;
     if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
     if (selectionStart != selectionEnd) {
         var editorCharArray = editorHTML.split("");
-        editorCharArray.splice(selectionEnd, 0, "\</b>");
-        editorCharArray.splice(selectionStart, 0, "\<b>"); //must do End first
+        editorCharArray.splice(selectionEnd, 0, '</' + tag + '>');
+        editorCharArray.splice(selectionStart, 0, '<' + tag + '>'); //must do End first
+        editorHTML = editorCharArray.join("");
+        editor.value = editorHTML;
+    }
+}
+
+function doBlockTag(tag) {
+    var editor = document.getElementById("texArea01");
+    var editorHTML = editor.value;
+    var selectionStart = 0, selectionEnd = 0;
+    if (editor.selectionStart) selectionStart = editor.selectionStart;
+    if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
+    if (selectionStart != selectionEnd) {
+        var editorCharArray = editorHTML.split("");
+        editorCharArray.splice(selectionEnd, 0, '\n        </' + tag + '>\n');
+        editorCharArray.splice(selectionStart, 0, '\n        <' + tag + '>\n          '); //must do End first
+        var tmpArr = [];
+        for (var k = selectionStart - 1; k != selectionEnd; ++k) {
+            if (editorCharArray[k] == ' ' && (editorCharArray[k-1] == '\n' || editorCharArray[k-1] == '\r\n')) {
+                editorCharArray.splice(k, 1);
+                --k;
+                --selectionEnd;
+            }
+        }
+        for (var i = selectionStart - 1; i != selectionEnd; ++i) {
+            if (editorCharArray[i] == '\n' || editorCharArray[i] == '\r\n') {
+                tmpArr.push(i);
+            }
+        }
+        for (var y = tmpArr.length; y != 0; --y) {
+            console.log('doing');
+            editorCharArray.splice(tmpArr[y-1] + 1, 0, '          ');
+        }
+        editorHTML = editorCharArray.join("");
+        editor.value = editorHTML;
+    }
+}
+
+function doRow() {
+    var cursorPos = $('#texArea01').prop('selectionStart');
+    var v = $('#texArea01').val();
+    var textBefore = v.substring(0,  cursorPos);
+    var textAfter  = v.substring(cursorPos, v.length);
+
+    $('#texArea01').val(textBefore + '\n' + textAfter);
+}
+
+function doEl(el) {
+    var editor = document.getElementById("texArea01");
+    var editorHTML = editor.value;
+    var selectionStart = 0, selectionEnd = 0;
+    if (editor.selectionStart) selectionStart = editor.selectionStart;
+    if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
+    if (selectionStart != selectionEnd) {
+        var editorCharArray = editorHTML.split("");
+        editorCharArray.splice(selectionEnd, 0, el);
+        editorCharArray.splice(selectionStart, 0, el); //must do End first
         editorHTML = editorCharArray.join("");
         editor.value = editorHTML;
     }

@@ -37,17 +37,17 @@
             <div class="col-3">
                 <div class="group position-fixed border-black p-3">
                     <div>
-                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doBold()">tučně</a>
-                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doItalic()">kurzíva</a>
-                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doStrofa()">strofa</a>
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doTag('b')">tučně</a>
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doTag('i')">kurzíva</a>
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doBlockTag('strofa')">strofa</a>
                     </div>
                     <div class="pt-3">
-                        <a role="button" class="btn btn-primary" href="javascript:;" onclick="doPage()">strana</a>
+                        <a role="button" class="btn btn-primary" href="javascript:;" onclick="doTag('strana')">strana</a>
                         <a role="button" class="btn btn-primary" href="javascript:;" onclick="doRow()">řádek</a>
-                        <a role="button" class="btn btn-primary" href="javascript:;" onclick="doBrakeline()">zalomit</a>
+                        {#<a role="button" class="btn btn-primary" href="javascript:;" onclick="doBrakeline()">zalomit</a>#}
                     </div>
                     <div class="pt-3">
-                        <a role="button" class="btn btn-primary" href="javascript:;" onclick="doQuotes()">uvozovky</a>
+                        <a role="button" class="btn btn-primary" href="javascript:;" onclick='doEl("\"")'>uvozovky</a>
                     </div>
                 </div>
             </div>
