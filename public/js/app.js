@@ -91,6 +91,11 @@ $(document).ready( function () {
         placeholder: 'Zadejte pro vyhledání autorů'
     });
 
+    $('#pseudonymName').selectivity({
+        allowClear: true,
+        placeholder: 'Zadejte autora pseudonymu'
+    });
+
 
     $('input[type="file"]').change(function(e){
         var number = e.target.files.length;

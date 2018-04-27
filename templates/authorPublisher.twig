@@ -64,6 +64,20 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-4">
+                        <div>
+                            <label for="pseudonymName">Pseudonym k:</label>
+                            <select class="form-control" id="pseudonymName" name="pseudonym">
+                                <option value="0">Žádný</option>
+                                {% for key, pseudonym in realElements %}
+                                    {% set el =  pseudonym.Name ~ ' ' ~ pseudonym.LastName ~ ' ' ~ pseudonym.Corporation %}
+                                    {% if el != element.Name ~ ' ' ~ element.LastName ~ ' ' ~ element.Corporation %}<option value="{{ pseudonym.ID }}" {% if el == pseudonymReal %}selected{% endif %}>{% if pseudonym.Name %}{{ pseudonym.Name }} {{ pseudonym.LastName }} {{ pseudonym.Corporation }}{% elseif pseudonym.Corporation %}{{ pseudonym.Corporation }}{% endif %}</option>{% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="row justify-content-md-end">
                     <button type="submit" class="btn btn-primary">Uložit</button>
                 </div>

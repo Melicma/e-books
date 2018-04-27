@@ -704,14 +704,35 @@ $app->get('/author-publisher/{id}', function (Request $req, Response $res, $args
         'WHERE '.
         ' ID = ?';
 
+    $sqlAuthors =
+        'SELECT '.
+        ' ID, Name, LastName, Corporation  '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' Author IS NULL';
+
+    $dbo = $this->db->prepare($sqlAuthors);
+    $dbo->execute(array());
+    $realAuthors = $dbo->fetchAll();
+
     $dbo = $this->db->prepare($sqlAuthor);
     $dbo->execute(array($args['id']));
     $element = $dbo->fetch();
 
+    $tmpReal = '';
+    if ($element['Author']) {
+        $dbo->execute(array($element['Author']));
+        $tmp = $dbo->fetch();
+        $tmpReal = $tmp['Name'] . ' ' . $tmp['LastName'] . ' ' . $tmp['Corporation'];
+    }
+
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
-        'element' => $element
+        'element' => $element,
+        'realElements' => $realAuthors,
+        'pseudonymReal' => $tmpReal
     ]);
 });
 
@@ -727,7 +748,7 @@ $app->post('/author-publisher/{id}', function (Request $req, Response $res, $arg
         'UPDATE '.
         ' authors_publishers '.
         'SET '.
-        ' Name = ?, LastName = ?, Corporation = ? '.
+        ' Name = ?, LastName = ?, Corporation = ?, Author = ? '.
         'WHERE '.
         ' ID = ?';
 
@@ -737,10 +758,17 @@ $app->post('/author-publisher/{id}', function (Request $req, Response $res, $arg
     $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
     $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
 
+    if ($body['pseudonym'] == 0) {
+        $uAuthor = null;
+    } else {
+        $uAuthor = $body['pseudonym'];
+    }
+
     $params = array();
     array_push($params, $uName);
     array_push($params, $uLastName);
     array_push($params, $uCorporation);
+    array_push($params, $uAuthor);
     array_push($params, $args['id']);
 
 
@@ -766,17 +794,35 @@ $app->get('/delete-author-publisher/{id}', function (Request $req, Response $res
         'WHERE '.
         ' ID = ?';
 
+    $sqlAuthor =
+        'SELECT '.
+        ' ID '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' Author = ?';
+
     $params = array();
     array_push($params, $args['id']);
+
+    $dbo = $this->db->prepare($sqlAuthor);
+    $dbo->execute($params);
+    $id = $dbo->fetch()['ID'];
+    if ($id) {
+        $dbo = $this->db->prepare($sqlDeleteConnection);
+        $dbo->execute(array($id));
+
+        $dbo = $this->db->prepare($sqlDelete);
+        $dbo->execute(array($id));
+    }
 
     $dbo = $this->db->prepare($sqlDeleteConnection);
     $dbo->execute($params);
 
     $dbo = $this->db->prepare($sqlDelete);
     $dbo->execute($params);
-
+    
     return $res->withRedirect('/list-author-publisher');
-
 });
 
 //$app->get('/author/{id}', function (Request $req, Response $res, $args) {
@@ -848,12 +894,27 @@ $app->get('/new-author/{workId}', function (Request $req, Response $res, $args) 
         return $res->withRedirect($this->router->pathFor('login',[],$data));
     }
 
+    $sqlAuthors =
+        'SELECT '.
+        ' ID, Name, LastName, Corporation  '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' Author IS NULL';
+
+    $dbo = $this->db->prepare($sqlAuthors);
+    $dbo->execute(array());
+    $realAuthors = $dbo->fetchAll();
+
+    $tmpReal = '';
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
         'author' => null,
         'isAuthor' => true,
-        'newWorkID' => $args['workId']
+        'newWorkID' => $args['workId'],
+        'realElements' => $realAuthors,
+        'pseudonymReal' => $tmpReal
     ]);
 });
 
@@ -867,9 +928,9 @@ $app->post('/new-author/{workId}', function (Request $req, Response $res, $args)
     $sqlInsert =
         'INSERT '.'INTO '.
         ' authors_publishers '.
-        ' (Name, LastName, Corporation) '.
+        ' (Name, LastName, Corporation, Author) '.
         'VALUES '.
-        ' (?, ?, ?) ';
+        ' (?, ?, ?, ?) ';
 
     $sqlGetId =
         'SELECT '.
@@ -887,11 +948,18 @@ $app->post('/new-author/{workId}', function (Request $req, Response $res, $args)
     $uName = isset($body['name']) ? $body['name'] : null;
     $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
     $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
-
+    
+    if ($body['pseudonym'] == 0) {
+        $uAuthor = null;
+    } else {
+        $uAuthor = $body['pseudonym'];
+    }
+    
     $params = array();
     array_push($params, $uName);
     array_push($params, $uLastName);
     array_push($params, $uCorporation);
+    array_push($params, $uAuthor);
 
 
     $dbo = $this->db->prepare($sqlInsert);
@@ -922,11 +990,26 @@ $app->get('/new-author-publisher', function (Request $req, Response $res, $args)
         return $res->withRedirect($this->router->pathFor('login',[],$data));
     }
 
+    $sqlAuthors =
+        'SELECT '.
+        ' ID, Name, LastName, Corporation  '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' Author IS NULL';
+
+    $dbo = $this->db->prepare($sqlAuthors);
+    $dbo->execute(array());
+    $realAuthors = $dbo->fetchAll();
+
+    $tmpReal = '';
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
         'author' => null,
-        'newWorkID' => true
+        'newWorkID' => true,
+        'realElements' => $realAuthors,
+        'pseudonymReal' => $tmpReal
     ]);
 });
 
@@ -940,9 +1023,9 @@ $app->post('/new-author-publisher', function (Request $req, Response $res, $args
     $sqlInsert =
         'INSERT '.'INTO '.
         ' authors_publishers '.
-        ' (Name, LastName, Corporation) '.
+        ' (Name, LastName, Corporation, Author) '.
         'VALUES '.
-        ' (?, ?, ?) ';
+        ' (?, ?, ?, ?) ';
 
     $body = $req->getParsedBody();
 
@@ -950,10 +1033,17 @@ $app->post('/new-author-publisher', function (Request $req, Response $res, $args
     $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
     $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
 
+    if ($body['pseudonym'] == 0) {
+        $uAuthor = null;
+    } else {
+        $uAuthor = $body['pseudonym'];
+    }
+
     $params = array();
     array_push($params, $uName);
     array_push($params, $uLastName);
     array_push($params, $uCorporation);
+    array_push($params, $uAuthor);
 
 
     $dbo = $this->db->prepare($sqlInsert);
@@ -1054,13 +1144,28 @@ $app->get('/new-publisher/{workId}', function (Request $req, Response $res, $arg
         return $res->withRedirect($this->router->pathFor('login',[],$data));
     }
 
+    $sqlAuthors =
+        'SELECT '.
+        ' ID, Name, LastName, Corporation  '.
+        'FROM '.
+        ' authors_publishers '.
+        'WHERE '.
+        ' Author IS NULL';
+
+    $dbo = $this->db->prepare($sqlAuthors);
+    $dbo->execute(array());
+    $realAuthors = $dbo->fetchAll();
+
+    $tmpReal = '';
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
         'author' => null,
         'isAuthor' => false,
         'isPublisher' => true,
-        'newWorkID' => $args['workId']
+        'newWorkID' => $args['workId'],
+        'realElements' => $realAuthors,
+        'pseudonymReal' => $tmpReal
     ]);
 });
 
@@ -1074,9 +1179,9 @@ $app->post('/new-publisher/{workId}', function (Request $req, Response $res, $ar
     $sqlInsert =
         'INSERT '.'INTO '.
         ' authors_publishers '.
-        ' (Name, LastName, Corporation) '.
+        ' (Name, LastName, Corporation, Author) '.
         'VALUES '.
-        ' (?, ?, ?) ';
+        ' (?, ?, ?, ?) ';
 
     $sqlGetId =
         'SELECT '.
@@ -1095,10 +1200,17 @@ $app->post('/new-publisher/{workId}', function (Request $req, Response $res, $ar
     $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
     $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
 
+    if ($body['pseudonym'] == 0) {
+        $uAuthor = null;
+    } else {
+        $uAuthor = $body['pseudonym'];
+    }
+
     $params = array();
     array_push($params, $uName);
     array_push($params, $uLastName);
     array_push($params, $uCorporation);
+    array_push($params, $uAuthor);
 
 
     $dbo = $this->db->prepare($sqlInsert);
