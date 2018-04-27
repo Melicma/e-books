@@ -1,33 +1,41 @@
 {% extends "home.phtml" %}
 {% block content %}
 
-    <div class="container">
-        <div class="row pt-2 pb-2">
-            <div class="col-6">
-                <a class="btn btn-secondary" role="button" href="/content" >
-                    Seznam děl
-                </a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/content">Seznam děl <span class="sr-only">(current)</span></a>
+                </li>
                 {% if newWorkID %}
-                <a class="btn btn-secondary" role="button" href="/metadata/{{ newWorkID }}" >
-                    Metadata
-                </a>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/metadata/{{ work.WorkID }}">Metadata <span class="sr-only">(current)</span></a>
+                    </li>
                 {% else %}
-                <a class="btn btn-secondary" role="button" href="/list-author-publisher" >
-                    Seznam autorů a vydavatelů
-                </a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/list-author-publisher">Seznam autorů a vydavatelů <span class="sr-only">(current)</span></a>
+                </li>
                 {% endif %}
-            </div>
-            <div class="dropdown col-6">
-                <button class="btn btn-secondary dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </ul>
+            <div class="navbar-nav dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ user }}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/change-password">Změna hesla</a>
                     <a class="dropdown-item" href="/logout">Odhlásit</a>
                 </div>
             </div>
         </div>
+    </nav>
 
+
+    <div class="container pt-2">
 
         <div class="row">
             <h1 class="h1 col-12">{% if newWorkID %}Nový {% if isAuthor %}autor{% elseif isPublisher %}vydavatel{% else %}záznam{% endif %}{% else %}Údaje o: {{ element.Name }} {{ element.LastName }} {{ element.Corporation }}{% endif %}</h1>
