@@ -20,10 +20,10 @@ $(document).ready( function () {
             "infoFiltered":   "(filtrováno z _MAX_ celkových výsledků)",
             "infoPostFix":    "",
             "thousands":      ",",
-            "lengthMenu":     "Zobrazit _MENU_ záznamů",
+            "lengthMenu":     '<img src="help.svg" alt="help" class="icon" title="Vyberte počet zobrazených děl na stránce." aria-hidden="true" data-toggle="tooltip">Zobrazit _MENU_ záznamů',
             "loadingRecords": "Načítání...",
             "processing":     "Processing...",
-            "search":         "Vyhledat:",
+            "search":         '<img src="help.svg" alt="help" class="icon" title="Zadejte výraz pro rychlé vyhledávání v tabulce." aria-hidden="true" data-toggle="tooltip">Vyhledat:',
             "zeroRecords":    "Výsledek nenalezen",
             "paginate": {
                 "first":      "První",
@@ -54,10 +54,10 @@ $(document).ready( function () {
             "infoFiltered":   "(filtrováno z _MAX_ celkových výsledků)",
             "infoPostFix":    "",
             "thousands":      ",",
-            "lengthMenu":     "Zobrazit _MENU_ záznamů",
+            "lengthMenu":     '<img src="help.svg" alt="help" class="icon" title="Vyberte počet zobrazených záznamu na stránce." aria-hidden="true" data-toggle="tooltip">Zobrazit _MENU_ záznamů',
             "loadingRecords": "Načítání...",
             "processing":     "Processing...",
-            "search":         "Vyhledat:",
+            "search":         '<img src="help.svg" alt="help" class="icon" title="Zadejte výraz pro rychlé vyhledávání v tabulce." aria-hidden="true" data-toggle="tooltip">Vyhledat:',
             "zeroRecords":    "Výsledek nenalezen",
             "paginate": {
                 "first":      "První",
@@ -128,8 +128,6 @@ $(document).ready( function () {
     // $("textarea").each(function () {
     //     this.style.height = (this.scrollHeight+10)+'px';
     // });
-
-
 
 } );
 

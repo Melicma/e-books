@@ -44,7 +44,7 @@
         <form class="row mb-5 mt-5 justify-content-md-center" method="post" action="/update-authors/{{ work.WorkID }}">
             <div class="col-5">
                 <div>
-                    <label for="authorsNameSecond">Jména autorů:</label>
+                    <label for="authorsNameSecond"><img src="/help.svg" alt="help" class="icon" title="Vyberte autora/y díla." aria-hidden="true" data-toggle="tooltip">Jména autorů:</label>
                     <select multiple class="form-control" id="authorsNameSecond" name="authors[]">
                         {% for key, author in elements %}
                             {% set el =  author.Name ~ ' ' ~ author.LastName ~ ' ' ~ author.Corporation %}
@@ -67,7 +67,7 @@
         <form class="row mb-5 mt-5 justify-content-md-center" method="post" action="/update-publishers/{{ work.WorkID }}">
             <div class="col-5">
                 <div>
-                    <label for="publishersName">Jména vydavatelů:</label>
+                    <label for="publishersName"><img src="/help.svg" alt="help" class="icon" title="Vyberte vydavatele díla." aria-hidden="true" data-toggle="tooltip">Jména vydavatelů:</label>
                     <select multiple class="form-control" id="publishersName" name="pubs[]">
                         {% for key, publisher in elements %}
                             {% set el =  publisher.Name ~ ' ' ~ publisher.LastName ~ ' ' ~ publisher.Corporation %}
@@ -93,13 +93,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="title">Titul</label>
+                            <label for="title">T<img src="/help.svg" alt="help" class="icon" title="Zadejte název díla." aria-hidden="true" data-toggle="tooltip">itul</label>
                             <input {% if work.Title %}value="{{ work.Title }}" {% endif %}type="text" class="form-control" id="title" placeholder="Zadejte název" name="title">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="subtitle">Podtitul</label>
+                            <label for="subtitle"><img src="/help.svg" alt="help" class="icon" title="Zadejte podnadpis díla." aria-hidden="true" data-toggle="tooltip">Podtitul</label>
                             <input {% if work.Subtitle %}value="{{ work.Subtitle }}" {% endif %}type="text" class="form-control" id="subtitle" placeholder="Zadejte název" name="subtitle">
                         </div>
                     </div>
@@ -108,13 +108,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="place">Místo</label>
+                            <label for="place"><img src="/help.svg" alt="help" class="icon" title="Zadejte místo vydání díla." aria-hidden="true" data-toggle="tooltip">Místo</label>
                             <input {% if work.Place %}value="{{ work.Place }}" {% endif %}type="text" class="form-control" id="place" placeholder="Zadejte místo" name="place">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="subtitle">Rok vydání</label>
+                            <label for="subtitle"><img src="/help.svg" alt="help" class="icon" title="Zadejte rok vydání díla." aria-hidden="true" data-toggle="tooltip">Rok vydání</label>
                             <input {% if work.Year %}value="{{ work.Year }}" {% endif %}type="text" class="form-control" id="year" placeholder="Zadejte rok vydání" name="year">
                         </div>
                     </div>
@@ -123,13 +123,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="edition">Vydání</label>
+                            <label for="edition"><img src="/help.svg" alt="help" class="icon" title="Zadejte vydání díla." aria-hidden="true" data-toggle="tooltip">Vydání</label>
                             <input {% if work.Edition %}value="{{ work.Edition }}" {% endif %}type="text" class="form-control" id="edition" placeholder="Zadejte vydání" name="edition">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="pages">Stran</label>
+                            <label for="pages"><img src="/help.svg" alt="help" class="icon" title="Zadejte počet stran díla." aria-hidden="true" data-toggle="tooltip">Stran</label>
                             <input {% if work.Pages %}value="{{ work.Pages }}" {% endif %}type="text" class="form-control" id="pages" placeholder="Zadejte počet stran" name="pages">
                         </div>
                     </div>
@@ -138,13 +138,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="inscription">Věnování</label>
+                            <label for="inscription"><img src="/help.svg" alt="help" class="icon" title="Zadejte věnování." aria-hidden="true" data-toggle="tooltip">Věnování</label>
                             <input {% if work.Inscription %}value="{{ work.Inscription }}" {% endif %}type="text" class="form-control" id="inscription" placeholder="Zadejte věnování" name="inscription">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="mottoAuthor">Autor motta</label>
+                            <label for="mottoAuthor"><img src="/help.svg" alt="help" class="icon" title="Zadejte autora motta." aria-hidden="true" data-toggle="tooltip">Autor motta</label>
                             <input {% if work.MottoAuthor %}value="{{ work.MottoAuthor }}" {% endif %}type="text" class="form-control" id="mottoAuthor" placeholder="Zadejte jméno autora motta" name="mottoAuthor">
                         </div>
                     </div>
@@ -153,7 +153,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label for="motto">Motto</label>
+                            <label for="motto"><img src="/help.svg" alt="help" class="icon" title="Zadejte motto." aria-hidden="true" data-toggle="tooltip">Motto</label>
                             <input {% if work.Motto %}value="{{ work.Motto}}" {% endif %}type="text" class="form-control" id="motto" placeholder="Zadejte motto" name="motto">
                         </div>
                     </div>
@@ -162,13 +162,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="format">Formát</label>
+                            <label for="format"><img src="/help.svg" alt="help" class="icon" title="Zadejte formát díla." aria-hidden="true" data-toggle="tooltip">Formát</label>
                             <input {% if work.Format %}value="{{ work.Format }}" {% endif %}type="text" class="form-control" id="format" placeholder="Zadejte formát" name="format">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="signature">Zdroj signatura</label>
+                            <label for="signature"><img src="/help.svg" alt="help" class="icon" title="Zadejte podpis." aria-hidden="true" data-toggle="tooltip">Zdroj signatura</label>
                             <input {% if work.Signature %}value="{{ work.Signature }}" {% endif %}type="text" class="form-control" id="signature" placeholder="Zadejte zdroj" name="signature">
                         </div>
                     </div>
@@ -177,7 +177,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label for="description">Popis</label>
+                            <label for="description"><img src="/help.svg" alt="help" class="icon" title="Zadejte popis díla." aria-hidden="true" data-toggle="tooltip">Popis</label>
                             <textarea class="form-control" id="description" placeholder="Zadejte popis" name="description" rows="7">{{ work.Description}}</textarea>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label for="editNote">Ediční poznámka</label>
+                            <label for="editNote"><img src="/help.svg" alt="help" class="icon" title="Zadejte ediční poznámku k dílu." aria-hidden="true" data-toggle="tooltip">Ediční poznámka</label>
                             <textarea class="form-control" id="editNote" placeholder="Zadejte popis" name="editNote" rows="7">{{ work.EditNote}}</textarea>
                         </div>
                     </div>

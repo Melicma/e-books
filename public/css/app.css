@@ -40,3 +40,8 @@ textarea {
 #editable {
     outline: none;
 }
+
+.icon {
+    width: 12px;
+    vertical-align: top;
+}

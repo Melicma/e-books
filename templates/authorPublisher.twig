@@ -11,10 +11,10 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/content">Seznam děl <span class="sr-only">(current)</span></a>
                 </li>
-                {% if not newWorkID %}
+                {% if newWorkID and (isAuthor or isPublisher) %}
 
                     <li class="nav-item active">
-                        <a class="nav-link" href="/metadata/{{ work.WorkID }}">Metadata <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/metadata/{{ newWorkID }}">Metadata <span class="sr-only">(current)</span></a>
                     </li>
                 {% else %}
                 <li class="nav-item active">
@@ -49,7 +49,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label for="name">Jméno</label>
+                            <label for="name"><img src="/help.svg" alt="help" class="icon" title="Zadejte jméno." aria-hidden="true" data-toggle="tooltip">Jméno</label>
                             <input value="{{ element.Name}}" type="text" class="form-control" id="name" placeholder="Zadejte jméno" name="name">
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label for="lastName">Přijmení</label>
+                            <label for="lastName"><img src="/help.svg" alt="help" class="icon" title="Zadejte příjmení." aria-hidden="true" data-toggle="tooltip">Přijmení</label>
                             <input value="{{ element.LastName}}" type="text" class="form-control" id="lastName" placeholder="Zadejte přijmení" name="lastName">
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label for="corporation">Korporace</label>
+                            <label for="corporation"><img src="/help.svg" alt="help" class="icon" title="Zadejte název korporace." aria-hidden="true" data-toggle="tooltip">Korporace</label>
                             <input value="{{ element.Corporation}}" type="text" class="form-control" id="corporation" placeholder="Zadejte korporaci" name="corporation">
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div>
-                            <label for="pseudonymName">Pseudonym k:</label>
+                            <label for="pseudonymName"><img src="/help.svg" alt="help" class="icon" title="V případě pseudonymu zvolte pravé jméno osoby." aria-hidden="true" data-toggle="tooltip">Pseudonym k:</label>
                             <select class="form-control" id="pseudonymName" name="pseudonym">
                                 <option value="0">Žádný</option>
                                 {% for key, pseudonym in realElements %}
