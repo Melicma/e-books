@@ -22,12 +22,21 @@ body {
 }
 
 textarea {
-    box-sizing: border-box;
-    resize: none;
+    height: 90vh;
     border:1px solid #000000;
     width:100%;
 }
 
 .border-black {
     border:1px solid #000000;
+}
+
+#codeText {
+    height: 75vh;
+    border:1px solid #000000;
+    width:100%;
+}
+
+#editable {
+    outline: none;
 }

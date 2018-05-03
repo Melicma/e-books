@@ -113,21 +113,21 @@ $(document).ready( function () {
         $("label[for='" + this.id + "']").text(fileName);
     });
 
-    $.each($('textarea[data-autoresize]'), function() {
-        var offset = this.offsetHeight - this.clientHeight;
+    // $.each($('textarea[data-autoresize]'), function() {
+    //     var offset = this.offsetHeight - this.clientHeight;
+    //
+    //     var resizeTextarea = function(el) {
+    //         var tmp = $(window).scrollTop();
+    //
+    //         $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+    //         $(window).scrollTop(tmp);
+    //     };
+    //     $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
+    // });
 
-        var resizeTextarea = function(el) {
-            var tmp = $(window).scrollTop();
-
-            $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
-            $(window).scrollTop(tmp);
-        };
-        $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
-    });
-
-    $("textarea").each(function () {
-        this.style.height = (this.scrollHeight+10)+'px';
-    });
+    // $("textarea").each(function () {
+    //     this.style.height = (this.scrollHeight+10)+'px';
+    // });
 
 
 
@@ -139,72 +139,243 @@ function doImgModal(id) {
 }
 
 function doTag(tag) {
-    var editor = document.getElementById("texArea01");
-    var editorHTML = editor.value;
-    var selectionStart = 0, selectionEnd = 0;
-    if (editor.selectionStart) selectionStart = editor.selectionStart;
-    if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
-    if (selectionStart != selectionEnd) {
-        var editorCharArray = editorHTML.split("");
-        editorCharArray.splice(selectionEnd, 0, '</' + tag + '>');
-        editorCharArray.splice(selectionStart, 0, '<' + tag + '>'); //must do End first
-        editorHTML = editorCharArray.join("");
-        editor.value = editorHTML;
+    var displaytext = document.getElementById("editable");
+    var objOffset = getSelectionCharacterOffsetWithin(displaytext);
+    var text = displaytext.textContent;
+    var sel = getSelection();
+
+    var rng, startSel, endSel;
+    if (!sel.rangeCount
+        || displaytext.compareDocumentPosition((rng = sel.getRangeAt(0)).startContainer) === Node.DOCUMENT_POSITION_PRECEDING
+        || displaytext.compareDocumentPosition(rng.endContainer) === Node.DOCUMENT_POSITION_FOLLOWING)
+        sel = "";
+    else {
+        startSel = objOffset.start;
+        endSel = objOffset.end;
+        // startSel = displaytext.compareDocumentPosition(rng.startContainer) === Node.DOCUMENT_POSITION_FOLLOWING ? 0 : rng.startOffset;
+        // endSel = displaytext.compareDocumentPosition(rng.endContainer) === Node.DOCUMENT_POSITION_PRECEDING ? displaytext.textContent.length : rng.endOffset;
+        sel = displaytext.textContent.substring(startSel, endSel);
     }
+    if (sel != '' && sel != undefined) {
+        var editorCharArray = text.split("");
+        editorCharArray.splice(endSel, 0, '</' + tag + '>');
+        editorCharArray.splice(startSel, 0, '<' + tag + '>'); //must do End first
+        text = editorCharArray.join("");
+        displaytext.textContent = text;
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    }
+
+    // var editor = document.getElementById("editable");
+    // var editorHTML = editor.value;
+    // var selectionStart = 0, selectionEnd = 0;
+    // if (editor.selectionStart) selectionStart = editor.selectionStart;
+    // if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
+    // if (selectionStart != selectionEnd) {
+    //     var editorCharArray = editorHTML.split("");
+    //     editorCharArray.splice(selectionEnd, 0, '</' + tag + '>');
+    //     editorCharArray.splice(selectionStart, 0, '<' + tag + '>'); //must do End first
+    //     editorHTML = editorCharArray.join("");
+    //     editor.value = editorHTML;
+    // }
 }
 
-function doBlockTag(tag) {
-    var editor = document.getElementById("texArea01");
-    var editorHTML = editor.value;
-    var selectionStart = 0, selectionEnd = 0;
-    if (editor.selectionStart) selectionStart = editor.selectionStart;
-    if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
-    if (selectionStart != selectionEnd) {
-        var editorCharArray = editorHTML.split("");
-        editorCharArray.splice(selectionEnd, 0, '\n        </' + tag + '>\n');
-        editorCharArray.splice(selectionStart, 0, '\n        <' + tag + '>\n          '); //must do End first
+function doBlockTag(tag, numOfSpaces) {
+    var spaces = '';
+    for (var l = 0; l < numOfSpaces; ++l) {
+        spaces += ' ';
+    }
+    var displaytext = document.getElementById("editable");
+    var text = displaytext.textContent;
+    var sel = getSelection();
+    var objOffset = getSelectionCharacterOffsetWithin(displaytext);
+
+    var rng, startSel, endSel;
+    if (!sel.rangeCount
+        || displaytext.compareDocumentPosition((rng = sel.getRangeAt(0)).startContainer) === Node.DOCUMENT_POSITION_PRECEDING
+        || displaytext.compareDocumentPosition(rng.endContainer) === Node.DOCUMENT_POSITION_FOLLOWING)
+        sel = "";
+    else {
+        startSel = objOffset.start;
+        endSel = objOffset.end;
+        // startSel = displaytext.compareDocumentPosition(rng.startContainer) === Node.DOCUMENT_POSITION_FOLLOWING ? 0 : rng.startOffset;
+        // endSel = displaytext.compareDocumentPosition(rng.endContainer) === Node.DOCUMENT_POSITION_PRECEDING ? displaytext.textContent.length : rng.endOffset;
+        sel = displaytext.textContent.substring(startSel, endSel);
+    }
+
+    if (sel != '' && sel != undefined) {
+        var editorCharArray = text.split("");
+        editorCharArray.splice(endSel, 0, '\n' + spaces + '</' + tag + '>\n');
+        editorCharArray.splice(startSel, 0, '\n' + spaces + '<' + tag + '>\n' + spaces + '  '); //must do End first
         var tmpArr = [];
-        for (var k = selectionStart - 1; k != selectionEnd; ++k) {
+        for (var k = startSel - 1; k != endSel; ++k) {
             if (editorCharArray[k] == ' ' && (editorCharArray[k-1] == '\n' || editorCharArray[k-1] == '\r\n')) {
                 editorCharArray.splice(k, 1);
                 --k;
-                --selectionEnd;
+                --endSel;
             }
         }
-        for (var i = selectionStart - 1; i != selectionEnd; ++i) {
+        for (var i = startSel - 1; i != endSel; ++i) {
             if (editorCharArray[i] == '\n' || editorCharArray[i] == '\r\n') {
                 tmpArr.push(i);
             }
         }
         for (var y = tmpArr.length; y != 0; --y) {
-            console.log('doing');
-            editorCharArray.splice(tmpArr[y-1] + 1, 0, '          ');
+            editorCharArray.splice(tmpArr[y-1] + 1, 0, spaces + '  ');
         }
-        editorHTML = editorCharArray.join("");
-        editor.value = editorHTML;
+        text = editorCharArray.join("");
+        displaytext.textContent = text;
+
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
     }
+
+    // var editor = document.getElementById("editable");
+    // var editorHTML = editor.value;
+    // var selectionStart = 0, selectionEnd = 0;
+    // if (editor.selectionStart) selectionStart = editor.selectionStart;
+    // if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
+    // if (selectionStart != selectionEnd) {
+    //     var editorCharArray = editorHTML.split("");
+    //     editorCharArray.splice(selectionEnd, 0, '\n        </' + tag + '>\n');
+    //     editorCharArray.splice(selectionStart, 0, '\n        <' + tag + '>\n          '); //must do End first
+    //     var tmpArr = [];
+    //     for (var k = selectionStart - 1; k != selectionEnd; ++k) {
+    //         if (editorCharArray[k] == ' ' && (editorCharArray[k-1] == '\n' || editorCharArray[k-1] == '\r\n')) {
+    //             editorCharArray.splice(k, 1);
+    //             --k;
+    //             --selectionEnd;
+    //         }
+    //     }
+    //     for (var i = selectionStart - 1; i != selectionEnd; ++i) {
+    //         if (editorCharArray[i] == '\n' || editorCharArray[i] == '\r\n') {
+    //             tmpArr.push(i);
+    //         }
+    //     }
+    //     for (var y = tmpArr.length; y != 0; --y) {
+    //         console.log('doing');
+    //         editorCharArray.splice(tmpArr[y-1] + 1, 0, '          ');
+    //     }
+    //     editorHTML = editorCharArray.join("");
+    //     editor.value = editorHTML;
+    // }
 }
 
 function doRow() {
-    var cursorPos = $('#texArea01').prop('selectionStart');
-    var v = $('#texArea01').val();
-    var textBefore = v.substring(0,  cursorPos);
-    var textAfter  = v.substring(cursorPos, v.length);
+    var displaytext = document.getElementById("editable");
+    var objOffset = getSelectionCharacterOffsetWithin(displaytext);
+    var text = displaytext.textContent;
 
-    $('#texArea01').val(textBefore + '\n' + textAfter);
+    var textBefore = text.substring(0,  objOffset.start);
+    var textAfter  = text.substring(objOffset.start, text.length);
+    displaytext.textContent = textBefore + '\n' + textAfter;
+    $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+
+    // var cursorPos = $('#editable').prop('selectionStart');
+    // var v = $('#editable').val();
+    // var textBefore = v.substring(0,  cursorPos);
+    // var textAfter  = v.substring(cursorPos, v.length);
+
+    // $('#editable').val(textBefore + '\n' + textAfter);
 }
 
 function doEl(el) {
-    var editor = document.getElementById("texArea01");
-    var editorHTML = editor.value;
-    var selectionStart = 0, selectionEnd = 0;
-    if (editor.selectionStart) selectionStart = editor.selectionStart;
-    if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
-    if (selectionStart != selectionEnd) {
-        var editorCharArray = editorHTML.split("");
-        editorCharArray.splice(selectionEnd, 0, el);
-        editorCharArray.splice(selectionStart, 0, el); //must do End first
-        editorHTML = editorCharArray.join("");
-        editor.value = editorHTML;
+
+    var displaytext = document.getElementById("editable");
+    var text = displaytext.textContent;
+    var sel = getSelection();
+    var objOffset = getSelectionCharacterOffsetWithin(displaytext);
+
+    var rng, startSel, endSel;
+    if (!sel.rangeCount
+        || displaytext.compareDocumentPosition((rng = sel.getRangeAt(0)).startContainer) === Node.DOCUMENT_POSITION_PRECEDING
+        || displaytext.compareDocumentPosition(rng.endContainer) === Node.DOCUMENT_POSITION_FOLLOWING)
+        sel = "";
+    else {
+        startSel = objOffset.start;
+        endSel = objOffset.end;
+        // startSel = displaytext.compareDocumentPosition(rng.startContainer) === Node.DOCUMENT_POSITION_FOLLOWING ? 0 : rng.startOffset;
+        // endSel = displaytext.compareDocumentPosition(rng.endContainer) === Node.DOCUMENT_POSITION_PRECEDING ? displaytext.textContent.length : rng.endOffset;
+        sel = displaytext.textContent.substring(startSel, endSel);
     }
+
+    if (sel != '' && sel != undefined) {
+        var editorCharArray = text.split("");
+        editorCharArray.splice(endSel, 0, el);
+        editorCharArray.splice(startSel, 0, el); //must do End first
+        text = editorCharArray.join("");
+        displaytext.textContent = text;
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    }
+
+    // var editor = document.getElementById("editable");
+    // var editorHTML = editor.value;
+    // var selectionStart = 0, selectionEnd = 0;
+    // if (editor.selectionStart) selectionStart = editor.selectionStart;
+    // if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
+    // if (selectionStart != selectionEnd) {
+    //     var editorCharArray = editorHTML.split("");
+    //     editorCharArray.splice(selectionEnd, 0, el);
+    //     editorCharArray.splice(selectionStart, 0, el); //must do End first
+    //     editorHTML = editorCharArray.join("");
+    //     editor.value = editorHTML;
+    // }
+}
+
+
+function getSelectionCharacterOffsetWithin(element) {
+    var start = 0;
+    var end = 0;
+    var doc = element.ownerDocument || element.document;
+    var win = doc.defaultView || doc.parentWindow;
+    var sel;
+    if (typeof win.getSelection != "undefined") {
+        sel = win.getSelection();
+        if (sel.rangeCount > 0) {
+            var range = win.getSelection().getRangeAt(0);
+            var preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(element);
+            preCaretRange.setEnd(range.startContainer, range.startOffset);
+            start = preCaretRange.toString().length;
+            preCaretRange.setEnd(range.endContainer, range.endOffset);
+            end = preCaretRange.toString().length;
+        }
+    } else if ( (sel = doc.selection) && sel.type != "Control") {
+        var textRange = sel.createRange();
+        var preCaretTextRange = doc.body.createTextRange();
+        preCaretTextRange.moveToElementText(element);
+        preCaretTextRange.setEndPoint("EndToStart", textRange);
+        start = preCaretTextRange.text.length;
+        preCaretTextRange.setEndPoint("EndToEnd", textRange);
+        end = preCaretTextRange.text.length;
+    }
+    return { start: start, end: end };
+}
+
+function post(id) {
+    // path, params
+    var method = "post"; // Set method to post by default if not specified.
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", '/text/' + id);
+
+    var displaytext = document.getElementById("editable");
+    var text = displaytext.innerText;
+
+    var hiddenField = document.createElement("textarea");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", 'text');
+    hiddenField.innerHTML = text;
+    form.appendChild(hiddenField);
+
+    document.body.appendChild(form);
+    form.submit();
 }

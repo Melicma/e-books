@@ -821,7 +821,7 @@ $app->get('/delete-author-publisher/{id}', function (Request $req, Response $res
 
     $dbo = $this->db->prepare($sqlDelete);
     $dbo->execute($params);
-    
+
     return $res->withRedirect('/list-author-publisher');
 });
 
@@ -1748,6 +1748,32 @@ $app->get('/delete-attachments/{workId}', function (Request $req, Response $res,
     deleteDirectory($path);
 
     return $res->withRedirect('/attachments/'.$args['workId']);
+});
+
+$app->post('/text/{workId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $body = $req->getParsedBody();
+
+    $sqlUpdate =
+        'UPDATE '.
+        ' works '.
+        'SET '.
+        'Content = ? '.
+        'WHERE '.
+        ' WorkID = ?';
+
+    echo '<pre>' . htmlspecialchars(print_r($body['text'],true)) . '</pre>';
+
+    $dbo = $this->db->prepare($sqlUpdate);
+    $dbo->execute(array($body['text'], $args['workId']));
+
+//    return $res;
+    return $res->withRedirect('/text/'.$args['workId']);
 });
 
 function deleteDirectory($dir) {

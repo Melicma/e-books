@@ -36,27 +36,48 @@
             <h1 class="h1 col-12">Text k: {{ work.Title}}</h1>
         </div>
 
-        <div class="row align-items-start">
+        <div class="row align-items-start" spellcheck="false">
             <div class="col-9">
                 {#<label for="texArea01"></label>#}
-                <textarea id="texArea01" data-autoresize rows="2">{{ work.Content }}</textarea>
+                {#<textarea class="mb-2" id="texArea01" rows="10">{{ work.Content }}</textarea>#}
+                <pre>
+                    <code id="codeText" class="xml">
+                        <div id="editable" contentEditable="true">{{ work.Content }}</div>
+                    </code>
+                </pre>
             </div>
-            <div class="col-3">
-                <div class="group position-fixed border-black p-3">
-                    <div>
+            <div class="col-3 align-items-end">
+                <div class="position-fixed">
+                    <div class="group border-black p-3">
+                        <div>
                             <a role="button" class="btn btn-primary" href="javascript:;" onclick="doTag('b')">tučně</a>
                             <a role="button" class="btn btn-primary" href="javascript:;" onclick="doTag('i')">kurzíva</a>
-                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doBlockTag('strofa')">strofa</a>
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doTag('v')">verš</a>
+                        </div>
+                        <div class="pt-3">
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doTag('strana')">strana</a>
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doRow()">řádek</a>
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doTag('tiraz')">tiráž</a>
+                        </div>
+                        <div class="pt-3">
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick='doEl("\"")'>uvozovky</a>
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doBlockTag('spisovatel', 4)">spisovatel</a>
+                        </div>
+                        <div class="pt-3">
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doBlockTag('sbirka', 6)">sbírka</a>
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doBlockTag('nadpis', 8)">nadpis</a>
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doBlockTag('basen', 8)">báseň</a>
+                        </div>
+                        <div class="pt-3">
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doTag('komentar')">komentář</a>
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="doBlockTag('strofa', 8)">strofa</a>
+                        </div>
                     </div>
-                    <div class="pt-3">
-                        <a role="button" class="btn btn-primary" href="javascript:;" onclick="doTag('strana')">strana</a>
-                        <a role="button" class="btn btn-primary" href="javascript:;" onclick="doRow()">řádek</a>
-                        {#<a role="button" class="btn btn-primary" href="javascript:;" onclick="doBrakeline()">zalomit</a>#}
-                    </div>
-                    <div class="pt-3">
-                        <a role="button" class="btn btn-primary" href="javascript:;" onclick='doEl("\"")'>uvozovky</a>
+                    <div class="pt-2">
+                        <a role="button" class="btn btn-primary" href="javascript:;" onclick="post({{work.WorkID}})">uložit</a>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
