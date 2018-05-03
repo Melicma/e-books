@@ -11,7 +11,7 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/content">Seznam děl <span class="sr-only">(current)</span></a>
                 </li>
-                {% if newWorkID %}
+                {% if not newWorkID %}
 
                     <li class="nav-item active">
                         <a class="nav-link" href="/metadata/{{ work.WorkID }}">Metadata <span class="sr-only">(current)</span></a>
@@ -27,6 +27,7 @@
                     {{ user }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    {% if role == 'admin' %}<a class="dropdown-item" href="/add-user">Přidat uživatele</a>{% endif %}
                     <a class="dropdown-item" href="/change-password">Změna hesla</a>
                     <a class="dropdown-item" href="/logout">Odhlásit</a>
                 </div>

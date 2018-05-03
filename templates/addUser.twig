@@ -1,0 +1,67 @@
+{% extends "home.phtml" %}
+
+{% block content %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/content">Seznam děl <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <div class="navbar-nav dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ user }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/change-password">Změna hesla</a>
+                    <a class="dropdown-item" href="/logout">Odhlásit</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    {% if passwdNotMatchError %}
+        <div class="row justify-content-md-center">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Neshodují se hesla. &nbsp;&nbsp;&nbsp;
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    {% endif %}
+    {% if emailExistError %}
+        <div class="row justify-content-md-center">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Zadaný email již existuje. &nbsp;&nbsp;&nbsp;
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    {% endif %}
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <form method="post">
+                <div class="form-group">
+                    <label for="email">Email uživatele</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword1">Heslo</label>
+                    <input type="password" class="form-control" id="inputPassword1" name="password1" placeholder="Heslo">
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword2">Heslo znovu</label>
+                    <input type="password" class="form-control" id="inputPassword2" name="password2" placeholder="Heslo znovu">
+                </div>
+                <button type="submit" class="btn btn-primary">Přidat</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

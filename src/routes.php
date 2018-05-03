@@ -48,6 +48,7 @@ $app->post('/login', function (Request $req, Response $res) {
         $session = new \SlimSession\Helper;
         $session->userId = $users[0]['UserID'];
         $session->userEmail = $body['email'];
+        $session->role = $users[0]['Role'];
         return $res->withRedirect('/content');
     }
 });
@@ -156,6 +157,7 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
 //    $session::destroy();
     return $this->view->render($res, 'main.twig', [
         'user' => $session->userEmail,
+        'role' => $session->role,
         'works' => $works,
         'authors' => $authors,
         'years' => $years,
@@ -258,6 +260,7 @@ $app->post('/content', function (Request $req, Response $res) {
     if ((int)$body['yearTo'] < (int)$body['yearFrom'] && $body['yearTo'] != '--' && $body['yearFrom'] != '--') {
         return $this->view->render($res, 'main.twig', [
             'user' => $session->userEmail,
+            'role' => $session->role,
 //        'works' => $works,
             'authors' => $authors,
             'years' => $years,
@@ -424,6 +427,7 @@ $app->post('/content', function (Request $req, Response $res) {
 
     return $this->view->render($res, 'main.twig', [
         'user' => $session->userEmail,
+        'role' => $session->role,
         'works' => $works,
         'authors' => $authors,
         'years' => $years,
@@ -455,7 +459,10 @@ $app->get('/change-password', function (Request $req, Response $res, array $args
         return $res->withRedirect($this->router->pathFor('login',[],$data));
     }
 
-    return $this->view->render($res, 'changePasswdord.twig', []);
+    return $this->view->render($res, 'changePasswdord.twig', [
+        'user' => $session->userEmail,
+        'role' => $session->role
+    ]);
 });
 
 $app->post('/change-password', function (Request $req, Response $res) {
@@ -480,36 +487,41 @@ $app->post('/change-password', function (Request $req, Response $res) {
 
     if (empty($user) || (hash('sha256', $body['oldPassword'].hex2bin($user[0]['Password2'])) !== $user[0]['Password'])) {
         return $this->view->render($res, 'changePasswdord.twig', [
-            'oldPasswdError' => true
+            'oldPasswdError' => true,
+            'user' => $session->userEmail,
+            'role' => $session->role
         ]);
-    }
-
-    if ($body['password1'] != $body['password2']) {
+    } elseif ($body['password1'] != $body['password2']) {
         return $this->view->render($res, 'changePasswdord.twig', [
-            'passwdNotMatchError' => true
+            'passwdNotMatchError' => true,
+            'user' => $session->userEmail,
+            'role' => $session->role
         ]);
+    } else {
+
+
+        $newPassword = $body['password1'];
+
+        $salt =  substr(md5(rand()), 0, 7);
+//        $salt = bin2hex($salt);
+
+        print_r(hash('sha256', $newPassword.$salt));
+        print_r(' '.bin2hex($salt));
+
+        $sql =
+            'UPDATE ' .
+            ' users ' .
+            'SET Password = ?, Password2 = ? ' .
+            'WHERE ' .
+            ' UserId = ?';
+
+        $dbo = $this->db->prepare($sql);
+
+        $dbo->execute(array(hash('sha256', $newPassword.$salt) ,bin2hex($salt) , $session->userID));
+
+        return $res->withRedirect('/content');
     }
 
-    $newPassword = $body['password1'];
-
-    $salt =  substr(md5(rand()), 0, 7);
-//    $salt = bin2hex($salt);
-
-    print_r(hash('sha256', $newPassword.$salt));
-    print_r(' '.bin2hex($salt));
-
-    $sql =
-        'UPDATE ' .
-        ' users ' .
-        'SET Password = ?, Password2 = ? ' .
-        'WHERE ' .
-        ' UserId = ?';
-
-    $dbo = $this->db->prepare($sql);
-
-    $dbo->execute(array(hash('sha256', $newPassword.$salt) ,bin2hex($salt) , $session->userID));
-
-    return $res->withRedirect('/content');
 });
 
 $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
@@ -625,6 +637,7 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
 
     return $this->view->render($res, 'metadata.twig', [
         'user' => $session->userEmail,
+        'role' => $session->role,
         'work' => $work[0],
 //        'authors' => $authors,
 //        'publishers' => $publishers,
@@ -730,6 +743,7 @@ $app->get('/author-publisher/{id}', function (Request $req, Response $res, $args
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
+        'role' => $session->role,
         'element' => $element,
         'realElements' => $realAuthors,
         'pseudonymReal' => $tmpReal
@@ -910,6 +924,7 @@ $app->get('/new-author/{workId}', function (Request $req, Response $res, $args) 
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
+        'role' => $session->role,
         'author' => null,
         'isAuthor' => true,
         'newWorkID' => $args['workId'],
@@ -1006,6 +1021,7 @@ $app->get('/new-author-publisher', function (Request $req, Response $res, $args)
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
+        'role' => $session->role,
         'author' => null,
         'newWorkID' => true,
         'realElements' => $realAuthors,
@@ -1160,6 +1176,7 @@ $app->get('/new-publisher/{workId}', function (Request $req, Response $res, $arg
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
+        'role' => $session->role,
         'author' => null,
         'isAuthor' => false,
         'isPublisher' => true,
@@ -1300,6 +1317,7 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
 
     return $this->view->render($res, 'attachments.twig', [
         'user' => $session->userEmail,
+        'role' => $session->role,
         'work' => $work,
         'attachments' => $attachmentsOut
     ]);
@@ -1469,6 +1487,7 @@ $app->get('/text/{workId}', function (Request $req, Response $res, $args) {
     
     return $this->view->render($res, 'text.twig', [
         'user' => $session->userEmail,
+        'role' => $session->role,
         'work' => $work
     ]);
 });
@@ -1496,6 +1515,7 @@ $app->get('/list-author-publisher', function (Request $req, Response $res) {
 
     return $this->view->render($res, 'listAuthorPublisher.twig', [
         'user' => $session->userEmail,
+        'role' => $session->role,
         'elements' => $elements
     ]);
 });
@@ -1772,6 +1792,72 @@ $app->post('/text/{workId}', function (Request $req, Response $res, $args) {
 
     return $res->withRedirect('/text/'.$args['workId']);
 });
+
+
+$app->get('/add-user', function (Request $req, Response $res, array $args) use($app){
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    return $this->view->render($res, 'addUser.twig', [
+        'user' => $session->userEmail,
+        'role' => $session->role
+    ]);
+});
+
+$app->post('/add-user', function (Request $req, Response $res) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login', [], $data));
+    }
+
+    $body = $req->getParsedBody();
+
+    $sql =
+        'SELECT * ' .
+        'FROM ' .
+        ' users ' .
+        'WHERE ' .
+        ' UserEmail = ?';
+
+
+    $dbo = $this->db->prepare($sql);
+//
+    $dbo->execute(array($body['email']));
+    $user = $dbo->fetch();
+
+
+    if (!empty($user)) {
+        return $this->view->render($res, '/addUser.twig', [
+            'emailExistError' => true
+        ]);
+    } elseif ($body['password1'] != $body['password2']) {
+        return $this->view->render($res, '/addUser.twig', [
+            'passwdNotMatchError' => true
+        ]);
+    } else {
+        $newPassword = $body['password1'];
+
+        $salt =  substr(md5(rand()), 0, 7);
+
+        $sql =
+            'INSERT '.'INTO '.
+            ' users '.
+            ' (UserEmail, Password, Password2, Role) '.
+            'VALUES '.
+            ' (?, ?, ?, ?)';
+
+        $dbo = $this->db->prepare($sql);
+        $dbo->execute(array($body['email'], hash('sha256', $newPassword.$salt) , bin2hex($salt), 'editor'));
+
+        return $res->withRedirect('/content');
+    }
+
+});
+
 
 function deleteDirectory($dir) {
     if (!file_exists($dir)) {
