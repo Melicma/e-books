@@ -1767,12 +1767,9 @@ $app->post('/text/{workId}', function (Request $req, Response $res, $args) {
         'WHERE '.
         ' WorkID = ?';
 
-    echo '<pre>' . htmlspecialchars(print_r($body['text'],true)) . '</pre>';
-
     $dbo = $this->db->prepare($sqlUpdate);
     $dbo->execute(array($body['text'], $args['workId']));
 
-//    return $res;
     return $res->withRedirect('/text/'.$args['workId']);
 });
 
