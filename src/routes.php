@@ -39,7 +39,7 @@ $app->post('/login', function (Request $req, Response $res) {
     $dbo->execute(array($body['email']));
 
     $users = $dbo->fetchAll();
-    if (empty($users) || (hash('sha256', $body['password'].hex2bin($users[0]['Password2'])) !== $users[0]['Password'])) {
+    if (empty($users) || (hash('sha256', $body['password'].hex2bin($users[0]['Salt'])) !== $users[0]['Password'])) {
         return $this->view->render($res, 'login.twig', [
             'logError' => true
         ]);
@@ -72,7 +72,7 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
         'SELECT '.
         ' AuthPubID as "id" '.
         'FROM '.
-        ' connection '.
+        ' author_work '.
         'WHERE '.
         ' WorkID = ? '.
         'AND '.
@@ -83,15 +83,15 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
-        ' ID = ? ';
+        ' AuthPubID = ? ';
 
     $sqlAuthors =
         'SELECT DISTINCT '.
         ' au.* '.
         'FROM '.
         ' authors_publishers au '.
-        'LEFT JOIN connection con '.
-        ' ON con.AuthPubId = au.ID  '.'
+        'LEFT JOIN author_work con '.
+        ' ON con.AuthPubId = au.AuthPubID  '.'
         WHERE '.
         ' con.Type = \'author\' '.
         'ORDER BY '.
@@ -183,8 +183,8 @@ $app->post('/content', function (Request $req, Response $res) {
         ' au.* '.
         'FROM '.
         ' authors_publishers au '.
-        'LEFT JOIN connection con '.
-        ' ON con.AuthPubId = au.ID '.
+        'LEFT JOIN author_work con '.
+        ' ON con.AuthPubId = au.AuthPubID '.
         'WHERE '.
         ' con.Type = \'author\' '.
         'ORDER BY '.
@@ -195,8 +195,8 @@ $app->post('/content', function (Request $req, Response $res) {
         ' au.* '.
         'FROM '.
         ' authors_publishers au '.
-        'LEFT JOIN connection con '.
-        ' ON con.AuthPubId = au.ID '.
+        'LEFT JOIN author_work con '.
+        ' ON con.AuthPubId = au.AuthPubID '.
         'WHERE '.
         ' con.Type = \'author\' '.
         'AND '.
@@ -485,13 +485,13 @@ $app->post('/change-password', function (Request $req, Response $res) {
     $user = $dbo->fetchAll();
     $body = $req->getParsedBody();
 
-    if (empty($user) || (hash('sha256', $body['oldPassword'].hex2bin($user[0]['Password2'])) !== $user[0]['Password'])) {
+    if (empty($user) || (hash('sha256', $body['oldPassword'].hex2bin($user[0]['Salt'])) !== $user[0]['Password'])) {
         return $this->view->render($res, 'changePasswdord.twig', [
             'oldPasswdError' => true,
             'user' => $session->userEmail,
             'role' => $session->role
         ]);
-    } elseif ($body['password1'] != $body['password2']) {
+    } elseif ($body['password1'] != $body['Salt']) {
         return $this->view->render($res, 'changePasswdord.twig', [
             'passwdNotMatchError' => true,
             'user' => $session->userEmail,
@@ -511,7 +511,7 @@ $app->post('/change-password', function (Request $req, Response $res) {
         $sql =
             'UPDATE ' .
             ' users ' .
-            'SET Password = ?, Password2 = ? ' .
+            'SET Password = ?, Salt = ? ' .
             'WHERE ' .
             ' UserId = ?';
 
@@ -543,8 +543,8 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         ' au.* '.
         'FROM '.
         ' authors_publishers au '.
-        'LEFT JOIN connection con '.
-        ' ON con.AuthPubId = au.ID  '.'
+        'LEFT JOIN author_work con '.
+        ' ON con.AuthPubId = au.AuthPubID  '.'
         WHERE '.
         ' con.Type = \'author\' '.
         'AND '.
@@ -557,8 +557,8 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         ' au.* '.
         'FROM '.
         ' authors_publishers au '.
-        'LEFT JOIN connection con '.
-        ' ON con.AuthPubId = au.ID  '.'
+        'LEFT JOIN author_work con '.
+        ' ON con.AuthPubId = au.AuthPubID  '.'
         WHERE '.
         ' con.Type = \'publisher\' '.
         'AND '.
@@ -715,11 +715,11 @@ $app->get('/author-publisher/{id}', function (Request $req, Response $res, $args
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
-        ' ID = ?';
+        ' AuthPubID = ?';
 
     $sqlAuthors =
         'SELECT '.
-        ' ID, Name, LastName, Corporation  '.
+        ' AuthPubID, Name, LastName, Corporation  '.
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
@@ -764,7 +764,7 @@ $app->post('/author-publisher/{id}', function (Request $req, Response $res, $arg
         'SET '.
         ' Name = ?, LastName = ?, Corporation = ?, Author = ? '.
         'WHERE '.
-        ' ID = ?';
+        ' AuthPubID = ?';
 
     $body = $req->getParsedBody();
 
@@ -797,7 +797,7 @@ $app->get('/delete-author-publisher/{id}', function (Request $req, Response $res
     $sqlDeleteConnection =
         'DELETE '.
         'FROM '.
-        ' connection '.
+        ' author_work '.
         'WHERE '.
         ' AuthPubID = ? ';
 
@@ -806,11 +806,11 @@ $app->get('/delete-author-publisher/{id}', function (Request $req, Response $res
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
-        ' ID = ?';
+        ' AuthPubID = ?';
 
     $sqlAuthor =
         'SELECT '.
-        ' ID '.
+        ' AuthPubID '.
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
@@ -821,7 +821,7 @@ $app->get('/delete-author-publisher/{id}', function (Request $req, Response $res
 
     $dbo = $this->db->prepare($sqlAuthor);
     $dbo->execute($params);
-    $id = $dbo->fetch()['ID'];
+    $id = $dbo->fetch()['AuthPubID'];
     if ($id) {
         $dbo = $this->db->prepare($sqlDeleteConnection);
         $dbo->execute(array($id));
@@ -910,7 +910,7 @@ $app->get('/new-author/{workId}', function (Request $req, Response $res, $args) 
 
     $sqlAuthors =
         'SELECT '.
-        ' ID, Name, LastName, Corporation  '.
+        ' AuthPubID, Name, LastName, Corporation  '.
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
@@ -953,7 +953,7 @@ $app->post('/new-author/{workId}', function (Request $req, Response $res, $args)
 
     $sqlInsertConnection =
         'INSERT '.'INTO '.
-        ' connection '.
+        ' author_work '.
         ' (WorkID, AuthPubID, Type) '.
         'VALUES '.
         ' (?, ?, ?)';
@@ -1007,7 +1007,7 @@ $app->get('/new-author-publisher', function (Request $req, Response $res, $args)
 
     $sqlAuthors =
         'SELECT '.
-        ' ID, Name, LastName, Corporation  '.
+        ' AuthPubID, Name, LastName, Corporation  '.
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
@@ -1162,7 +1162,7 @@ $app->get('/new-publisher/{workId}', function (Request $req, Response $res, $arg
 
     $sqlAuthors =
         'SELECT '.
-        ' ID, Name, LastName, Corporation  '.
+        ' AuthPubID, Name, LastName, Corporation  '.
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
@@ -1206,7 +1206,7 @@ $app->post('/new-publisher/{workId}', function (Request $req, Response $res, $ar
 
     $sqlInsertConnection =
         'INSERT '.'INTO '.
-        ' connection '.
+        ' author_work '.
         ' (WorkID, AuthPubID, Type) '.
         'VALUES '.
         ' (?, ?, ?)';
@@ -1286,7 +1286,7 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
 
     $sqlAttachments =
         'SELECT '.
-        ' Filename, Identifier, ID '.
+        ' Filename, Identifier, AttachmentID '.
         'FROM '.
         ' attachments '.
         'WHERE '.
@@ -1310,7 +1310,7 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
     foreach ($attachments as $el) {
         $tmp['Filename'] = $el['Filename'];
         $tmp['Identifier'] = $el['Identifier'];
-        $tmp['ID'] = $el['ID'];
+        $tmp['ID'] = $el['AttachmentID'];
         $tmp['ThumbName'] = preg_replace('/(\.gif|\.jpg|\.png)/', '_small$1', $el['Filename']);
         array_push($attachmentsOut, $tmp);
     }
@@ -1411,14 +1411,14 @@ $app->get('/delete-attachment/{attchId}/{workId}', function (Request $req, Respo
         'FROM '.
         ' attachments '.
         'WHERE '.
-        ' ID = ?';
+        ' AttachmentID = ?';
 
     $sqlDelete =
         'DELETE '.
         'FROM '.
         ' attachments '.
         'WHERE '.
-        ' ID = ?';
+        ' AttachmentID = ?';
 
     $dbo = $this->db->prepare($sqlAttach);
     $dbo->execute(array($args['attchId']));
@@ -1450,7 +1450,7 @@ $app->post('/update-attachment/{attchId}/{workId}', function (Request $req, Resp
         'SET '.
         ' Identifier = ? '.
         'WHERE '.
-        ' ID = ?';
+        ' AttachmentID = ?';
 
     $dbo = $this->db->prepare($sqlUpdate);
     $params = array();
@@ -1502,11 +1502,11 @@ $app->get('/list-author-publisher', function (Request $req, Response $res) {
 
     $sql =
         'SELECT DISTINCT '.
-        ' au.*, (select count(c.AuthPubID) from connection ) as number '.
+        ' au.*, (select count(c.AuthPubID) from author_work ) as number '.
         'FROM '.
-        ' authors_publishers au LEFT JOIN connection c ON c.AuthPubID = au.ID '.
+        ' authors_publishers au LEFT JOIN author_work c ON c.AuthPubID = au.AuthPubID '.
 	    'GROUP BY '.
-        ' au.ID';
+        ' au.AuthPubID';
 
     $dbo = $this->db->prepare($sql);
     $dbo->execute();
@@ -1563,9 +1563,9 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
         'FROM '.
         ' authors_publishers au '.
         'LEFT JOIN '.
-        ' connection c '.
+        ' author_work c '.
         'ON '.
-        ' au.ID = c.AuthPubID '.
+        ' au.AuthPubID = c.AuthPubID '.
         'WHERE '.
         ' c.Type = \'author\' '.
         'AND '.
@@ -1573,7 +1573,7 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
 
     $sqlGetAuthorId =
         'SELECT '.
-        ' ID '.
+        ' AuthPubID '.
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
@@ -1581,14 +1581,14 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
 
     $sqlCreateConnection =
         'INSERT '.'INTO '.
-        ' connection '.
+        ' author_work '.
         ' (WorkID, AuthPubID, Type) '.
         'VALUES (?, ?, ?)';
 
     $sqlCancelConnection =
         'DELETE '.
         'FROM '.
-        ' connection '.
+        ' author_work '.
         'WHERE '.
         ' WorkID = ? AND AuthPubID = ? AND Type = \'author\'';
 
@@ -1603,7 +1603,7 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
             $dbo = $this->db->prepare($sqlGetAuthorId);
             $dbo->execute(array($el));
 
-            $id = $dbo->fetch()['ID'];
+            $id = $dbo->fetch()['AuthPubID'];
 
             $dbo = $this->db->prepare($sqlCreateConnection);
             $params = array();
@@ -1620,7 +1620,7 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
         $dbo = $this->db->prepare($sqlGetAuthorId);
         $dbo->execute(array($el));
 
-        $id = $dbo->fetch()['ID'];
+        $id = $dbo->fetch()['AuthPubID'];
         $params = array();
         array_push($params, $args['workId']);
         array_push($params, $id);
@@ -1646,9 +1646,9 @@ $app->post('/update-publishers/{workId}', function (Request $req, Response $res,
         'FROM '.
         ' authors_publishers au '.
         'LEFT JOIN '.
-        ' connection c '.
+        ' author_work c '.
         'ON '.
-        ' au.ID = c.AuthPubID '.
+        ' au.AuthPubID = c.AuthPubID '.
         'WHERE '.
         ' c.Type = \'publisher\' '.
         'AND '.
@@ -1656,7 +1656,7 @@ $app->post('/update-publishers/{workId}', function (Request $req, Response $res,
 
     $sqlGetPublisherId =
         'SELECT '.
-        ' ID '.
+        ' AuthPubID '.
         'FROM '.
         ' authors_publishers '.
         'WHERE '.
@@ -1664,14 +1664,14 @@ $app->post('/update-publishers/{workId}', function (Request $req, Response $res,
 
     $sqlCreateConnection =
         'INSERT '.'INTO '.
-        ' connection '.
+        ' author_work '.
         ' (WorkID, AuthPubID, Type) '.
         'VALUES (?, ?, ?)';
 
     $sqlCancelConnection =
         'DELETE '.
         'FROM '.
-        ' connection '.
+        ' author_work '.
         'WHERE '.
         ' WorkID = ? AND AuthPubID = ? AND Type = \'publisher\'';
 
@@ -1686,7 +1686,7 @@ $app->post('/update-publishers/{workId}', function (Request $req, Response $res,
             $dbo = $this->db->prepare($sqlGetPublisherId);
             $dbo->execute(array($el));
 
-            $id = $dbo->fetch()['ID'];
+            $id = $dbo->fetch()['AuthPubID'];
 
             $dbo = $this->db->prepare($sqlCreateConnection);
             $params = array();
@@ -1703,7 +1703,7 @@ $app->post('/update-publishers/{workId}', function (Request $req, Response $res,
         $dbo = $this->db->prepare($sqlGetPublisherId);
         $dbo->execute(array($el));
 
-        $id = $dbo->fetch()['ID'];
+        $id = $dbo->fetch()['AuthPubID'];
         $params = array();
         array_push($params, $args['workId']);
         array_push($params, $id);
@@ -1726,7 +1726,7 @@ $app->get('/delete/{workId}', function (Request $req, Response $res, $args) {
     $sqlDeleteConnections =
         'DELETE '.
         'FROM '.
-        ' connection '.
+        ' author_work '.
         'WHERE '.
         ' WorkID = ?';
 
@@ -1834,7 +1834,7 @@ $app->post('/add-user', function (Request $req, Response $res) {
         return $this->view->render($res, '/addUser.twig', [
             'emailExistError' => true
         ]);
-    } elseif ($body['password1'] != $body['password2']) {
+    } elseif ($body['password1'] != $body['Salt']) {
         return $this->view->render($res, '/addUser.twig', [
             'passwdNotMatchError' => true
         ]);
@@ -1846,7 +1846,7 @@ $app->post('/add-user', function (Request $req, Response $res) {
         $sql =
             'INSERT '.'INTO '.
             ' users '.
-            ' (UserEmail, Password, Password2, Role) '.
+            ' (UserEmail, Password, Salt, Role) '.
             'VALUES '.
             ' (?, ?, ?, ?)';
 
