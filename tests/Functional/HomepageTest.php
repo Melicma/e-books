@@ -57,7 +57,6 @@ class HomepageTest extends BaseTestCase
         $response = $this->runApp('POST', '/login', ['email' => 'a@a.cz', 'password' => 'aaaa' ]);
 
         $this->assertEquals(302, $response->getStatusCode());
-//        $this->assertContains('Hello name!', (string)$response->getBody());
     }
 
     public function testGetContent()
@@ -69,11 +68,95 @@ class HomepageTest extends BaseTestCase
     }
 
 
-//    public function testPostContent()
-//    {
-//        $response = $this->runApp('POST', '/login', ['email' => 'a@a.cz', 'password' => 'aaaa' ]);
-//
-//        $this->assertEquals(302, $response->getStatusCode());
-////        $this->assertContains('Hello name!', (string)$response->getBody());
-//    }
+    public function testPostContent()
+    {
+        $response = $this->runApp('POST', '/content', array("yearFrom" => '1950', "yearTo" => '2000', 'fulltext' => 'nebo' ));
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertContains('Rukopisy', (string)$response->getBody());
+    }
+
+    public function testGetAuthors()
+    {
+        $response = $this->runApp('GET', '/list-author-publisher' );
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertContains('Seznam autorů a vydavatelů', (string)$response->getBody());
+    }
+
+    public function testGetAddUser()
+    {
+        $response = $this->runApp('GET', '/add-user' );
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertContains('Email uživatele', (string)$response->getBody());
+    }
+
+    public function testPostAddUser()
+    {
+        $response = $this->runApp('POST', '/add-user', array('password1' => 'test', 'password2' => 'test', 'email' => 'test@test.cz' ));
+
+        $this->assertEquals(302, $response->getStatusCode());
+    }
+
+    public function testGetMetadata()
+    {
+        $response = $this->runApp('GET', '/metadata/52' );
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertContains('Alois Lapáček', (string)$response->getBody());
+    }
+
+    public function testPostMetadata()
+    {
+        $response = $this->runApp('POST', '/metadata/52', array('title' => 'test' ));
+
+        $this->assertEquals(302, $response->getStatusCode());
+    }
+
+    public function testGetText()
+    {
+        $response = $this->runApp('GET', '/text/56' );
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertContains('CYKLUS BÁSNÍ', (string)$response->getBody());
+    }
+
+    public function testGetAttachment()
+    {
+        $response = $this->runApp('GET', '/attachments/56' );
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertContains('test title', (string)$response->getBody());
+    }
+
+    public function testGetAddNewAuthor()
+    {
+        $response = $this->runApp('GET', '/new-author-publisher' );
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertContains('Nový záznam', (string)$response->getBody());
+    }
+
+    public function testPostNewAuthor()
+    {
+        $response = $this->runApp('POST', '/new-author-publisher', array('name' => 'test', 'lastName' => 'test', 'pseudonym' => 0 ));
+
+        $this->assertEquals(302, $response->getStatusCode());
+    }
+
+    public function testGetUpdateAuthor()
+    {
+        $response = $this->runApp('GET', '/author-publisher/176' );
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertContains('czc.cz', (string)$response->getBody());
+    }
+
+    public function testPostUpdateAuthor()
+    {
+        $response = $this->runApp('POST', '/author-publisher/176', array('name' => 'test', 'lastName' => 'test', 'pseudonym' => 0 ));
+
+        $this->assertEquals(302, $response->getStatusCode());
+    }
 }

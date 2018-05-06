@@ -1834,7 +1834,7 @@ $app->post('/add-user', function (Request $req, Response $res) {
         return $this->view->render($res, '/addUser.twig', [
             'emailExistError' => true
         ]);
-    } elseif ($body['password1'] != $body['Salt']) {
+    } elseif ($body['password1'] != $body['password2']) {
         return $this->view->render($res, '/addUser.twig', [
             'passwdNotMatchError' => true
         ]);
