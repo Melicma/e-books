@@ -19,6 +19,10 @@
                         <a class="nav-link" href="/new-author-publisher">Nový autor<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% if newWork %}active{% endif %}" href="/new-work">Nové dílo<span class="sr-only">(current)</span></a>
+                    </li>
+                    {% if not newWork %}
+                    <li class="nav-item">
                         <a class="nav-link" href="/text/{{ work.WorkID }}">Text <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
@@ -27,6 +31,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/attachments/{{ work.WorkID }}">Přílohy <span class="sr-only">(current)</span></a>
                     </li>
+                    {% endif %}
                 </ul>
                 <div class="navbar-nav dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -45,9 +50,9 @@
     <div class="container pt-2">
 
         <div class="row">
-            <h1 class="h1 col-12">Údaje o dílu: {{ work.Title}}</h1>
+            <h1 class="h1 col-12">{% if newWork %}Nové dílo{% else %}Údaje o dílu: {{ work.Title}} {% endif %}</h1>
         </div>
-
+{% if not newWork %}
         <div class="row">
             <h3 class="h3 col-12">Autoři</h3>
         </div>
@@ -93,12 +98,12 @@
 
             </div>
         </form>
-
+{% endif %}
         <div class="row">
             <h3 class="h3 col-12">Metadata</h3>
         </div>
 
-        <form class="row mb-5 mt-5 justify-content-md-center" method="post">
+        <form class="row mb-5 mt-5 justify-content-md-center" method="post" {% if newWork %}action="/new-work"{% endif %}>
 
             <div class="col-10">
                 <div class="row">

@@ -1683,6 +1683,108 @@ $app->post('/add-user', function (Request $req, Response $res) {
 
 });
 
+$app->get('/new-work', function (Request $req, Response $res, $args){
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $sqlAll =
+        'SELECT DISTINCT au.* '.
+        'FROM '.
+        ' authors_publishers au ';
+
+    $work['Authors'] = array();
+
+    $work['Publisher'] = array();
+
+    $dbo = $this->db->prepare($sqlAll);
+    $dbo->execute();
+
+    $elements = $dbo->fetchAll();
+
+    return $this->view->render($res, 'metadata.twig', [
+        'user' => $session->userEmail,
+        'role' => $session->role,
+        'work' => $work,
+        'elements' => $elements,
+        'newWork' => true
+    ]);
+});
+
+$app->post('/new-work', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login', [], $data));
+    }
+
+    $sqlInsert =
+        'INSERT '.'INTO '.
+        ' works '.
+        ' (Title, Subtitle, Year, Place, '.
+        ' Edition, Pages, Inscription, Motto, '.
+        ' MottoAuthor, Format, Signature, Description, '.
+        ' EditNote, Status, Content, Fulltext) '.
+        'VALUES '.
+        ' (?, ?, ?, ?, '.
+        '  ?, ?, ?, ?, '.
+        '  ?, ?, ?, ?, '.
+        '  ?, ?, ?, ?) ';
+
+    $body = $req->getParsedBody();
+
+    $uTitle = isset($body['title']) ? $body['title'] : null;
+    $uSubtitle = isset($body['subtitle']) ? $body['subtitle'] : null;
+    $uYear = isset($body['year']) ? $body['year'] : null;
+    $uPlace = isset($body['place']) ? $body['place'] : null;
+    $uEdition = isset($body['edition']) ? $body['edition'] : null;
+    $uPages = isset($body['pages']) ? $body['pages'] : null;
+    $uInscription = isset($body['inscription']) ? $body['inscription'] : null;
+    $uMotto = isset($body['motto']) ? $body['motto'] : null;
+    $uMottoAuthor = isset($body['mottoAuthor']) ? $body['mottoAuthor'] : null;
+    $uFormat = isset($body['format']) ? $body['format'] : null;
+    $uSignature = isset($body['signature']) ? $body['signature'] : null;
+    $uDescription = isset($body['description']) ? $body['description'] : null;
+    $uEditNote = isset($body['editNote']) ? $body['editNote'] : null;
+
+    if ($body['status2'] == 0) {
+        $status = 'nové';
+    } elseif ($body['status2'] == 1) {
+        $status = 'rozděláno';
+    } elseif ($body['status2'] == 2) {
+        $status = 'zkontrolováno';
+    } else {
+        $status = 'hotovo';
+    }
+
+    $params = array();
+    array_push($params, $uTitle);
+    array_push($params, $uSubtitle);
+    array_push($params, $uYear);
+    array_push($params, $uPlace);
+    array_push($params, $uEdition);
+    array_push($params, $uPages);
+    array_push($params, $uInscription);
+    array_push($params, $uMotto);
+    array_push($params, $uMottoAuthor);
+    array_push($params, $uFormat);
+    array_push($params, $uSignature);
+    array_push($params, $uDescription);
+    array_push($params, $uEditNote);
+    array_push($params, $status);
+    array_push($params, 'vyplňte text');
+    array_push($params, 'vyplňte text');
+
+
+    $dbo = $this->db->prepare($sqlInsert);
+    $dbo->execute($params);
+
+    return $res->withRedirect('/content');
+});
+
+
 if (!function_exists('deleteDirectory')) {
 
     function deleteDirectory($dir) {
