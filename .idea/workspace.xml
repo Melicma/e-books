@@ -5,10 +5,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ebooks" afterPath="$PROJECT_DIR$/db/ebooks" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes.php" afterPath="$PROJECT_DIR$/src/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/addUser.twig" afterPath="$PROJECT_DIR$/templates/addUser.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/attachments.twig" afterPath="$PROJECT_DIR$/templates/attachments.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/changePasswdord.twig" afterPath="$PROJECT_DIR$/templates/changePasswdord.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/listAuthorPublisher.twig" afterPath="$PROJECT_DIR$/templates/listAuthorPublisher.twig" />
     </list>
     <ignored path="e-books.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="attachments.twig" pinned="false" current-in-tab="true">
+      <file leaf-file-name="attachments.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/attachments.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="447">
-              <caret line="105" column="92" selection-start-line="105" selection-start-column="92" selection-end-line="105" selection-end-column="92" />
+            <state relative-caret-position="-3">
+              <caret line="83" column="55" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="55" />
               <folding />
             </state>
           </provider>
@@ -65,7 +61,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="324">
               <caret line="39" column="26" selection-start-line="39" selection-start-column="26" selection-end-line="39" selection-end-column="26" />
-              <folding />
+              <folding>
+                <marker date="1525965023775" expanded="true" signature="28:4151" ph="{% block content ...%}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -80,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="1840" column="12" selection-start-line="1840" selection-start-column="12" selection-end-line="1840" selection-end-column="12" />
+            <state relative-caret-position="233">
+              <caret line="1632" column="27" selection-start-line="1632" selection-start-column="27" selection-end-line="1632" selection-end-column="27" />
               <folding>
                 <element signature="e#7#29#0#PHP" expanded="true" />
                 <element signature="e#360#594#1#PHP" expanded="false" />
@@ -93,11 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/login.twig">
+      <file leaf-file-name="Router.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/slim/slim/Slim/Router.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="31" column="113" selection-start-line="31" selection-start-column="113" selection-end-line="31" selection-end-column="113" />
+            <state relative-caret-position="186">
+              <caret line="360" column="72" selection-start-line="360" selection-start-column="72" selection-end-line="360" selection-end-column="72" />
               <folding />
             </state>
           </provider>
@@ -178,8 +176,8 @@
         <option value="$PROJECT_DIR$/templates/listAuthorPublisher.twig" />
         <option value="$PROJECT_DIR$/templates/changePasswdord.twig" />
         <option value="$PROJECT_DIR$/templates/addUser.twig" />
-        <option value="$PROJECT_DIR$/src/routes.php" />
         <option value="$PROJECT_DIR$/templates/attachments.twig" />
+        <option value="$PROJECT_DIR$/src/routes.php" />
       </list>
     </option>
   </component>
@@ -252,11 +250,21 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
+              <option name="myItemId" value="vendor" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="e-books" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="e-books" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Functional" />
+              <option name="myItemId" value="tests" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -451,12 +459,12 @@
       <workItem from="1524310134886" duration="98676000" />
       <workItem from="1525527130836" duration="9591000" />
       <workItem from="1525596815469" duration="11927000" />
-      <workItem from="1525961948079" duration="3565000" />
+      <workItem from="1525961948079" duration="5645000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="360809000" />
+    <option name="totallyTimeSpent" value="362889000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="63" y="24" width="1303" height="744" extended-state="6" />
@@ -499,26 +507,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/composer.lock">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="MarkdownFxPreviewEditor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="403">
-            <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.phtml" />
     <entry file="file://$PROJECT_DIR$/templates/twig/login.phtml" />
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/PDO.php">
@@ -793,7 +781,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
           <caret line="39" column="26" selection-start-line="39" selection-start-column="26" selection-end-line="39" selection-end-column="26" />
-          <folding />
+          <folding>
+            <marker date="1525965023775" expanded="true" signature="28:4151" ph="{% block content ...%}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -805,22 +795,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/attachments.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3">
+          <caret line="83" column="55" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/slim/slim/Slim/Route.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="84" column="36" selection-start-line="84" selection-start-column="33" selection-end-line="84" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/slim/slim/Slim/Router.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="360" column="72" selection-start-line="360" selection-start-column="72" selection-end-line="360" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="1840" column="12" selection-start-line="1840" selection-start-column="12" selection-end-line="1840" selection-end-column="12" />
+        <state relative-caret-position="233">
+          <caret line="1632" column="27" selection-start-line="1632" selection-start-column="27" selection-end-line="1632" selection-end-column="27" />
           <folding>
             <element signature="e#7#29#0#PHP" expanded="true" />
             <element signature="e#360#594#1#PHP" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/attachments.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="105" column="92" selection-start-line="105" selection-start-column="92" selection-end-line="105" selection-end-column="92" />
-          <folding />
         </state>
       </provider>
     </entry>
