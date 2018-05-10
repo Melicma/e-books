@@ -491,9 +491,9 @@ $app->post('/change-password', function (Request $req, Response $res) {
             'user' => $session->userEmail,
             'role' => $session->role
         ]);
-    } elseif ($body['password1'] != $body['Salt']) {
+    } elseif (empty($body['password1']) || $body['password1'] != $body['password2']) {
         return $this->view->render($res, 'changePasswdord.twig', [
-            'passwdNotMatchError' => true,
+            'newPasswdError' => true,
             'user' => $session->userEmail,
             'role' => $session->role
         ]);
@@ -1834,9 +1834,9 @@ $app->post('/add-user', function (Request $req, Response $res) {
         return $this->view->render($res, '/addUser.twig', [
             'emailExistError' => true
         ]);
-    } elseif ($body['password1'] != $body['password2']) {
+    } elseif (empty($body['password1']) || $body['password1'] != $body['password2']) {
         return $this->view->render($res, '/addUser.twig', [
-            'passwdNotMatchError' => true
+            'newPasswdError' => true
         ]);
     } else {
         $newPassword = $body['password1'];
