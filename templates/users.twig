@@ -12,7 +12,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/content">Seznam děl <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="/list-author-publisher">Seznam autorů a vydavatelů <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
@@ -39,39 +39,41 @@
     <div class="container pt-2">
 
         <div class="row">
-            <h1 class="h1 col-12">Seznam autorů a vydavatelů</h1>
-        </div>
-
-        <div class="row pb-2">
-            <div class="col-12">
-                <a class="btn btn-primary" role="button" href="/new-author-publisher">
-                    Přidat nový záznam
-                </a>
-            </div>
+            <h1 class="h1 col-12">Seznam uživatelů</h1>
         </div>
 
         <div class="row justify-content-center pt-2">
-            <table id="tableList" class="display">
+            <table id="tableListUsers" class="display" style="width:100%">
                 <thead>
                 <tr>
-                    <th>Jméno</th>
-                    <th>Příjmení</th>
-                    <th>Korporace</th>
-                    <th>Počet spojení</th>
+                    <th>Email</th>
+                    <th>Role</th>
                     <th>Akce</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for el in elements %}
                     <tr>
-                        <td{% if el.Name|length > 25 %} data-toggle="tooltip" data-placement="bottom" title="{{ el.Name }}" {% endif %}> {{ el.Name|length > 25 ? el.Name|slice(0, 25) ~ ' ...' : el.Name }}</td>
-                        <td{% if el.LastName|length > 25 %} data-toggle="tooltip" data-placement="bottom" title="{{ el.LastName }}" {% endif %}> {{ el.LastName|length > 25 ? el.LastName|slice(0, 25) ~ ' ...' : el.LastName }}</td>
-                        <td>{% if el.Corporation %}{{ el.Corporation }}{% else %}<i>neuvedena</i>{% endif %}</td>
-                        {#<td>{% if el.Corporation %}{{ el.Corporation }}{% else %}<i>neuvedena</i>{% endif %}</td>#}
-                        <td class="text-align-center">{{ el.number }}</td>
+                        <td{% if el.UserEmail|length > 25 %} data-toggle="tooltip" data-placement="bottom" title="{{ el.UserEmail }}" {% endif %}> {{ el.UserEmail|length > 25 ? el.UserEmail|slice(0, 25) ~ ' ...' : el.UserEmail }}</td>
+                        <td>{{ el.Role }}</td>
                         <td>
-                            <a role="button" class="btn btn-primary" href="/author-publisher/{{ el.AuthPubID }}">Upravit</a>
-                            <a href="/delete-author-publisher/{{ el.AuthPubID }}" role="button" class="btn btn-danger" onclick="return confirm('Opravdu si přejete smazat {{ el.Name }} {{ el.LastName }} {{ el.Corporation }}?')">Smazat</a>
+                            {% if role == 'admin' %}
+                                {% if user == el.UserEmail %}
+                                    <a href="javascript:;" role="button" class="btn btn-danger" onclick="alert('Nemůžete smazat sám sebe, prosím oslovte admina pro tuto akci.')">Smazat</a>
+                                {% else %}
+                                    <a href="/delete-user/{{ el.UserID }}" role="button" class="btn btn-danger" onclick="return confirm('Opravdu si přejete smazat {{ el.UserEmail }}?')">Smazat</a>
+                                {% endif %}
+                            {% else %}
+                                {% if user == el.UserEmail %}
+                                    <a href="javascript:;" role="button" class="btn btn-danger" onclick="alert('Nemůžete smazat sám sebe, prosím oslovte admina pro tuto akci.')">Smazat</a>
+                                {% else %}
+                                    {% if el.Role == 'admin' %}
+                                        <a href="javascript:;" role="button" class="btn btn-danger" onclick="alert('Nemáte pravomoce na smazání toho uživatele.')">Smazat</a>
+                                    {% else %}
+                                        <a href="/delete-user/{{ el.UserID }}" role="button" class="btn btn-danger" onclick="return confirm('Opravdu si přejete smazat {{ el.UserEmail }}?')">Smazat</a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

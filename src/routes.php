@@ -1592,7 +1592,7 @@ $app->post('/text/{workId}', function (Request $req, Response $res, $args) {
         'UPDATE '.
         ' works '.
         'SET '.
-        'Content = ?, Status = ? '.
+        'Content = ?, Status = ?, Fulltext = ? '.
         'WHERE '.
         ' WorkID = ?';
 
@@ -1607,7 +1607,7 @@ $app->post('/text/{workId}', function (Request $req, Response $res, $args) {
     }
 
     $dbo = $this->db->prepare($sqlUpdate);
-    $dbo->execute(array($body['text'], $status, $args['workId']));
+    $dbo->execute(array($body['text'], $status, $body['fulltext'], $args['workId']));
 
     return $res->withRedirect('/text/'.$args['workId']);
 });
@@ -1784,6 +1784,50 @@ $app->post('/new-work', function (Request $req, Response $res, $args) {
     return $res->withRedirect('/content');
 });
 
+$app->get('/list-users', function (Request $req, Response $res) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $sql =
+        'SELECT * '.
+        'FROM '.
+        ' users ';
+
+    $dbo = $this->db->prepare($sql);
+    $dbo->execute();
+
+    $elements = $dbo->fetchAll();
+
+    return $this->view->render($res, 'users.twig', [
+        'user' => $session->userEmail,
+        'role' => $session->role,
+        'elements' => $elements
+    ]);
+});
+
+$app->get('/delete-user/{userId}', function (Request $req, Response $res, $args) {
+    $session = $this->session;
+    if (!$session->exists('userId')) {
+        $data = ['sessionError' => true];
+        return $res->withRedirect($this->router->pathFor('login',[],$data));
+    }
+
+    $sql =
+        'DELETE '.
+        'FROM '.
+        ' users '.
+        'WHERE '.
+        ' UserID = ?';
+
+    $dbo = $this->db->prepare($sql);
+    $dbo->execute(array($args['userId']));
+
+    return $res->withRedirect('/list-users');
+
+});
 
 if (!function_exists('deleteDirectory')) {
 

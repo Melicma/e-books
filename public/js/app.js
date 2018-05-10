@@ -72,6 +72,38 @@ $(document).ready( function () {
         }
     });
 
+    $('#tableListUsers').DataTable({
+        "columns": [
+            {"width": '50%'},
+            null,
+            {"orderable": false, "width": '15%'}
+        ],
+        "language": {
+            "decimal":        "",
+            "emptyTable":     "Žádné data k dispozici",
+            "info":           "Zobrazeno _START_ až _END_ z _TOTAL_ výsledků",
+            "infoEmpty":      "Zobrazeno 0 až 0 z 0 výsledků",
+            "infoFiltered":   "(filtrováno z _MAX_ celkových výsledků)",
+            "infoPostFix":    "",
+            "thousands":      ",",
+            "lengthMenu":     '<img src="help.svg" alt="help" class="icon" title="Vyberte počet zobrazených záznamu na stránce." aria-hidden="true" data-toggle="tooltip">Zobrazit _MENU_ záznamů',
+            "loadingRecords": "Načítání...",
+            "processing":     "Processing...",
+            "search":         '<img src="help.svg" alt="help" class="icon" title="Zadejte výraz pro rychlé vyhledávání v tabulce." aria-hidden="true" data-toggle="tooltip">Vyhledat:',
+            "zeroRecords":    "Výsledek nenalezen",
+            "paginate": {
+                "first":      "První",
+                "last":       "Poslední",
+                "next":       "Další",
+                "previous":   "Předchozí"
+            },
+            "aria": {
+                "sortAscending":  ": aktivovat pro třídění sloupců vzestupně",
+                "sortDescending": ": aktivovat pro třídění sloupců sestupně"
+            }
+        }
+    });
+    
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
@@ -347,6 +379,9 @@ function post(id) {
     var displaytext = document.getElementById("editable");
     var text = displaytext.innerText;
 
+    var tmp = document.createElement('div');
+    tmp.innerHTML = text;
+    
     var hiddenField = document.createElement("textarea");
     hiddenField.setAttribute("type", "hidden");
     hiddenField.setAttribute("name", 'text');
@@ -359,6 +394,12 @@ function post(id) {
     hiddenInput.setAttribute("name", 'status');
     form.appendChild(hiddenInput);
 
+    var hiddenFulltext = document.createElement("input");
+    hiddenFulltext.setAttribute("value", tmp.textContent);
+    hiddenFulltext.setAttribute("type", 'hidden');
+    hiddenFulltext.setAttribute("name", 'fulltext');
+    form.appendChild(hiddenFulltext);
+    
     document.body.appendChild(form);
     form.submit();
 }

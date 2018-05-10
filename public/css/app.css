@@ -51,3 +51,7 @@ textarea {
     align-self: flex-end;
     justify-content: flex-end;
 }
+
+.min-width-50 {
+    min-width: 50%;
+}
