@@ -87,7 +87,16 @@
                         </div>
                     </div>
                     <div class="pt-2">
-                        <a role="button" class="btn btn-primary" href="javascript:;" onclick="post({{work.WorkID}})">uložit</a>
+                        <label for="status"><img src="/help.svg" alt="help" class="icon" title="Zvolte status díla." aria-hidden="true" data-toggle="tooltip">Status díla:</label>
+                        <select class="form-control" id="status" name="status">
+                            <option value="0" {% if work.Status == 'nové' %} selected{% endif %}>Nové</option>
+                            <option value="1" {% if work.Status == 'rozděláno' %} selected{% endif %}>Rozděláno</option>
+                            <option value="2" {% if work.Status == 'zkontrolováno' %} selected{% endif %}>Zkontrolováno</option>
+                            <option value="3" {% if work.Status == 'hotovo' %} selected{% endif %}>Hotovo</option>
+                        </select>
+                        <div class="pt-2">
+                            <a role="button" class="btn btn-primary" href="javascript:;" onclick="post({{work.WorkID}})">uložit</a>
+                        </div>
                     </div>
                 </div>
 

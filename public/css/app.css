@@ -45,3 +45,9 @@ textarea {
     width: 12px;
     vertical-align: top;
 }
+
+.submitButton {
+    display: flex;
+    align-self: flex-end;
+    justify-content: flex-end;
+}

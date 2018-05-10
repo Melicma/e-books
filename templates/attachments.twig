@@ -42,6 +42,17 @@
         </div>
     </nav>
 
+    {% if fileErrors %}
+        <div class="row justify-content-md-center">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Některé soubory se nepovedlo nahrát z důvodu špatného formátu. &nbsp;&nbsp;&nbsp;
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    {% endif %}
+
     <div class="container pt-2">
 
         <div class="row">
@@ -53,7 +64,7 @@
             <div class="col-10">
 
                 <div class="row">
-                    <label><img src="/help.svg" alt="help" class="icon" title="Vyberte libovolný počet příloh, které mají být připojeny k dílu." aria-hidden="true" data-toggle="tooltip"></label>
+                    <label><img src="/help.svg" alt="help" class="icon" title="Vyberte libovolný počet příloh, které mají být připojeny k dílu. Dovolené formáty jsou JPG, PNG nebo GIF." aria-hidden="true" data-toggle="tooltip"></label>
                     <div class="col-4 pl-1">
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="customFile" name="files[]" multiple>

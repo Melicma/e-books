@@ -565,28 +565,6 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         ' con.WorkID = ? '.
         'ORDER BY '.
         ' au.Name';
-    
-//    $sqlAllAuthors =
-//        'SELECT DISTINCT au.* '.
-//        'FROM '.
-//        ' authors_publishers au '.
-//        'LEFT JOIN '.
-//        ' connection c '.
-//        'ON '.
-//        ' au.ID = c.AuthPubID '.
-//        'WHERE '.
-//        ' c.Type = \'author\' ';
-//
-//    $sqlAllPublisher =
-//        'SELECT DISTINCT au.* '.
-//        'FROM '.
-//        ' authors_publishers au '.
-//        'LEFT JOIN '.
-//        ' connection c '.
-//        'ON '.
-//        ' au.ID = c.AuthPubID '.
-//        'WHERE '.
-//        ' c.Type = \'publisher\' ';
 
     $sqlAll =
         'SELECT DISTINCT au.* '.
@@ -658,7 +636,7 @@ $app->post('/metadata/{id}', function (Request $req, Response $res, $args) {
         'SET '.
         ' Title = ?, Subtitle = ?, Year = ?, Place = ?, '.
         ' Edition = ?, Pages = ?, Inscription = ?, Motto = ?, '.
-        ' MottoAuthor = ?, Format = ?, Signature = ?, Description = ?, EditNote = ? '.
+        ' MottoAuthor = ?, Format = ?, Signature = ?, Description = ?, EditNote = ?, Status = ? '.
         'WHERE '.
         ' WorkID = ?';
 
@@ -678,6 +656,16 @@ $app->post('/metadata/{id}', function (Request $req, Response $res, $args) {
     $uDescription = isset($body['description']) ? $body['description'] : null;
     $uEditNote = isset($body['editNote']) ? $body['editNote'] : null;
 
+    if ($body['status2'] == 0) {
+        $status = 'nové';
+    } elseif ($body['status2'] == 1) {
+        $status = 'rozděláno';
+    } elseif ($body['status2'] == 2) {
+        $status = 'zkontrolováno';
+    } else {
+        $status = 'hotovo';
+    }
+
     $params = array();
     array_push($params, $uTitle);
     array_push($params, $uSubtitle);
@@ -692,6 +680,7 @@ $app->post('/metadata/{id}', function (Request $req, Response $res, $args) {
     array_push($params, $uSignature);
     array_push($params, $uDescription);
     array_push($params, $uEditNote);
+    array_push($params, $status);
     array_push($params, $args['id']);
 
 
@@ -838,68 +827,6 @@ $app->get('/delete-author-publisher/{id}', function (Request $req, Response $res
 
     return $res->withRedirect('/list-author-publisher');
 });
-
-//$app->get('/author/{id}', function (Request $req, Response $res, $args) {
-//    $session = $this->session;
-//    if (!$session->exists('userId')) {
-//        $data = ['sessionError' => true];
-//        return $res->withRedirect($this->router->pathFor('login',[],$data));
-//    }
-//
-//    $sqlAuthor =
-//        'SELECT * '.
-//        'FROM '.
-//        ' authors_publishers '.
-//        'WHERE '.
-//        ' ID = ?';
-//
-//
-//
-//    $dbo = $this->db->prepare($sqlAuthor);
-//    $dbo->execute(array($args['id']));
-//    $author = $dbo->fetch();
-//
-//
-//    return $this->view->render($res, 'authorPublisher.twig', [
-//        'user' => $session->userEmail,
-//        'author' => $author,
-//        'isAuthor' => true
-//    ]);
-//});
-
-//$app->post('/author/{id}', function (Request $req, Response $res, $args) {
-//    $session = $this->session;
-//    if (!$session->exists('userId')) {
-//        $data = ['sessionError' => true];
-//        return $res->withRedirect($this->router->pathFor('login', [], $data));
-//    }
-//
-//    $sqlUpdate =
-//        'UPDATE '.
-//        ' authors_publishers '.
-//        'SET '.
-//        ' Name = ?, LastName = ?, Corporation = ? '.
-//        'WHERE '.
-//        ' ID = ?';
-//
-//    $body = $req->getParsedBody();
-//
-//    $uName = isset($body['name']) ? $body['name'] : null;
-//    $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
-//    $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
-//
-//    $params = array();
-//    array_push($params, $uName);
-//    array_push($params, $uLastName);
-//    array_push($params, $uCorporation);
-//    array_push($params, $args['id']);
-//
-//
-//    $dbo = $this->db->prepare($sqlUpdate);
-//    $dbo->execute($params);
-//
-//    return $res->withRedirect('/author/' . $args['id']);
-//});
 
 $app->get('/new-author/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
@@ -1186,6 +1113,8 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
         'WHERE '.
         ' WorkID = ?';
 
+    $httpParameters = $req->getParams();
+    
     $params = array();
     array_push($params, $args['workId']);
 
@@ -1201,6 +1130,8 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
     $attachmentsOut = array();
     $attachments = $dbo->fetchAll();
 
+    $fileError = isset($httpParameters['data']) ? $httpParameters['data'] : null;
+    
     foreach ($attachments as $el) {
         $tmp['Filename'] = $el['Filename'];
         $tmp['Identifier'] = $el['Identifier'];
@@ -1213,9 +1144,10 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
         'user' => $session->userEmail,
         'role' => $session->role,
         'work' => $work,
-        'attachments' => $attachmentsOut
-    ]);
-});
+        'attachments' => $attachmentsOut,
+        'fileErrors' => $fileError
+    ]); 
+})->setName('attachments');
 
 
 $app->post('/attachments/{workId}', function (Request $req, Response $res, $args) {
@@ -1284,12 +1216,18 @@ $app->post('/attachments/{workId}', function (Request $req, Response $res, $args
 //            }
         }
         else {
-            array_push($error,"$file_name, ");
+            array_push($error, $file_name);
         }
         $counter++;
     }
 
-    return $res->withRedirect('/attachments/' . $args['workId']);
+    $data = false;
+
+    if (count($error) > 0) {
+        $data = true;
+    }
+
+    return $res->withRedirect($this->router->pathFor('attachments', ['workId' => $args['workId']], ['data' => $data]));
 });
 
 $app->get('/delete-attachment/{attchId}/{workId}', function (Request $req, Response $res, $args) {
@@ -1364,7 +1302,7 @@ $app->get('/text/{workId}', function (Request $req, Response $res, $args) {
     }
 
     $sqlWorks =
-        'SELECT Title, Content '.
+        'SELECT Title, Content, Status '.
         'FROM '.
         ' works '.
         'WHERE '.
@@ -1654,12 +1592,22 @@ $app->post('/text/{workId}', function (Request $req, Response $res, $args) {
         'UPDATE '.
         ' works '.
         'SET '.
-        'Content = ? '.
+        'Content = ?, Status = ? '.
         'WHERE '.
         ' WorkID = ?';
 
+    if ($body['status'] == 0) {
+        $status = 'nové';
+    } elseif ($body['status'] == 1) {
+        $status = 'rozděláno';
+    } elseif ($body['status'] == 2) {
+        $status = 'zkontrolováno';
+    } else {
+        $status = 'hotovo';
+    }
+
     $dbo = $this->db->prepare($sqlUpdate);
-    $dbo->execute(array($body['text'], $args['workId']));
+    $dbo->execute(array($body['text'], $status, $args['workId']));
 
     return $res->withRedirect('/text/'.$args['workId']);
 });
@@ -1721,8 +1669,14 @@ $app->post('/add-user', function (Request $req, Response $res) {
             'VALUES '.
             ' (?, ?, ?, ?)';
 
+        $role = 'editor';
+
+        if ($body['isAdmin']) {
+            $role = 'admin';
+        }
+
         $dbo = $this->db->prepare($sql);
-        $dbo->execute(array($body['email'], hash('sha256', $newPassword.$salt) , bin2hex($salt), 'editor'));
+        $dbo->execute(array($body['email'], hash('sha256', $newPassword.$salt) , bin2hex($salt), $role));
 
         return $res->withRedirect('/content');
     }

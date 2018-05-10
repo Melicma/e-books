@@ -203,8 +203,19 @@
                     </div>
                 </div>
 
-                <div class="row justify-content-md-end">
-                    <button type="submit" class="btn btn-primary">Uložit</button>
+                <div class="row justify-content-between">
+                    <div class="col-6">
+                        <label for="status2"><img src="/help.svg" alt="help" class="icon" title="Zvolte status díla." aria-hidden="true" data-toggle="tooltip">Status díla:</label>
+                        <select class="form-control" id="status2" name="status2">
+                            <option value="0" {% if work.Status == 'nové' %} selected{% endif %}>Nové</option>
+                            <option value="1" {% if work.Status == 'rozděláno' %} selected{% endif %}>Rozděláno</option>
+                            <option value="2" {% if work.Status == 'zkontrolováno' %} selected{% endif %}>Zkontrolováno</option>
+                            <option value="3" {% if work.Status == 'hotovo' %} selected{% endif %}>Hotovo</option>
+                        </select>
+                    </div>
+                    <div class="col-6 submitButton">
+                        <button type="submit" class="btn btn-primary">Uložit</button>
+                    </div>
                 </div>
             </div>
         </form>

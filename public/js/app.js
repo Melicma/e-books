@@ -96,6 +96,13 @@ $(document).ready( function () {
         placeholder: 'Zadejte autora pseudonymu'
     });
 
+    $('#status').selectivity({
+        allowClear: true
+    });
+
+    $('#status2').selectivity({
+        allowClear: true
+    });
 
     $('input[type="file"]').change(function(e){
         var number = e.target.files.length;
@@ -112,22 +119,6 @@ $(document).ready( function () {
 
         $("label[for='" + this.id + "']").text(fileName);
     });
-
-    // $.each($('textarea[data-autoresize]'), function() {
-    //     var offset = this.offsetHeight - this.clientHeight;
-    //
-    //     var resizeTextarea = function(el) {
-    //         var tmp = $(window).scrollTop();
-    //
-    //         $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
-    //         $(window).scrollTop(tmp);
-    //     };
-    //     $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
-    // });
-
-    // $("textarea").each(function () {
-    //     this.style.height = (this.scrollHeight+10)+'px';
-    // });
 
 } );
 
@@ -165,18 +156,6 @@ function doTag(tag) {
         });
     }
 
-    // var editor = document.getElementById("editable");
-    // var editorHTML = editor.value;
-    // var selectionStart = 0, selectionEnd = 0;
-    // if (editor.selectionStart) selectionStart = editor.selectionStart;
-    // if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
-    // if (selectionStart != selectionEnd) {
-    //     var editorCharArray = editorHTML.split("");
-    //     editorCharArray.splice(selectionEnd, 0, '</' + tag + '>');
-    //     editorCharArray.splice(selectionStart, 0, '<' + tag + '>'); //must do End first
-    //     editorHTML = editorCharArray.join("");
-    //     editor.value = editorHTML;
-    // }
 }
 
 function doBlockTag(tag, numOfSpaces) {
@@ -373,6 +352,12 @@ function post(id) {
     hiddenField.setAttribute("name", 'text');
     hiddenField.innerHTML = text;
     form.appendChild(hiddenField);
+
+    var hiddenInput = document.createElement("input");
+    hiddenInput.setAttribute("value", document.getElementById('status').value);
+    hiddenInput.setAttribute("type", 'hidden');
+    hiddenInput.setAttribute("name", 'status');
+    form.appendChild(hiddenInput);
 
     document.body.appendChild(form);
     form.submit();
