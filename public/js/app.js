@@ -190,6 +190,68 @@ function doTag(tag) {
 
 }
 
+function doComment(tag) {
+    var displaytext = document.getElementById("editable");
+    var objOffset = getSelectionCharacterOffsetWithin(displaytext);
+    var text = displaytext.textContent;
+    var sel = getSelection();
+    var date = new Date();
+
+    var rng, startSel, endSel;
+    if (!sel.rangeCount
+        || displaytext.compareDocumentPosition((rng = sel.getRangeAt(0)).startContainer) === Node.DOCUMENT_POSITION_PRECEDING
+        || displaytext.compareDocumentPosition(rng.endContainer) === Node.DOCUMENT_POSITION_FOLLOWING)
+        sel = "";
+    else {
+        startSel = objOffset.start;
+        endSel = objOffset.end;
+        // startSel = displaytext.compareDocumentPosition(rng.startContainer) === Node.DOCUMENT_POSITION_FOLLOWING ? 0 : rng.startOffset;
+        // endSel = displaytext.compareDocumentPosition(rng.endContainer) === Node.DOCUMENT_POSITION_PRECEDING ? displaytext.textContent.length : rng.endOffset;
+        sel = displaytext.textContent.substring(startSel, endSel);
+    }
+    if (sel != '' && sel != undefined) {
+        var editorCharArray = text.split("");
+        editorCharArray.splice(endSel, 0, '</' + tag + '>');
+        editorCharArray.splice(startSel, 0, '<' + tag + ' text = "" datum="' + date.getDate() + '. ' + (date.getMonth() + 1) + '. ' + date.getFullYear() + '">'); //must do End first
+        text = editorCharArray.join("");
+        displaytext.textContent = text;
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    }
+}
+
+function doVersion(tag) {
+    var displaytext = document.getElementById("editable");
+    var objOffset = getSelectionCharacterOffsetWithin(displaytext);
+    var text = displaytext.textContent;
+    var sel = getSelection();
+    var date = new Date();
+
+    var rng, startSel, endSel;
+    if (!sel.rangeCount
+        || displaytext.compareDocumentPosition((rng = sel.getRangeAt(0)).startContainer) === Node.DOCUMENT_POSITION_PRECEDING
+        || displaytext.compareDocumentPosition(rng.endContainer) === Node.DOCUMENT_POSITION_FOLLOWING)
+        sel = "";
+    else {
+        startSel = objOffset.start;
+        endSel = objOffset.end;
+        // startSel = displaytext.compareDocumentPosition(rng.startContainer) === Node.DOCUMENT_POSITION_FOLLOWING ? 0 : rng.startOffset;
+        // endSel = displaytext.compareDocumentPosition(rng.endContainer) === Node.DOCUMENT_POSITION_PRECEDING ? displaytext.textContent.length : rng.endOffset;
+        sel = displaytext.textContent.substring(startSel, endSel);
+    }
+    if (sel != '' && sel != undefined) {
+        var editorCharArray = text.split("");
+        editorCharArray.splice(endSel, 0, '</' + tag + '>');
+        editorCharArray.splice(startSel, 0, '<' + tag + ' typ = "" >'); //must do End first
+        text = editorCharArray.join("");
+        displaytext.textContent = text;
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    }
+}
+
 function doBlockTag(tag, numOfSpaces) {
     var spaces = '';
     for (var l = 0; l < numOfSpaces; ++l) {
@@ -241,35 +303,6 @@ function doBlockTag(tag, numOfSpaces) {
         });
     }
 
-    // var editor = document.getElementById("editable");
-    // var editorHTML = editor.value;
-    // var selectionStart = 0, selectionEnd = 0;
-    // if (editor.selectionStart) selectionStart = editor.selectionStart;
-    // if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
-    // if (selectionStart != selectionEnd) {
-    //     var editorCharArray = editorHTML.split("");
-    //     editorCharArray.splice(selectionEnd, 0, '\n        </' + tag + '>\n');
-    //     editorCharArray.splice(selectionStart, 0, '\n        <' + tag + '>\n          '); //must do End first
-    //     var tmpArr = [];
-    //     for (var k = selectionStart - 1; k != selectionEnd; ++k) {
-    //         if (editorCharArray[k] == ' ' && (editorCharArray[k-1] == '\n' || editorCharArray[k-1] == '\r\n')) {
-    //             editorCharArray.splice(k, 1);
-    //             --k;
-    //             --selectionEnd;
-    //         }
-    //     }
-    //     for (var i = selectionStart - 1; i != selectionEnd; ++i) {
-    //         if (editorCharArray[i] == '\n' || editorCharArray[i] == '\r\n') {
-    //             tmpArr.push(i);
-    //         }
-    //     }
-    //     for (var y = tmpArr.length; y != 0; --y) {
-    //         console.log('doing');
-    //         editorCharArray.splice(tmpArr[y-1] + 1, 0, '          ');
-    //     }
-    //     editorHTML = editorCharArray.join("");
-    //     editor.value = editorHTML;
-    // }
 }
 
 function doRow() {
