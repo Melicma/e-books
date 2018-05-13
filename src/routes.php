@@ -591,13 +591,17 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
 
     $elements = $dbo->fetchAll();
 
+    $params = $req->getParams();
+    $err = $params['titleError'] || false;
+
     return $this->view->render($res, 'metadata.twig', [
         'user' => $session->userEmail,
         'role' => $session->role,
         'work' => $work[0],
-        'elements' => $elements
+        'elements' => $elements,
+        'titleError' => $err
     ]);
-});
+})->setName('metadata');
 
 $app->post('/metadata/{id}', function (Request $req, Response $res, $args) {
     $session = $this->session;
@@ -631,6 +635,12 @@ $app->post('/metadata/{id}', function (Request $req, Response $res, $args) {
     $uSignature = isset($body['signature']) ? $body['signature'] : null;
     $uDescription = isset($body['description']) ? $body['description'] : null;
     $uEditNote = isset($body['editNote']) ? $body['editNote'] : null;
+    
+    if (empty($uTitle) || $uTitle == null) {
+        return $res->withRedirect($this->router->pathFor('metadata', ['id' => $args['id']], [
+            'titleError' => true
+        ]));
+    }
 
     if ($body['status2'] == 0) {
         $status = 'nové';
@@ -705,15 +715,18 @@ $app->get('/author-publisher/{id}', function (Request $req, Response $res, $args
         $tmpReal = $tmp['Name'] . ' ' . $tmp['LastName'] . ' ' . $tmp['Corporation'];
     }
 
+    $params = $req->getParams();
+    $nameError = $params['nameError'] || false;
 
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
         'role' => $session->role,
         'element' => $element,
         'realElements' => $realAuthors,
-        'pseudonymReal' => $tmpReal
+        'pseudonymReal' => $tmpReal,
+        'nameError' => $nameError
     ]);
-});
+})->setName('author-publisher');
 
 
 $app->post('/author-publisher/{id}', function (Request $req, Response $res, $args) {
@@ -736,6 +749,12 @@ $app->post('/author-publisher/{id}', function (Request $req, Response $res, $arg
     $uName = isset($body['name']) ? $body['name'] : null;
     $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
     $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
+
+    if ((empty($uName) && empty($uLastName) && empty($uCorporation) )|| ($uName == null && $uLastName == null && $uCorporation == null)) {
+        return $res->withRedirect($this->router->pathFor('author-publisher', ['id' => $args['id']], [
+            'nameError' => true
+        ]));
+    }
 
     if ($body['pseudonym'] == 0) {
         $uAuthor = null;
@@ -825,6 +844,9 @@ $app->get('/new-author/{workId}', function (Request $req, Response $res, $args) 
 
     $tmpReal = '';
 
+    $params = $req->getParams();
+    $nameError = $params['nameError'] || false;
+
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
         'role' => $session->role,
@@ -832,9 +854,10 @@ $app->get('/new-author/{workId}', function (Request $req, Response $res, $args) 
         'isAuthor' => true,
         'newWorkID' => $args['workId'],
         'realElements' => $realAuthors,
-        'pseudonymReal' => $tmpReal
+        'pseudonymReal' => $tmpReal,
+        'nameError' => $nameError
     ]);
-});
+})->setName('new-author');
 
 $app->post('/new-author/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
@@ -866,6 +889,12 @@ $app->post('/new-author/{workId}', function (Request $req, Response $res, $args)
     $uName = isset($body['name']) ? $body['name'] : null;
     $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
     $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
+
+    if ((empty($uName) && empty($uLastName) && empty($uCorporation) )|| ($uName == null && $uLastName == null && $uCorporation == null)) {
+        return $res->withRedirect($this->router->pathFor('new-author', ['workId' => $args['workId']], [
+            'nameError' => true
+        ]));
+    }
     
     if ($body['pseudonym'] == 0) {
         $uAuthor = null;
@@ -922,15 +951,19 @@ $app->get('/new-author-publisher', function (Request $req, Response $res, $args)
 
     $tmpReal = '';
 
+    $params = $req->getParams();
+    $nameError = $params['nameError'] || false;
+
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
         'role' => $session->role,
         'author' => null,
         'newWorkID' => true,
         'realElements' => $realAuthors,
-        'pseudonymReal' => $tmpReal
+        'pseudonymReal' => $tmpReal,
+        'nameError' => $nameError
     ]);
-});
+})->setName('new-author-publisher');
 
 $app->post('/new-author-publisher', function (Request $req, Response $res, $args) {
     $session = $this->session;
@@ -951,6 +984,12 @@ $app->post('/new-author-publisher', function (Request $req, Response $res, $args
     $uName = isset($body['name']) ? $body['name'] : null;
     $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
     $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
+
+    if ((empty($uName) && empty($uLastName) && empty($uCorporation) )|| ($uName == null && $uLastName == null && $uCorporation == null)) {
+        return $res->withRedirect($this->router->pathFor('new-author-publisher', [], [
+            'nameError' => true
+        ]));
+    }
 
     if ($body['pseudonym'] == 0) {
         $uAuthor = null;
@@ -992,6 +1031,9 @@ $app->get('/new-publisher/{workId}', function (Request $req, Response $res, $arg
 
     $tmpReal = '';
 
+    $params = $req->getParams();
+    $nameError = $params['nameError'] || false;
+
     return $this->view->render($res, 'authorPublisher.twig', [
         'user' => $session->userEmail,
         'role' => $session->role,
@@ -1000,9 +1042,10 @@ $app->get('/new-publisher/{workId}', function (Request $req, Response $res, $arg
         'isPublisher' => true,
         'newWorkID' => $args['workId'],
         'realElements' => $realAuthors,
-        'pseudonymReal' => $tmpReal
+        'pseudonymReal' => $tmpReal,
+        'nameError' => $nameError
     ]);
-});
+})->setName('new-publisher');
 
 $app->post('/new-publisher/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
@@ -1034,6 +1077,12 @@ $app->post('/new-publisher/{workId}', function (Request $req, Response $res, $ar
     $uName = isset($body['name']) ? $body['name'] : null;
     $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
     $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
+
+    if ((empty($uName) && empty($uLastName) && empty($uCorporation) )|| ($uName == null && $uLastName == null && $uCorporation == null)) {
+        return $res->withRedirect($this->router->pathFor('new-publisher', ['workId' => $args['workId']], [
+            'nameError' => true
+        ]));
+    }
 
     if ($body['pseudonym'] == 0) {
         $uAuthor = null;
@@ -1623,6 +1672,10 @@ $app->post('/add-user', function (Request $req, Response $res) {
         return $this->view->render($res, '/addUser.twig', [
             'emailExistError' => true
         ]);
+    } elseif (empty($body['email'])) {
+        return $this->view->render($res, '/addUser.twig', [
+            'emailError' => true
+        ]);
     } elseif (empty($body['password1']) || $body['password1'] != $body['password2']) {
         return $this->view->render($res, '/addUser.twig', [
             'newPasswdError' => true
@@ -1674,14 +1727,18 @@ $app->get('/new-work', function (Request $req, Response $res, $args){
 
     $elements = $dbo->fetchAll();
 
+    $params = $req->getParams();
+    $titleError = $params['titleError'] || false;
+
     return $this->view->render($res, 'metadata.twig', [
         'user' => $session->userEmail,
         'role' => $session->role,
         'work' => $work,
         'elements' => $elements,
-        'newWork' => true
+        'newWork' => true,
+        'titleError' => $titleError
     ]);
-});
+})->setName('new-work');
 
 $app->post('/new-work', function (Request $req, Response $res, $args) {
     $session = $this->session;
@@ -1718,6 +1775,12 @@ $app->post('/new-work', function (Request $req, Response $res, $args) {
     $uSignature = isset($body['signature']) ? $body['signature'] : null;
     $uDescription = isset($body['description']) ? $body['description'] : null;
     $uEditNote = isset($body['editNote']) ? $body['editNote'] : null;
+
+    if (empty($uTitle) || $uTitle == null) {
+        return $res->withRedirect($this->router->pathFor('new-work', [], [
+            'titleError' => true
+        ]));
+    }
 
     if ($body['status2'] == 0) {
         $status = 'nové';
