@@ -58,9 +58,6 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
     if (!$session->exists('userId')) {
         $data = ['sessionError' => true];
         return $res->withRedirect($this->router->pathFor('login',[],$data));
-//        return $this->view->render($res, 'login.twig', [
-//            'sessionError' => true
-//        ]);
     }
 
     $sqlWorks =
@@ -148,13 +145,6 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
     $years = $dbo->fetchAll();
 
 
-//    $key =  substr(md5(rand()), 0, 7);
-//    $hash = bin2hex($key);
-//    $key = hex2bin($hash);
-
-// todo only for testing
-//    $session->delete('userId');
-//    $session::destroy();
     return $this->view->render($res, 'main.twig', [
         'user' => $session->userEmail,
         'role' => $session->role,
@@ -171,7 +161,6 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
 
 $app->post('/content', function (Request $req, Response $res) {
     $session = $this->session;
-    //todo to future not render but redirect
     if (!$session->exists('userId')) {
         return $this->view->render($res, 'login.twig', [
             'sessionError' => true
@@ -261,7 +250,6 @@ $app->post('/content', function (Request $req, Response $res) {
         return $this->view->render($res, 'main.twig', [
             'user' => $session->userEmail,
             'role' => $session->role,
-//        'works' => $works,
             'authors' => $authors,
             'years' => $years,
             'filterAuthors' => $fAuthors,
@@ -503,7 +491,6 @@ $app->post('/change-password', function (Request $req, Response $res) {
         $newPassword = $body['password1'];
 
         $salt =  substr(md5(rand()), 0, 7);
-//        $salt = bin2hex($salt);
 
         print_r(hash('sha256', $newPassword.$salt));
         print_r(' '.bin2hex($salt));
@@ -587,10 +574,6 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         array_push($work[0]['Authors'], $el['Name'] . ' ' . $el['LastName'] . ' ' . $el['Corporation']);
     }
     
-//    $dbo = $this->db->prepare($sqlAllAuthors);
-//    $dbo->execute();
-//
-//    $authors = $dbo->fetchAll();
     
     $dbo = $this->db->prepare($sqlPublisher);
     $dbo->execute(array($args['id']));
@@ -603,11 +586,6 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         array_push($work[0]['Publisher'], $el['Name'] . ' ' . $el['LastName'] . ' ' . $el['Corporation']);
     }
 
-//    $dbo = $this->db->prepare($sqlAllPublisher);
-//    $dbo->execute();
-//
-//    $publishers = $dbo->fetchAll();
-
     $dbo = $this->db->prepare($sqlAll);
     $dbo->execute();
 
@@ -617,8 +595,6 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
         'user' => $session->userEmail,
         'role' => $session->role,
         'work' => $work[0],
-//        'authors' => $authors,
-//        'publishers' => $publishers,
         'elements' => $elements
     ]);
 });
@@ -1208,12 +1184,6 @@ $app->post('/attachments/{workId}', function (Request $req, Response $res, $args
             //do resize 68x100
             move_uploaded_file($file_tmp=$_FILES["files"]["tmp_name"][$key], $path.$filenameNew);
             smart_resize_image($path.$filenameNew, null, 68, 100, false, $path.$filenameNewSmall, false, false);
-//            }
-//            else {
-//                $filename=basename($file_name,$ext);
-//                $newFileName=$filename.time().".".$ext;
-//                move_uploaded_file($file_tmp=$_FILES["files"]["tmp_name"][$key],$path.$newFileName);
-//            }
         }
         else {
             array_push($error, $file_name);
