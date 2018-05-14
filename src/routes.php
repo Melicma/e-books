@@ -3,8 +3,8 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-// Routes
 
+// function to redirect depends on session
 $app->get('/', function (Request $request, Response $response, array $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -14,6 +14,7 @@ $app->get('/', function (Request $request, Response $response, array $args) {
     }
 });
 
+// function to render template login.twig for login
 $app->get('/login', function (Request $req, Response $res, array $args) {
     $tmp = false;
     if ($req->getParam('sessionError')) {
@@ -24,6 +25,7 @@ $app->get('/login', function (Request $req, Response $res, array $args) {
     ]);
 })->setName('login');
 
+// function for find if email and password exist in database
 $app->post('/login', function (Request $req, Response $res) {
     $body = $req->getParsedBody();
 
@@ -39,6 +41,7 @@ $app->post('/login', function (Request $req, Response $res) {
     $dbo->execute(array($body['email']));
 
     $users = $dbo->fetchAll();
+    // if email not exist or passwor is incorrect, show login again
     if (empty($users) || (hash('sha256', $body['password'].hex2bin($users[0]['Salt'])) !== $users[0]['Password'])) {
         return $this->view->render($res, 'login.twig', [
             'logError' => true
@@ -53,6 +56,7 @@ $app->post('/login', function (Request $req, Response $res) {
     }
 });
 
+// function to render template main.twig for display table of works
 $app->get('/content', function (Request $req, Response $res, array $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -117,6 +121,7 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
 
     $works = $dbo->fetchAll();
 
+    // set array of author names belongs work
     foreach ($works as $key => $work) {
         $dbo = $this->db->prepare($sqlCountAttachments);
         $dbo->execute(array($work['WorkID']));
@@ -159,6 +164,7 @@ $app->get('/content', function (Request $req, Response $res, array $args) {
     ]);
 });
 
+// function to apply filter to table of works
 $app->post('/content', function (Request $req, Response $res) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -360,6 +366,7 @@ $app->post('/content', function (Request $req, Response $res) {
 
     $works = $dbo->fetchAll();
 
+    // fulltext search
     $workIds = array();
     $includeFulltextSearch = false;
     if ($body['fulltext']) {
@@ -373,6 +380,7 @@ $app->post('/content', function (Request $req, Response $res) {
         $includeFulltextSearch = true;
     }
 
+    // find if work has filtered author
     $worksOut = array();
     foreach ($works as $key => $work) {
         $dbo = $this->db->prepare($sqlAuthorsById);
@@ -432,6 +440,7 @@ $app->post('/content', function (Request $req, Response $res) {
 
 });
 
+// function to logout
 $app->get('/logout', function (Request $req, Response $res, array $args) {
     $session = $this->session;
     $session->delete('userId');
@@ -440,6 +449,7 @@ $app->get('/logout', function (Request $req, Response $res, array $args) {
     return $res->withRedirect('/login');
 });
 
+// function to render template changePassword.twig for change password
 $app->get('/change-password', function (Request $req, Response $res, array $args) use($app){
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -447,12 +457,13 @@ $app->get('/change-password', function (Request $req, Response $res, array $args
         return $res->withRedirect($this->router->pathFor('login',[],$data));
     }
 
-    return $this->view->render($res, 'changePasswdord.twig', [
+    return $this->view->render($res, 'changePassword.twig', [
         'user' => $session->userEmail,
         'role' => $session->role
     ]);
 });
 
+// function to update password
 $app->post('/change-password', function (Request $req, Response $res) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -473,14 +484,16 @@ $app->post('/change-password', function (Request $req, Response $res) {
     $user = $dbo->fetchAll();
     $body = $req->getParsedBody();
 
+    // case if old password is not the same as in database
     if (empty($user) || (hash('sha256', $body['oldPassword'].hex2bin($user[0]['Salt'])) !== $user[0]['Password'])) {
-        return $this->view->render($res, 'changePasswdord.twig', [
+        return $this->view->render($res, 'changePassword.twig', [
             'oldPasswdError' => true,
             'user' => $session->userEmail,
             'role' => $session->role
         ]);
+    // case if new password is not empty and if it is inserted correctly
     } elseif (empty($body['password1']) || $body['password1'] != $body['password2']) {
-        return $this->view->render($res, 'changePasswdord.twig', [
+        return $this->view->render($res, 'changePassword.twig', [
             'newPasswdError' => true,
             'user' => $session->userEmail,
             'role' => $session->role
@@ -511,6 +524,7 @@ $app->post('/change-password', function (Request $req, Response $res) {
 
 });
 
+// function to render template metadata.twig for display all informations about work
 $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -569,7 +583,8 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
     $tmpAuthors = $dbo->fetchAll();
 
     $work[0]['Authors'] = array();
-    
+
+    // connect work with its authors
     foreach ($tmpAuthors as $el) {
         array_push($work[0]['Authors'], $el['Name'] . ' ' . $el['LastName'] . ' ' . $el['Corporation']);
     }
@@ -582,6 +597,7 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
 
     $work[0]['Publisher'] = array();
 
+    // connect work with its publishers
     foreach ($tmpPublishers as $el) {
         array_push($work[0]['Publisher'], $el['Name'] . ' ' . $el['LastName'] . ' ' . $el['Corporation']);
     }
@@ -603,6 +619,7 @@ $app->get('/metadata/{id}', function (Request $req, Response $res, $args){
     ]);
 })->setName('metadata');
 
+// function to update changes in information of work
 $app->post('/metadata/{id}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -635,7 +652,8 @@ $app->post('/metadata/{id}', function (Request $req, Response $res, $args) {
     $uSignature = isset($body['signature']) ? $body['signature'] : null;
     $uDescription = isset($body['description']) ? $body['description'] : null;
     $uEditNote = isset($body['editNote']) ? $body['editNote'] : null;
-    
+
+    // if title is empty display error log
     if (empty($uTitle) || $uTitle == null) {
         return $res->withRedirect($this->router->pathFor('metadata', ['id' => $args['id']], [
             'titleError' => true
@@ -676,8 +694,7 @@ $app->post('/metadata/{id}', function (Request $req, Response $res, $args) {
     return $res->withRedirect('/metadata/' . $args['id']);
 });
 
-
-
+// function to render authorPublisher.twig for display information about author or publisher
 $app->get('/author-publisher/{id}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -728,7 +745,7 @@ $app->get('/author-publisher/{id}', function (Request $req, Response $res, $args
     ]);
 })->setName('author-publisher');
 
-
+// function to update data in database
 $app->post('/author-publisher/{id}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -776,6 +793,7 @@ $app->post('/author-publisher/{id}', function (Request $req, Response $res, $arg
     return $res->withRedirect('/author-publisher/' . $args['id']);
 });
 
+// function to delete author or publisher with connection
 $app->get('/delete-author-publisher/{id}', function (Request $req, Response $res, $args) {
 
     $sqlDeleteConnection =
@@ -823,6 +841,7 @@ $app->get('/delete-author-publisher/{id}', function (Request $req, Response $res
     return $res->withRedirect('/list-author-publisher');
 });
 
+// function to render authorPublisher.twig for create new author with connection
 $app->get('/new-author/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -859,6 +878,7 @@ $app->get('/new-author/{workId}', function (Request $req, Response $res, $args) 
     ]);
 })->setName('new-author');
 
+// function for insert new author with connection
 $app->post('/new-author/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -890,6 +910,7 @@ $app->post('/new-author/{workId}', function (Request $req, Response $res, $args)
     $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
     $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
 
+    // case if author has no empty name
     if ((empty($uName) && empty($uLastName) && empty($uCorporation) )|| ($uName == null && $uLastName == null && $uCorporation == null)) {
         return $res->withRedirect($this->router->pathFor('new-author', ['workId' => $args['workId']], [
             'nameError' => true
@@ -928,8 +949,7 @@ $app->post('/new-author/{workId}', function (Request $req, Response $res, $args)
     return $res->withRedirect('/metadata/' . $args['workId']);
 });
 
-
-
+// function to render authorPublisher.twig for create author or publisher
 $app->get('/new-author-publisher', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -965,6 +985,7 @@ $app->get('/new-author-publisher', function (Request $req, Response $res, $args)
     ]);
 })->setName('new-author-publisher');
 
+// function to insert new author or publisher without connection
 $app->post('/new-author-publisher', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -985,6 +1006,7 @@ $app->post('/new-author-publisher', function (Request $req, Response $res, $args
     $uLastName = isset($body['lastName']) ? $body['lastName'] : null;
     $uCorporation = isset($body['corporation']) ? $body['corporation'] : null;
 
+    // case if author or publisher has no empty name
     if ((empty($uName) && empty($uLastName) && empty($uCorporation) )|| ($uName == null && $uLastName == null && $uCorporation == null)) {
         return $res->withRedirect($this->router->pathFor('new-author-publisher', [], [
             'nameError' => true
@@ -1010,6 +1032,7 @@ $app->post('/new-author-publisher', function (Request $req, Response $res, $args
     return $res->withRedirect('/list-author-publisher');
 });
 
+// function to render authorPublisher.twig for create new publisher with connection
 $app->get('/new-publisher/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1047,6 +1070,7 @@ $app->get('/new-publisher/{workId}', function (Request $req, Response $res, $arg
     ]);
 })->setName('new-publisher');
 
+// function to insert new publisher with connection
 $app->post('/new-publisher/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1116,6 +1140,7 @@ $app->post('/new-publisher/{workId}', function (Request $req, Response $res, $ar
     return $res->withRedirect('/metadata/' . $args['workId']);
 });
 
+// function to render attachments.twig for display img gallery
 $app->get('/attachments/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1174,7 +1199,7 @@ $app->get('/attachments/{workId}', function (Request $req, Response $res, $args)
     ]); 
 })->setName('attachments');
 
-
+// function to upload attachments
 $app->post('/attachments/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1249,6 +1274,7 @@ $app->post('/attachments/{workId}', function (Request $req, Response $res, $args
     return $res->withRedirect($this->router->pathFor('attachments', ['workId' => $args['workId']], ['data' => $data]));
 });
 
+// function to delete attachment
 $app->get('/delete-attachment/{attchId}/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1286,6 +1312,7 @@ $app->get('/delete-attachment/{attchId}/{workId}', function (Request $req, Respo
     return $res->withRedirect('/attachments/' . $args['workId']);
 });
 
+// function to update information about attachment
 $app->post('/update-attachment/{attchId}/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1313,6 +1340,7 @@ $app->post('/update-attachment/{attchId}/{workId}', function (Request $req, Resp
     return $res->withRedirect('/attachments/' . $args['workId']);
 });
 
+// function to render text.twig for display text
 $app->get('/text/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1343,7 +1371,7 @@ $app->get('/text/{workId}', function (Request $req, Response $res, $args) {
     ]);
 });
 
-
+// function to render listAuthorPublisher.twig for display table of authors and publishers
 $app->get('/list-author-publisher', function (Request $req, Response $res) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1371,6 +1399,7 @@ $app->get('/list-author-publisher', function (Request $req, Response $res) {
     ]);
 });
 
+// function to update author with connection
 $app->post('/update-authors/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1454,6 +1483,7 @@ $app->post('/update-authors/{workId}', function (Request $req, Response $res, $a
     return $res->withRedirect('/metadata/' . $args['workId']);
 });
 
+// function to update publisher with connection
 $app->post('/update-publishers/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1538,6 +1568,7 @@ $app->post('/update-publishers/{workId}', function (Request $req, Response $res,
     return $res->withRedirect('/metadata/' . $args['workId']);
 });
 
+// function to delete work
 $app->get('/delete/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1568,6 +1599,7 @@ $app->get('/delete/{workId}', function (Request $req, Response $res, $args) {
     return $res->withRedirect($this->router->pathFor('delAttach',['workId' => $args['workId']],['deletedWork' => true]));
 });
 
+// function to delete all attachments belongs to work
 $app->get('/delete-attachments/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1598,6 +1630,7 @@ $app->get('/delete-attachments/{workId}', function (Request $req, Response $res,
     }
 })->setName('delAttach');
 
+// function to update text of work
 $app->post('/text/{workId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1631,7 +1664,7 @@ $app->post('/text/{workId}', function (Request $req, Response $res, $args) {
     return $res->withRedirect('/text/'.$args['workId']);
 });
 
-
+// function to render addUser.twig for display forms necessary to add new user
 $app->get('/add-user', function (Request $req, Response $res, array $args) use($app){
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1645,6 +1678,7 @@ $app->get('/add-user', function (Request $req, Response $res, array $args) use($
     ]);
 });
 
+// function to insert new user
 $app->post('/add-user', function (Request $req, Response $res) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1706,6 +1740,7 @@ $app->post('/add-user', function (Request $req, Response $res) {
 
 });
 
+// function to render metadata.twig for creating new work
 $app->get('/new-work', function (Request $req, Response $res, $args){
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1740,6 +1775,7 @@ $app->get('/new-work', function (Request $req, Response $res, $args){
     ]);
 })->setName('new-work');
 
+// function to insert new work
 $app->post('/new-work', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1817,6 +1853,7 @@ $app->post('/new-work', function (Request $req, Response $res, $args) {
     return $res->withRedirect('/content');
 });
 
+// function to render users.twig for display all users in table
 $app->get('/list-users', function (Request $req, Response $res) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1841,6 +1878,7 @@ $app->get('/list-users', function (Request $req, Response $res) {
     ]);
 });
 
+// function to delete user
 $app->get('/delete-user/{userId}', function (Request $req, Response $res, $args) {
     $session = $this->session;
     if (!$session->exists('userId')) {
@@ -1862,6 +1900,7 @@ $app->get('/delete-user/{userId}', function (Request $req, Response $res, $args)
 
 });
 
+// function to delete directory while deleting all attachments
 if (!function_exists('deleteDirectory')) {
 
     function deleteDirectory($dir) {
@@ -1888,19 +1927,7 @@ if (!function_exists('deleteDirectory')) {
     }
 }
 
-/**
- * easy image resize function
- * @param  $file - file name to resize
- * @param  $string - The image data, as a string
- * @param  $width - new image width
- * @param  $height - new image height
- * @param  $proportional - keep image proportional, default is no
- * @param  $output - name of the new file (include path if needed)
- * @param  $delete_original - if true the original image will be deleted
- * @param  $use_linux_commands - if set to true will use "rm" to delete the image, if false will use PHP unlink
- * @param  $quality - enter 1-100 (100 is best quality) default is 100
- * @return boolean|resource
- */
+// function to resize image while uploading images
 if (!function_exists('smart_resize_image')) {
 
     function smart_resize_image($file,
